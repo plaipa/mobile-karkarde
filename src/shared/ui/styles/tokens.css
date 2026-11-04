@@ -1,0 +1,31 @@
+/* Design tokens (colors, radii, font). */
+@layer shared {
+  :root {
+    --ink: #0b1020;
+    --ink-2: #151b2e;
+    --ink-3: #222a42;
+    --primary: #2f5bff;
+    --primary-dark: #1e3fcc;
+    --primary-soft: #e8edff;
+    --accent: #b8f23a;
+    --accent-soft: #f1fbd3;
+    --bg: #ffffff;
+    --surface: #f5f7fb;
+    --surface-2: #ebeff7;
+    --border: #e3e7ef;
+    --text: #0b1020;
+    --muted: #5b6478;
+    --faint: #8a93a6;
+    --success: #0f9f5c;
+    --success-soft: #ddf7ea;
+    --warning: #b86a00;
+    --warning-soft: #fef0d7;
+    --danger: #d92d20;
+    --danger-soft: #fde4e2;
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 20px;
+    --r-xl: 28px;
+    --font: 'Vazirmatn Variable', 'Vazirmatn', system-ui, sans-serif;
+  }
+}

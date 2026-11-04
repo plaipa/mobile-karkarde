@@ -1,0 +1,25 @@
+/* Pill tabs. */
+@layer shared {
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-block: 8px 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    border: 1px solid var(--border);
+    background: transparent;
+    padding: 8px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .tab.is-on {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+}

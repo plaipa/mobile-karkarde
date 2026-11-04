@@ -1,0 +1,19 @@
+/* Price tag (locked / unlocked). */
+@layer features {
+  .price {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .price--locked {
+    font-size: 13px;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 720px) {
+    .price {
+      font-size: 14px;
+    }
+  }
+}

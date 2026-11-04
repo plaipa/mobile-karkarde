@@ -1,0 +1,134 @@
+/* Page scaffolding: page, section, panel, notice, product grid. */
+@layer shared {
+  .page {
+    padding-block: 24px;
+  }
+
+  .page__title {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.4;
+  }
+
+  .narrow {
+    max-width: 620px;
+  }
+
+  .section {
+    margin-top: 56px;
+  }
+
+  .section h2,
+  .page h2 {
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  .section__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .section > h2 {
+    margin-bottom: 20px;
+  }
+
+  .link {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .crumbs {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .crumbs a:hover {
+    color: var(--primary);
+  }
+
+  .panel {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .notice {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .notice a {
+    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  .empty {
+    padding: 48px 0;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .error {
+    color: var(--danger);
+    font-size: 13px;
+  }
+
+  .error-list {
+    margin: 0;
+    padding: 14px 32px 14px 14px;
+    background: var(--danger-soft);
+    color: var(--danger);
+    border-radius: var(--r-md);
+    font-size: 13px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1020px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid--3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .section {
+      margin-top: 32px;
+    }
+
+    .section h2,
+    .page h2 {
+      font-size: 20px;
+    }
+
+    .page__title {
+      font-size: 24px;
+    }
+
+    .grid,
+    .grid--3 {
+      gap: 12px;
+    }
+  }
+}

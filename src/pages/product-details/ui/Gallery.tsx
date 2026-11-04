@@ -1,0 +1,28 @@
+import { useState } from 'react'
+import { DeviceArt, findCategory } from '@/entities/category'
+import { galleryAngles, type Product } from '@/entities/product'
+import './product-details.css'
+
+export function Gallery({ product: p }: { product: Product }) {
+  const [angle, setAngle] = useState<string>(galleryAngles[0].id)
+  const category = findCategory(p.category)
+  const isPhone = p.category === 'phone'
+  return (
+    <div className="pdp__gallery">
+      <div className="pdp__main">
+        <span className="chip chip--white">{galleryAngles.find((a) => a.id === angle)?.label}</span>
+        <i className="halo" />
+        <DeviceArt kind={p.category} tone={category.tone} w={isPhone ? 190 : 200} h={isPhone ? 380 : 320} />
+      </div>
+      <div className="thumbs">
+        {galleryAngles.map((a) => (
+          <button key={a.id} className={`thumb${a.id === angle ? ' is-on' : ''}`} onClick={() => setAngle(a.id)}>
+            <DeviceArt kind={p.category} tone={category.tone} w={26} h={isPhone ? 52 : 40} />
+            <span>{a.label}</span>
+          </button>
+        ))}
+      </div>
+      <p className="muted small">عکس‌ها پس از حذف پس‌زمینه و پاک‌سازی اطلاعات پنهان منتشر می‌شوند. (در این نمونه به‌جای عکس واقعی، تصویر نمادین نمایش داده می‌شود.)</p>
+    </div>
+  )
+}

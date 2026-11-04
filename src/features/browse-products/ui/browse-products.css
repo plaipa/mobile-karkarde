@@ -1,0 +1,263 @@
+/* Price list: toolbar, filters (bottom sheet on mobile) and the dense device list. */
+@layer features {
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .toolbar__ctl {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .toolbar__ctl .input {
+    width: auto;
+    min-width: 150px;
+  }
+
+  .filters {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    position: sticky;
+    top: 84px;
+    max-height: calc(100dvh - 104px);
+    overflow-y: auto;
+  }
+
+  .filters__head {
+    display: none;
+  }
+
+  .fgroup {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .fgroup h4 {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .pick {
+    padding: 7px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .pick.is-on {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .filters__foot {
+    display: flex;
+    gap: 10px;
+    padding: 18px 20px;
+  }
+
+  .filters__foot .btn--primary {
+    flex: 1;
+  }
+
+  .filters__open {
+    display: none;
+  }
+
+
+  .chips--scroll {
+    max-height: 168px;
+    overflow-y: auto;
+  }
+
+  .pick small {
+    color: var(--faint);
+    font-weight: 500;
+  }
+
+  .pick.is-on small {
+    color: inherit;
+  }
+
+  .range-pair {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .range-pair .input {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .plist {
+    --cols: minmax(150px, 2.4fr) minmax(70px, 1fr) 70px 56px 48px minmax(100px, 1.2fr) 96px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .plist__head,
+  .plist__row {
+    display: grid;
+    grid-template-columns: var(--cols);
+    align-items: center;
+    column-gap: 12px;
+    padding: 0 16px;
+  }
+
+  .plist__head {
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding-block: 11px;
+  }
+
+  .plist__row {
+    padding-block: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .plist__row:hover {
+    background: var(--surface);
+  }
+
+  .plist__specs {
+    display: contents;
+  }
+
+  .plist__name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .plist__name a {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .plist__name a:hover {
+    color: var(--primary);
+  }
+
+  .plist__name small {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .plist__region b {
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+
+  .plist__price {
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .plist__action {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 1020px) {
+    .filters {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 60;
+      max-height: 85dvh;
+      overflow: auto;
+      transform: translateY(105%);
+      transition: transform .25s;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -10px 40px rgba(11,16,32,.2);
+    }
+
+    .filters.is-open {
+      transform: none;
+    }
+
+    .chips--scroll {
+      max-height: none;
+    }
+
+    .filters__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filters__open {
+      display: inline-flex;
+    }
+  }
+
+
+  @media (max-width: 860px) {
+    .plist__head {
+      display: none;
+    }
+
+    .plist__row {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'name price'
+        'specs action';
+      row-gap: 8px;
+      padding: 12px 14px;
+    }
+
+    .plist__name {
+      grid-area: name;
+    }
+
+    .plist__price {
+      grid-area: price;
+      text-align: end;
+    }
+
+    .plist__specs {
+      grid-area: specs;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .plist__action {
+      grid-area: action;
+    }
+    .toolbar__ctl {
+      width: 100%;
+    }
+
+    .toolbar__ctl .input {
+      flex: 1;
+    }
+
+    .toolbar__ctl input[type='search'] {
+      flex-basis: 100%;
+    }
+  }
+}

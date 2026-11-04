@@ -1,0 +1,70 @@
+/* Chips and badges. */
+@layer shared {
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--surface-2);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .chip--soft {
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+
+  .chip--accent {
+    background: var(--accent);
+    color: var(--ink);
+  }
+
+  .chip--white {
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .chip--muted {
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+
+  .chip--dark {
+    background: var(--ink-3);
+    color: var(--accent);
+  }
+
+  .chip--primary {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .chip--A {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+
+  .chip--B {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+
+  .chip--C {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+
+  .chip--req {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

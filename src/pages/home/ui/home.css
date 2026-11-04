@@ -1,0 +1,274 @@
+/* Home page. */
+@layer pages {
+  .hero {
+    background: var(--surface);
+    padding-block: 56px;
+  }
+
+  .hero__row {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .hero h1 {
+    font-size: 46px;
+    line-height: 1.5;
+    font-weight: 800;
+  }
+
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+  }
+
+  .hero__cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stats {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+  }
+
+  .stats b {
+    display: block;
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  .stats span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .hero__visual {
+    position: relative;
+    height: 440px;
+    border-radius: var(--r-xl);
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .glow {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: .35;
+    filter: blur(80px);
+    inset-inline-start: -60px;
+    top: -80px;
+  }
+
+  .hv {
+    position: absolute;
+  }
+
+  .hv--l {
+    inset-inline-end: 64px;
+    top: 120px;
+  }
+
+  .hv--c {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 64px;
+  }
+
+  .hv--r {
+    inset-inline-start: 64px;
+    top: 130px;
+  }
+
+  .hv-chip {
+    position: absolute;
+  }
+
+  .hv-chip--a {
+    top: 22px;
+    inset-inline-end: 22px;
+  }
+
+  .hv-chip--b {
+    bottom: 24px;
+    inset-inline-start: 24px;
+  }
+
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .cat {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    transition: box-shadow .15s, transform .15s;
+  }
+
+  .cat:hover {
+    box-shadow: 0 10px 30px rgba(11,16,32,.08);
+    transform: translateY(-2px);
+  }
+
+  .cat strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .cat__count {
+    display: block;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .cat small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    display: block;
+  }
+
+  .band {
+    background: var(--ink);
+    color: #fff;
+    border-radius: var(--r-xl);
+    padding: 40px;
+  }
+
+  .band h2 {
+    margin-bottom: 24px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .step {
+    background: var(--ink-2);
+    border-radius: var(--r-lg);
+    padding: 22px;
+  }
+
+  .step b {
+    font-size: 34px;
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .step h3 {
+    font-size: 18px;
+    margin: 6px 0;
+  }
+
+  .step p {
+    color: #a8b0c4;
+    font-size: 14px;
+  }
+
+  @media (max-width: 1020px) {
+    .hero__row {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__visual {
+      height: 380px;
+    }
+
+    .cats {
+      grid-template-columns: 1fr;
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-block: 16px;
+    }
+
+    .hero__row {
+      gap: 0;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      line-height: 1.55;
+    }
+
+    .hero p {
+      color: #a8b0c4;
+      font-size: 14px;
+    }
+
+    .hero .chip--soft {
+      background: var(--ink-3);
+      color: var(--accent);
+    }
+
+    .hero .btn--primary {
+      background: var(--accent);
+      color: var(--ink);
+    }
+
+    .hero .btn--outline {
+      color: #fff;
+      border-color: var(--faint);
+    }
+
+    .hero__cta {
+      width: 100%;
+    }
+
+    .hero__cta .btn {
+      flex: 1;
+    }
+
+    .stats {
+      display: none;
+    }
+
+    .hero__visual {
+      display: none;
+    }
+
+    .band {
+      padding: 22px;
+      border-radius: 24px;
+    }
+
+    .cat {
+      padding: 16px;
+    }
+  }
+}

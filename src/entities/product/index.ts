@@ -1,0 +1,8 @@
+export type { Grade, Product, Sim } from './model/types'
+export { regions, regionLabel, regionCode, simLabels, simOrder } from './model/regions'
+export { grades, gradeInfo } from './model/grades'
+export { galleryAngles } from './model/gallery'
+export { productRepository } from './api/product-repository'
+export { formatProductCode } from './lib/product-code'
+export { buildInspectionReport, buildSpecRows, summarizeSpecs, type ReportRow, type SpecRow } from './lib/describe'
+export { ProductCard } from './ui/ProductCard'

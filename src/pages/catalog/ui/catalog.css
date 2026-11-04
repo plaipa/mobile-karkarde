@@ -1,0 +1,20 @@
+/* Catalog page: content column + filters sidebar. */
+@layer pages {
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 24px;
+    align-items: start;
+    margin-top: 16px;
+  }
+
+  .layout__main {
+    min-width: 0;
+  }
+
+  @media (max-width: 1020px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+}

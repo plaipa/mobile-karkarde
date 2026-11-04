@@ -1,0 +1,6 @@
+/*
+ * Cascade order = architecture order. Every stylesheet in the project wraps its rules in one of
+ * these layers, so a lower layer can never override a higher one regardless of import order.
+ * Keep this file the first CSS imported (see app/styles/index.ts).
+ */
+@layer shared, entities, features, widgets, pages;
