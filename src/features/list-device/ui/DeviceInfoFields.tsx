@@ -1,5 +1,7 @@
 import type { Category } from '@/entities/category'
 import type { ListingForm } from '../model/types'
+import { colorsFor, hasOfficialColors, modelsFor, storageOptions } from '../model/device-models'
+import { ChoiceField } from './ChoiceField'
 import './list-device.css'
 
 interface Props {
@@ -16,27 +18,43 @@ export function DeviceInfoFields({ category, form, onChange }: Props) {
       <h2>اطلاعات دستگاه</h2>
       <div className="fields">
         <label>برند
-          <select className="input" value={form.brand} onChange={(e) => onChange({ brand: e.target.value })}>
+          <select className="input" value={form.brand} onChange={(e) => onChange({ brand: e.target.value, model: '' })}>
             <option value="">انتخاب کنید</option>
             {category.brands.map((b) => <option key={b}>{b}</option>)}
           </select>
         </label>
-        <label>مدل
-          <input className="input" value={form.model} onChange={(e) => onChange({ model: e.target.value })} placeholder="مثلاً آیفون ۱۳ پرو مکس" />
-        </label>
+        <ChoiceField
+          key={`model-${form.brand}`}
+          label="مدل"
+          value={form.model}
+          options={modelsFor(category.id, form.brand)}
+          onChange={(model) => onChange({ model, ...(colorsFor(category.id, form.brand, model).includes(form.color) ? {} : { color: '' }) })}
+          disabled={!form.brand}
+          placeholder={form.brand ? 'انتخاب کنید' : 'ابتدا برند را انتخاب کنید'}
+          otherPlaceholder="مثلاً آیفون ۱۳ پرو مکس"
+        />
         {hasHealth && (
-          <label>{isWatch ? 'اندازه' : 'حافظه'}
-            <input className="input" value={form.storage} onChange={(e) => onChange({ storage: e.target.value })} placeholder={isWatch ? '۴۵ میلی‌متر' : '۲۵۶ گیگابایت'} />
-          </label>
+          <ChoiceField
+            label={isWatch ? 'اندازه' : 'حافظه'}
+            value={form.storage}
+            options={storageOptions[category.id]}
+            onChange={(storage) => onChange({ storage })}
+            otherPlaceholder={isWatch ? '۴۵ میلی‌متر' : '۲۵۶ گیگابایت'}
+          />
         )}
         {hasHealth && (
           <label>سلامت باتری (٪)
             <input className="input" inputMode="numeric" value={form.battery} onChange={(e) => onChange({ battery: e.target.value })} placeholder="۸۹" />
           </label>
         )}
-        <label>رنگ
-          <input className="input" value={form.color} onChange={(e) => onChange({ color: e.target.value })} />
-        </label>
+        <ChoiceField
+          key={`color-${form.brand}-${form.model}`}
+          label={<>رنگ {hasOfficialColors(category.id, form.brand, form.model) && <small className="muted">رنگ‌های رسمی همین مدل</small>}</>}
+          value={form.color}
+          options={colorsFor(category.id, form.brand, form.model)}
+          onChange={(color) => onChange({ color })}
+          otherPlaceholder="نام رنگ"
+        />
         <label>IMEI / شمارهٔ سریال <small className="muted">فقط برای تأیید ما؛ هرگز نمایش داده نمی‌شود</small>
           <input className="input" dir="ltr" inputMode="numeric" value={form.imei} onChange={(e) => onChange({ imei: e.target.value })} />
         </label>

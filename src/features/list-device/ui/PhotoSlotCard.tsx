@@ -1,6 +1,7 @@
-import { DeviceArt, type CategoryId } from '@/entities/category'
+import type { CategoryId } from '@/entities/category'
 import type { Processed } from '@/shared/lib/image/process-image'
 import type { PhotoSlot } from '../model/types'
+import { SlotArt } from './SlotArt'
 import './list-device.css'
 
 interface Props {
@@ -15,13 +16,12 @@ interface Props {
 }
 
 export function PhotoSlotCard({ slot, category, photo, busy, canUseCamera, onOpenCamera, onFile, onRemove }: Props) {
-  const isPhone = category === 'phone'
   return (
     <div className={`slot${photo ? ' is-done' : ''}`}>
       <div className="slot__box">
         {photo
           ? <img src={photo.url} alt={slot.label} />
-          : <DeviceArt kind={category} tone="#8A93A6" w={isPhone ? 40 : 52} h={isPhone ? 80 : 64} className="slot__ghost" />}
+          : <SlotArt category={category} slotId={slot.id} />}
         {busy && <span className="slot__busy">در حال پردازش…</span>}
         {photo && <span className="slot__ok">✓</span>}
       </div>

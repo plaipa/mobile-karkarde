@@ -36,7 +36,7 @@ export function ListDeviceFlow() {
   const selectCategory = (id: CategoryId) => {
     setCategoryId(id)
     setErrors([])
-    patchForm({ brand: '' })
+    patchForm({ brand: '', model: '', storage: '', color: '' })
   }
 
   const goTo = (next: ListingStep) => {
@@ -80,7 +80,7 @@ export function ListDeviceFlow() {
       <form onSubmit={submit} className={step === 'photos' ? 'upload' : 'upload upload--single'} noValidate>
         {step === 'info' ? (
           <div className="upload__main">
-            <DeviceInfoFields category={category} form={form} onChange={patchForm} />
+            <DeviceInfoFields key={category.id} category={category} form={form} onChange={patchForm} />
             {errors.length > 0 && <ul className="error-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>}
             <button type="button" className="btn btn--primary btn--lg btn--block" onClick={nextStep}>بعدی: عکس‌های دستگاه</button>
           </div>
