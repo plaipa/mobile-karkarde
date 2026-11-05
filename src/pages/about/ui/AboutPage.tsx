@@ -1,15 +1,19 @@
+import '@fontsource-variable/kufam'
 import { AboutHero } from './AboutHero'
-import { AnonymityDiagram, CounterStrip, InspectionChecklist, JoinCta, Journey } from './Sections'
+import { CounterStrip, Grades, Inspection, JoinCta, Journey, Knots, Manifesto, Privacy } from './Sections'
 
 export function AboutPage() {
   return (
-    <>
+    <div className="ab">
       <AboutHero />
       <CounterStrip />
+      <Knots />
       <Journey />
-      <InspectionChecklist />
-      <AnonymityDiagram />
+      <Inspection />
+      <Grades />
+      <Privacy />
+      <Manifesto />
       <JoinCta />
-    </>
+    </div>
   )
 }
