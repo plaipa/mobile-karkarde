@@ -34,6 +34,45 @@
     color: var(--muted);
   }
 
+  .cart__price {
+    font-weight: 800;
+    color: var(--primary-text);
+  }
+
+  .cart__total {
+    font-size: 18px;
+  }
+
+  .empty-cart,
+  .done {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .done .btn-row {
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .done .btn-row .btn {
+    width: 100%;
+  }
+
+  .done__tick {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--success);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 800;
+  }
+
   @media (max-width: 1020px) {
     .cart {
       grid-template-columns: 1fr;

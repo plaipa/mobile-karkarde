@@ -41,19 +41,19 @@ export function PhoneLoginForm() {
   return (
     <>
       <h1 className="page__title">ورود یا ثبت‌نام همکار</h1>
-      <p className="muted">بعد از تأیید حساب، قیمت‌های عمده و ثبت دستگاه برای شما فعال می‌شود.</p>
+      <p className="muted">فقط شمارهٔ موبایل شما کافی است. رمز عبور لازم نیست؛ یک کد پیامکی برایتان می‌فرستیم.</p>
       {step === 'phone' ? (
         <form onSubmit={submitPhone} className="form">
-          <label>شمارهٔ موبایل
-            <input className="input" inputMode="numeric" autoComplete="tel" dir="ltr" placeholder="09123456789" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <label>شمارهٔ موبایل خود را بنویسید
+            <input className="input input--xl" inputMode="numeric" autoComplete="tel" dir="ltr" autoFocus placeholder="09123456789" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </label>
           {error && <p className="error" role="alert">{error}</p>}
           <button className="btn btn--primary btn--lg btn--block">دریافت کد تأیید</button>
         </form>
       ) : (
         <form onSubmit={submitCode} className="form">
-          <label>کد تأیید ارسال‌شده به <b dir="ltr">{toFa(phone)}</b>
-            <input className="input" inputMode="numeric" autoComplete="one-time-code" dir="ltr" placeholder="12345" value={code} onChange={(e) => setCode(e.target.value)} />
+          <label>کدی که برای <b dir="ltr">{toFa(phone)}</b> پیامک شد را بنویسید
+            <input className="input input--xl input--code" inputMode="numeric" autoComplete="one-time-code" dir="ltr" autoFocus maxLength={6} placeholder="• • • • •" value={code} onChange={(e) => setCode(e.target.value)} />
           </label>
           {error && <p className="error" role="alert">{error}</p>}
           <button className="btn btn--primary btn--lg btn--block">ورود</button>

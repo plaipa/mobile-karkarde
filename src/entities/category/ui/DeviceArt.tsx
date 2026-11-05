@@ -10,14 +10,14 @@ interface Props {
   className?: string
 }
 
-const BODY = '#222A42'
-const SCREEN_DARK = '#0B1020'
+const BODY = '#2B2C30'
+const SCREEN_DARK = '#111214'
 
 /**
  * Vector placeholder until real photos exist.
  * Real listings replace this with the processed product photo.
  */
-export function DeviceArt({ kind = 'phone', w = 84, h = 164, tone = '#2F5BFF', tilt = 0, className }: Props) {
+export function DeviceArt({ kind = 'phone', w = 84, h = 164, tone = 'var(--primary)', tilt = 0, className }: Props) {
   const gradientId = `g${useId().replace(/:/g, '')}`
   const style = tilt ? { transform: `rotate(${tilt}deg)` } : undefined
   const common = { className, style, width: w, height: h, 'aria-hidden': true } as const
@@ -25,7 +25,7 @@ export function DeviceArt({ kind = 'phone', w = 84, h = 164, tone = '#2F5BFF', t
   const defs = (
     <defs>
       <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor={tone} />
+        <stop offset="0" style={{ stopColor: tone }} />
         <stop offset="1" stopColor={SCREEN_DARK} />
       </linearGradient>
     </defs>
@@ -39,7 +39,7 @@ export function DeviceArt({ kind = 'phone', w = 84, h = 164, tone = '#2F5BFF', t
         <rect x="30" y="0" width="40" height="160" rx="10" fill={BODY} />
         <rect x="12" y="38" width="76" height="84" rx="24" fill={BODY} />
         <rect x="17" y="43" width="66" height="74" rx="20" fill={screen} />
-        <rect x="88" y="66" width="5" height="22" rx="2.5" fill="#151B2E" />
+        <rect x="88" y="66" width="5" height="22" rx="2.5" fill="#1B1C1F" />
       </svg>
     )
   }

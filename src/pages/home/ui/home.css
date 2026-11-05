@@ -127,7 +127,7 @@
   }
 
   .cat:hover {
-    box-shadow: 0 10px 30px rgba(11,16,32,.08);
+    box-shadow: 0 10px 30px rgba(17,18,20,.08);
     transform: translateY(-2px);
   }
 
@@ -139,7 +139,7 @@
 
   .cat__count {
     display: block;
-    color: var(--primary);
+    color: var(--primary-text);
     font-weight: 600;
     font-size: 13px;
   }

@@ -10,9 +10,9 @@ export function AboutHero() {
       <i className="ab-glow ab-glow--1" /><i className="ab-glow ab-glow--2" />
       <div className="container ab-hero__row">
         <div className="ab-hero__phones" aria-hidden="true">
-          <DeviceArt w={150} h={296} tone="#2F5BFF" tilt={-10} className="ap ap--l" />
-          <DeviceArt w={190} h={374} tone="#B8F23A" className="ap ap--c" />
-          <DeviceArt w={150} h={296} tone="#7C93FF" tilt={10} className="ap ap--r" />
+          <DeviceArt w={150} h={296} tone="var(--primary)" tilt={-10} className="ap ap--l" />
+          <DeviceArt w={190} h={374} tone="var(--ink-3)" className="ap ap--c" />
+          <DeviceArt w={150} h={296} tone="#FFA37A" tilt={10} className="ap ap--r" />
           <span className="chip chip--accent ap-chip ap-chip--a">✓ باتری {toFa(91)}٪</span>
           <span className="chip chip--white ap-chip ap-chip--b">گرید A</span>
         </div>

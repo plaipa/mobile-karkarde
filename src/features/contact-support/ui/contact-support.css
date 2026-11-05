@@ -1,0 +1,135 @@
+/* Floating help button and its sheet. */
+@layer features {
+  .help-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px 6px 8px;
+    border: 0;
+    border-radius: 100px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .help-btn__icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 18px;
+  }
+
+  .help-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(17,18,20,.55);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .help-sheet {
+    width: min(480px, 100%);
+    max-height: 92dvh;
+    overflow-y: auto;
+    background: #fff;
+    color: var(--text);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .help-sheet__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .help-sheet__head h2 {
+    font-size: 22px;
+  }
+
+  .help-sheet__close {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface);
+    font-size: 16px;
+    cursor: pointer;
+    flex: none;
+  }
+
+  .help-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: var(--r-md);
+    color: #fff;
+    font-size: 17px;
+  }
+
+  .help-link b {
+    display: block;
+  }
+
+  .help-link small {
+    opacity: .85;
+    font-size: 13px;
+  }
+
+  .help-link--wa {
+    background: #1faa59;
+  }
+
+  .help-link--tg {
+    background: #229ed9;
+  }
+
+  .help-link__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.22);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 22px;
+    flex: none;
+  }
+
+  .help-install {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    border-radius: var(--r-md);
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-weight: 700;
+  }
+
+  @media (min-width: 761px) {
+    .help-overlay {
+      align-items: center;
+    }
+
+    .help-sheet {
+      border-radius: var(--r-xl);
+    }
+  }
+}

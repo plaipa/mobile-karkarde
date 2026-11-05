@@ -62,7 +62,7 @@
 
   .thumb.is-on {
     border-color: var(--primary);
-    color: var(--primary);
+    color: var(--primary-text);
     font-weight: 700;
   }
 

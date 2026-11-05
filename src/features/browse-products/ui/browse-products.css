@@ -21,6 +21,68 @@
     min-width: 150px;
   }
 
+  .quick {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    scrollbar-width: none;
+  }
+
+  .quick::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quick__chip {
+    flex: none;
+    padding: 9px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .quick__chip small {
+    color: var(--faint);
+    margin-inline-start: 2px;
+  }
+
+  .quick__chip.is-on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  .quick__chip.is-on small {
+    color: var(--accent);
+  }
+
+  .quick__chip--region {
+    border-color: var(--primary-soft);
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-weight: 800;
+  }
+
+  .quick__chip--region.is-on {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--on-primary);
+  }
+
+  .quick__sep {
+    flex: none;
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+    margin-inline: 4px;
+  }
+
   .filters {
     background: var(--surface);
     border-radius: var(--r-lg);
@@ -59,7 +121,7 @@
   .pick.is-on {
     background: var(--primary-soft);
     border-color: var(--primary);
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
   .filters__foot {
@@ -154,7 +216,7 @@
   }
 
   .plist__name a:hover {
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
   .plist__name small {
@@ -169,7 +231,7 @@
 
   .plist__price {
     font-weight: 800;
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
   .plist__action {
@@ -187,7 +249,7 @@
       transform: translateY(105%);
       transition: transform .25s;
       border-radius: 24px 24px 0 0;
-      box-shadow: 0 -10px 40px rgba(11,16,32,.2);
+      box-shadow: 0 -10px 40px rgba(17,18,20,.2);
     }
 
     .filters.is-open {

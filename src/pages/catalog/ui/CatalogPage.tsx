@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { categories, findCategory } from '@/entities/category'
 import { useSession } from '@/entities/session'
-import { DeviceList, FilterPanel, PriceListToolbar, useProductFilters } from '@/features/browse-products'
+import { DeviceList, FilterPanel, PriceListToolbar, QuickFilters, useProductFilters } from '@/features/browse-products'
 import { AddToCartButton } from '@/features/cart'
 import { PriceCell } from '@/features/price-visibility'
 import { paths } from '@/shared/config/routes'
@@ -27,6 +27,7 @@ export function CatalogPage() {
       <Tabs items={tabs} value={category.id} onChange={(id) => { setParams({ cat: id }); reset() }} />
       <PriceListToolbar category={category} filters={filters} resultCount={products.length} total={total} onChange={update} onOpenFilters={() => setFiltersOpen(true)} />
       {!phone && <p className="notice">قیمت عمده فقط برای همکاران تأییدشده نمایش داده می‌شود. <Link to={paths.login}>ورود یا ثبت‌نام</Link></p>}
+      <QuickFilters filters={filters} facets={facets} onChange={update} />
       <div className="layout">
         <div className="layout__main">
           {products.length === 0 ? (
@@ -36,7 +37,7 @@ export function CatalogPage() {
               category={category}
               products={products}
               renderPrice={(p) => <PriceCell price={p.price} />}
-              renderAction={(p) => <AddToCartButton code={p.code} className="btn btn--outline btn--sm" />}
+              renderAction={(p) => <AddToCartButton code={p.code} className="btn btn--primary btn--sm" />}
             />
           )}
         </div>

@@ -1,9 +1,9 @@
 import type { Category, CategoryId } from './types'
 
 export const categories: readonly Category[] = [
-  { id: 'phone', title: 'موبایل', count: 1100, brands: ['اپل', 'سامسونگ', 'شیائومی', 'هواوی', 'آنر', 'گوگل'], tone: '#2F5BFF' },
-  { id: 'watch', title: 'ساعت هوشمند', count: 60, brands: ['اپل', 'سامسونگ', 'هواوی', 'شیائومی', 'گارمین'], tone: '#B8F23A' },
-  { id: 'speaker', title: 'اسپیکر', count: 40, brands: ['جی‌بی‌ال', 'سونی', 'بوز', 'مارشال', 'هارمن', 'انکر'], tone: '#7C93FF' },
+  { id: 'phone', title: 'موبایل', count: 1100, brands: ['اپل', 'سامسونگ', 'شیائومی', 'هواوی', 'آنر', 'گوگل'], tone: 'var(--primary)' },
+  { id: 'watch', title: 'ساعت هوشمند', count: 60, brands: ['اپل', 'سامسونگ', 'هواوی', 'شیائومی', 'گارمین'], tone: 'var(--ink-3)' },
+  { id: 'speaker', title: 'اسپیکر', count: 40, brands: ['جی‌بی‌ال', 'سونی', 'بوز', 'مارشال', 'هارمن', 'انکر'], tone: '#FFA37A' },
 ]
 
 export const defaultCategory = categories[0]

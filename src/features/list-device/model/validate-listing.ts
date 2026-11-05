@@ -11,8 +11,8 @@ interface Input {
   hasPhoto: (slotId: string) => boolean
 }
 
-/** Pure: returns the user-facing error messages (empty = valid). */
-export function validateListing({ category, form, slots, hasPhoto }: Input): string[] {
+/** Pure: the device-details step only (brand, model, battery, no contact info in the text). */
+export function validateDeviceInfo(category: CategoryId, form: ListingForm): string[] {
   const errors: string[] = []
   const needsBattery = category !== 'speaker'
 
@@ -22,6 +22,13 @@ export function validateListing({ category, form, slots, hasPhoto }: Input): str
   if (containsContact(form.notes) || containsContact(form.model)) {
     errors.push('در توضیحات، شماره تلفن یا آیدی شبکه‌های اجتماعی مجاز نیست. ارتباط فقط از طریق موبایل کارکرده انجام می‌شود.')
   }
+  return errors
+}
+
+/** Pure: returns the user-facing error messages for the whole listing (empty = valid). */
+export function validateListing({ category, form, slots, hasPhoto }: Input): string[] {
+  const errors = validateDeviceInfo(category, form)
+  const needsBattery = category !== 'speaker'
   const missing = slots.filter((s) => s.required && !hasPhoto(s.id))
   if (missing.length) errors.push(`عکس‌های اجباری باقی‌مانده: ${missing.map((s) => s.label).join('، ')}`)
   if (needsBattery && !form.unlocked) errors.push('باید تأیید کنید که قفل حساب (iCloud / Google / Samsung) دستگاه خاموش است.')

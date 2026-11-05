@@ -10,6 +10,11 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* "Larger text" switch (features/text-size): scales the whole interface. */
+  html[data-text-size='large'] {
+    zoom: 1.18;
+  }
+
   body {
     margin: 0;
     font-family: var(--font);

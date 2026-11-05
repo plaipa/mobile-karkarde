@@ -6,6 +6,7 @@ export const paths = {
   sell: '/upload',
   login: '/login',
   cart: '/cart',
+  install: '/install',
   product: (code: string) => `/product/${code}`,
   catalogOf: (category: string) => `/products?cat=${category}`,
 } as const

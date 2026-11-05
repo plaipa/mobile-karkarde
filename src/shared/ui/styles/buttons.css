@@ -26,11 +26,21 @@
 
   .btn--primary {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
   }
 
   .btn--primary:hover:not(:disabled) {
     background: var(--primary-dark);
+  }
+
+  /* A "buy" button whose device is already in the basket. */
+  .btn.is-added,
+  .btn.is-added:disabled {
+    background: var(--success-soft);
+    border-color: transparent;
+    color: var(--success);
+    opacity: 1;
+    cursor: default;
   }
 
   .btn--dark {

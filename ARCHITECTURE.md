@@ -35,6 +35,10 @@
 | منطق فیلتر و مرتب‌سازی محصولات | `src/features/browse-products/model/filters.ts` |
 | افزودن یک فیلتر جدید به لیست قیمت | فیلد در `entities/product/model/types.ts` ← شرط در `applyFilters` و گزینه‌ها در `buildFacets` (`filters.ts`) ← گروه جدید در `FilterPanel.tsx` |
 | کدهای ریجن (ZA، CH، LL …) و برچسب سیم‌کارت | `src/entities/product/model/regions.ts` |
+| شمارهٔ واتساپ و آیدی تلگرام پشتیبانی (**جایگزین مقادیر نمونه شود**) | `src/shared/config/support.ts` |
+| دکمهٔ «راهنما» (واتساپ، تلگرام، درشت‌کردن نوشته، راهنمای نصب) | `src/features/contact-support/` و `src/features/text-size/` |
+| میانبرهای بالای لیست قیمت (مدل‌ها و کد کشور) | `src/features/browse-products/ui/QuickFilters.tsx` |
+| متن راهنمای نصب برنامه | `src/pages/install/ui/InstallPage.tsx` |
 | منوی هدر و تب‌بار موبایل | `src/widgets/app-shell/model/navigation.ts` |
 | رنگ‌ها، گوشه‌ها، فونت | `src/shared/ui/styles/tokens.css` |
 | آدرس صفحات | `src/shared/config/routes.ts` |

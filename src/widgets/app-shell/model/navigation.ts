@@ -23,7 +23,7 @@ export const mobileTabs: readonly TabItem[] = [
   { to: paths.home, label: 'خانه', icon: '⌂', end: true },
   { to: paths.catalog, label: 'لیست قیمت', icon: '▦' },
   { to: paths.sell, label: 'ثبت دستگاه', icon: '＋' },
-  { to: paths.cart, label: 'سبد', icon: '🛒', showCartBadge: true },
+  { to: paths.cart, label: 'سبد خرید', icon: '🛒', showCartBadge: true },
   { to: paths.login, label: 'پنل', icon: '◉' },
 ]
 

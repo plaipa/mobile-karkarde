@@ -14,7 +14,7 @@
 
   .chip--soft {
     background: var(--primary-soft);
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
   .chip--accent {
@@ -39,7 +39,7 @@
 
   .chip--primary {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
   }
 
   .chip--A {

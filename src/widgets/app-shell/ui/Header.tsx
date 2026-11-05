@@ -1,6 +1,8 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useSession } from '@/entities/session'
 import { useCart } from '@/features/cart'
+import { SupportButton } from '@/features/contact-support'
+import { TextSizeToggle } from '@/features/text-size'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
 import { mainNav } from '../model/navigation'
@@ -21,7 +23,8 @@ export function Header({ dark }: { dark: boolean }) {
           ))}
         </nav>
         <div className="header__actions">
-          <Link to={paths.cart} className="btn btn--outline">سبد خرید{cart.codes.length ? ` (${toFa(cart.codes.length)})` : ''}</Link>
+          <SupportButton extras={<TextSizeToggle />} />
+          <Link to={paths.cart} className="btn btn--outline header__cart">سبد خرید{cart.codes.length ? ` (${toFa(cart.codes.length)})` : ''}</Link>
           {phone
             ? <Link to={paths.sell} className="btn btn--primary">ثبت دستگاه</Link>
             : <Link to={paths.login} className="btn btn--primary">ورود همکار</Link>}

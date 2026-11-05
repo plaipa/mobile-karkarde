@@ -27,7 +27,7 @@ export function DeviceList({ category, products, renderPrice, renderAction }: Pr
       <div className="plist__head" role="row">
         <span role="columnheader">مدل</span>
         <span role="columnheader">{category.id === 'phone' ? 'حافظه' : 'اندازه'}</span>
-        <span role="columnheader">ریجن</span>
+        <span role="columnheader">کد کشور</span>
         <span role="columnheader">باتری</span>
         <span role="columnheader">گرید</span>
         <span role="columnheader">قیمت همکار</span>

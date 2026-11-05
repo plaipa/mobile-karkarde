@@ -67,7 +67,7 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
         </Group>
       )}
       {facets.regions.length > 0 && (
-        <Group title="ریجن (کد منطقه)">
+        <Group title="کد کشور (ZA، CH، LL …)">
           <ChipGroup options={facets.regions} selected={filters.regions} label={regionCode} onChange={(regions) => onChange({ regions })} />
         </Group>
       )}

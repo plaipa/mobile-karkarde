@@ -281,6 +281,7 @@
 
   .anon {
     background: var(--primary);
+    color: var(--on-primary);
     border-radius: 32px;
     padding: 48px;
     text-align: center;
@@ -316,11 +317,12 @@
   }
 
   .anon__node--hi {
-    background: var(--accent);
+    background: var(--ink);
+    color: #fff;
   }
 
   .anon__node--hi small {
-    color: var(--ink);
+    color: rgba(255, 255, 255, .7);
   }
 
   .anon__arrow {

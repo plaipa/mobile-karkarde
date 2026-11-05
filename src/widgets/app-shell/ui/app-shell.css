@@ -25,7 +25,7 @@
   }
 
   .header--dark {
-    background: rgba(11,16,32,.92);
+    background: rgba(17,18,20,.92);
     border-color: var(--ink-3);
     color: #fff;
   }
@@ -40,33 +40,33 @@
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 20px;
   }
 
-  .logo__mark {
-    width: 34px;
+  .logo__art {
+    display: block;
     height: 34px;
-    border-radius: 10px;
-    background: var(--primary);
-    display: grid;
-    place-items: center;
+    width: auto;
   }
 
-  .logo__mark i {
-    width: 11px;
-    height: 18px;
-    border-radius: 3px;
-    background: #fff;
+  .logo__word,
+  .logo__tile {
+    fill: var(--ink);
   }
 
-  .logo--dark .logo__mark {
-    background: var(--accent);
+  .logo__glyph {
+    fill: #fff;
   }
 
-  .logo--dark .logo__mark i {
-    background: var(--ink);
+  .logo--dark .logo__word {
+    fill: #fff;
+  }
+
+  .logo--dark .logo__tile {
+    fill: var(--primary);
+  }
+
+  .logo--dark .logo__glyph {
+    fill: var(--ink);
   }
 
   .header__nav {
@@ -95,7 +95,7 @@
   }
 
   .header__nav a.is-active {
-    color: var(--primary);
+    color: var(--primary-text);
     font-weight: 700;
     border-color: currentColor;
   }
@@ -106,7 +106,12 @@
 
   .header__actions {
     display: flex;
+    align-items: center;
     gap: 10px;
+  }
+
+  .header--dark .help-btn {
+    background: var(--ink-3);
   }
 
   .header--dark .btn--outline {
@@ -154,7 +159,8 @@
   }
 
   @media (max-width: 720px) {
-    .header__actions .btn--primary {
+    .header__actions .btn--primary,
+    .header__cart {
       display: none;
     }
 
@@ -195,7 +201,7 @@
     }
 
     .tabbar__item.is-active {
-      color: var(--primary);
+      color: var(--primary-text);
       font-weight: 700;
     }
 

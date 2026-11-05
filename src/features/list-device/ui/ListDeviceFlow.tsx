@@ -4,18 +4,19 @@ import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { photoTemplates } from '../model/photo-templates'
 import { emptyListingForm, type ListingForm, type PhotoSlot } from '../model/types'
 import { photoKey, usePhotoSet } from '../model/usePhotoSet'
-import { validateListing } from '../model/validate-listing'
+import { validateDeviceInfo, validateListing } from '../model/validate-listing'
 import { CameraCapture } from './CameraCapture'
 import { DeviceInfoFields } from './DeviceInfoFields'
 import { ListingSidebar } from './ListingSidebar'
 import { ListingSuccess } from './ListingSuccess'
 import { PhotoSlotsPanel } from './PhotoSlotsPanel'
+import { StepBar, type ListingStep } from './StepBar'
 import './list-device.css'
 
 const tabs = categories.map((c) => ({ id: c.id, label: c.title }))
 
 /**
- * "List a device for sale": category tabs, device form, photo template with camera, validation.
+ * "List a device for sale" in two short steps (details, then photos): category tabs, device form, photo template with camera, validation.
  * Prototype: on success nothing is sent anywhere (no backend yet) — see ListingSuccess.
  */
 export function ListDeviceFlow() {
@@ -23,6 +24,7 @@ export function ListDeviceFlow() {
   const [form, setForm] = useState<ListingForm>(emptyListingForm)
   const [errors, setErrors] = useState<string[]>([])
   const [done, setDone] = useState(false)
+  const [step, setStep] = useState<ListingStep>('info')
   const [cameraSlot, setCameraSlot] = useState<PhotoSlot | null>(null)
   const { photos, busyKey, attach, remove, clear } = usePhotoSet((message) => setErrors([message]))
 
@@ -37,6 +39,18 @@ export function ListDeviceFlow() {
     patchForm({ brand: '' })
   }
 
+  const goTo = (next: ListingStep) => {
+    setStep(next)
+    setErrors([])
+    window.scrollTo(0, 0)
+  }
+
+  const nextStep = () => {
+    const found = validateDeviceInfo(categoryId, form)
+    if (found.length) setErrors(found)
+    else goTo('photos')
+  }
+
   const submit = (e: FormEvent) => {
     e.preventDefault()
     const found = validateListing({ category: categoryId, form, slots, hasPhoto: (slotId) => Boolean(photos[photoKey(categoryId, slotId)]) })
@@ -49,6 +63,7 @@ export function ListDeviceFlow() {
 
   const startAnother = () => {
     setDone(false)
+    setStep('info')
     clear()
     setForm(emptyListingForm)
   }
@@ -60,21 +75,32 @@ export function ListDeviceFlow() {
       <h1 className="page__title">ثبت دستگاه برای فروش</h1>
       <Tabs items={tabs} value={categoryId} onChange={selectCategory} />
 
-      <form onSubmit={submit} className="upload" noValidate>
-        <div className="upload__main">
-          <DeviceInfoFields category={category} form={form} onChange={patchForm} />
-          <PhotoSlotsPanel
-            category={categoryId}
-            slots={slots}
-            photos={photos}
-            busyKey={busyKey}
-            canUseCamera={canUseCamera}
-            onOpenCamera={setCameraSlot}
-            onFile={(slot, file) => void attach(photoKey(categoryId, slot.id), file)}
-            onRemove={(slot) => remove(photoKey(categoryId, slot.id))}
-          />
-        </div>
-        <ListingSidebar category={categoryId} unlocked={form.unlocked} errors={errors} onUnlockedChange={(unlocked) => patchForm({ unlocked })} />
+      <StepBar step={step} />
+
+      <form onSubmit={submit} className={step === 'photos' ? 'upload' : 'upload upload--single'} noValidate>
+        {step === 'info' ? (
+          <div className="upload__main">
+            <DeviceInfoFields category={category} form={form} onChange={patchForm} />
+            {errors.length > 0 && <ul className="error-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>}
+            <button type="button" className="btn btn--primary btn--lg btn--block" onClick={nextStep}>بعدی: عکس‌های دستگاه</button>
+          </div>
+        ) : (
+          <>
+            <div className="upload__main">
+              <PhotoSlotsPanel
+                category={categoryId}
+                slots={slots}
+                photos={photos}
+                busyKey={busyKey}
+                canUseCamera={canUseCamera}
+                onOpenCamera={setCameraSlot}
+                onFile={(slot, file) => void attach(photoKey(categoryId, slot.id), file)}
+                onRemove={(slot) => remove(photoKey(categoryId, slot.id))}
+              />
+            </div>
+            <ListingSidebar category={categoryId} unlocked={form.unlocked} errors={errors} onUnlockedChange={(unlocked) => patchForm({ unlocked })} onBack={() => goTo('info')} />
+          </>
+        )}
       </form>
 
       {cameraSlot && (

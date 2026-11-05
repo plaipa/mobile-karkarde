@@ -27,9 +27,9 @@ export function Hero() {
         </div>
         <div className="hero__visual" aria-hidden="true">
           <i className="glow" />
-          <DeviceArt w={110} h={218} tone="#2F5BFF" tilt={-8} className="hv hv--l" />
-          <DeviceArt w={140} h={274} tone="#B8F23A" className="hv hv--c" />
-          <DeviceArt w={110} h={218} tone="#7C93FF" tilt={8} className="hv hv--r" />
+          <DeviceArt w={110} h={218} tone="var(--primary)" tilt={-8} className="hv hv--l" />
+          <DeviceArt w={140} h={274} tone="var(--ink-3)" className="hv hv--c" />
+          <DeviceArt w={110} h={218} tone="#FFA37A" tilt={8} className="hv hv--r" />
           <span className="chip chip--accent hv-chip hv-chip--a">گرید A · باتری {toFa(91)}٪</span>
           <span className="chip chip--white hv-chip hv-chip--b">بازرسی {toFa(100)} نقطه‌ای ✓</span>
         </div>

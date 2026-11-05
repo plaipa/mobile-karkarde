@@ -6,9 +6,11 @@ interface Props {
   unlocked: boolean
   errors: readonly string[]
   onUnlockedChange: (value: boolean) => void
+  /** Back to the device-details step. */
+  onBack: () => void
 }
 
-export function ListingSidebar({ category, unlocked, errors, onUnlockedChange }: Props) {
+export function ListingSidebar({ category, unlocked, errors, onUnlockedChange, onBack }: Props) {
   return (
     <aside className="upload__side">
       <div className="panel tip">
@@ -35,7 +37,8 @@ export function ListingSidebar({ category, unlocked, errors, onUnlockedChange }:
         </label>
       )}
       {errors.length > 0 && <ul className="error-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>}
-      <button className="btn btn--primary btn--lg btn--block">ادامه و تأیید نهایی</button>
+      <button className="btn btn--primary btn--lg btn--block">ثبت نهایی دستگاه</button>
+      <button type="button" className="btn btn--outline btn--block" onClick={onBack}>برگشت به مشخصات</button>
     </aside>
   )
 }

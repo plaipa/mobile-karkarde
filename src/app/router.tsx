@@ -11,6 +11,7 @@ const ProductDetailsPage = lazy(() => import('@/pages/product-details').then((m)
 const AboutPage = lazy(() => import('@/pages/about').then((m) => ({ default: m.AboutPage })))
 const SellPage = lazy(() => import('@/pages/sell').then((m) => ({ default: m.SellPage })))
 const LoginPage = lazy(() => import('@/pages/login').then((m) => ({ default: m.LoginPage })))
+const InstallPage = lazy(() => import('@/pages/install').then((m) => ({ default: m.InstallPage })))
 const CartPage = lazy(() => import('@/pages/cart').then((m) => ({ default: m.CartPage })))
 const NotFoundPage = lazy(() => import('@/pages/not-found').then((m) => ({ default: m.NotFoundPage })))
 
@@ -31,6 +32,7 @@ export function AppRoutes() {
         <Route path={paths.sell} element={<SellPage />} />
         <Route path={paths.login} element={<LoginPage />} />
         <Route path={paths.cart} element={<CartPage />} />
+        <Route path={paths.install} element={<InstallPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

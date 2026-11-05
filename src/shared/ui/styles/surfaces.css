@@ -36,7 +36,7 @@
   }
 
   .link {
-    color: var(--primary);
+    color: var(--primary-text);
     font-weight: 600;
   }
 
@@ -47,7 +47,7 @@
   }
 
   .crumbs a:hover {
-    color: var(--primary);
+    color: var(--primary-text);
   }
 
   .panel {
@@ -61,7 +61,7 @@
 
   .notice {
     background: var(--primary-soft);
-    color: var(--primary-dark);
+    color: var(--primary-text);
     border-radius: var(--r-md);
     padding: 10px 14px;
     font-size: 13px;

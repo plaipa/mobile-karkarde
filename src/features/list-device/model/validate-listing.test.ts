@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { photoTemplates } from './photo-templates'
 import { emptyListingForm, type ListingForm } from './types'
-import { validateListing } from './validate-listing'
+import { validateDeviceInfo, validateListing } from './validate-listing'
 
 const validPhone: ListingForm = { ...emptyListingForm, brand: 'اپل', model: 'آیفون ۱۳', battery: '۹۰', unlocked: true }
 const slots = photoTemplates.phone
@@ -38,5 +38,19 @@ describe('validateListing', () => {
   it('speakers need neither battery nor account-lock confirmation', () => {
     const speaker = { ...emptyListingForm, brand: 'سونی', model: 'SRS-XB43' }
     expect(run(speaker, allPhotos, 'speaker')).toEqual([])
+  })
+})
+
+describe('validateDeviceInfo (step 1)', () => {
+  it('only checks the details, not photos or the account-lock confirmation', () => {
+    expect(validateDeviceInfo('phone', { ...validPhone, unlocked: false })).toEqual([])
+  })
+
+  it('reports missing brand, model and battery', () => {
+    expect(validateDeviceInfo('phone', emptyListingForm)).toHaveLength(3)
+  })
+
+  it('does not ask a speaker for battery health', () => {
+    expect(validateDeviceInfo('speaker', { ...emptyListingForm, brand: 'جی‌بی‌ال', model: 'Flip 6' })).toEqual([])
   })
 })
