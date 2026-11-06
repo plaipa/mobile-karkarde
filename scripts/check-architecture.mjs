@@ -20,6 +20,7 @@ const LAYERS = ['app', 'pages', 'widgets', 'features', 'entities', 'shared'] // 
 
 /** "from -> to" slice pairs that may import each other on the same layer. Keep this list tiny. */
 const ALLOWED_SIBLINGS = new Set([
+  'entities/listing -> entities/category', // a submitted device has a category
   'entities/product -> entities/category', // a product has a category; category is the base taxonomy
 ])
 

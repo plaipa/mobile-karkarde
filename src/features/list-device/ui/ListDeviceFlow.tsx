@@ -1,5 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { categories, findCategory, type CategoryId } from '@/entities/category'
+import { addListing } from '@/entities/listing'
+import { useSession } from '@/entities/session'
 import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { photoTemplates } from '../model/photo-templates'
 import { emptyListingForm, type ListingForm, type PhotoSlot } from '../model/types'
@@ -20,8 +22,9 @@ const tabs = categories.map((c) => ({ id: c.id, label: c.title }))
  * Prototype: on success nothing is sent anywhere (no backend yet) — see ListingSuccess.
  */
 export function ListDeviceFlow() {
+  const { phone, city } = useSession()
   const [categoryId, setCategoryId] = useState<CategoryId>('phone')
-  const [form, setForm] = useState<ListingForm>(emptyListingForm)
+  const [form, setForm] = useState<ListingForm>(() => ({ ...emptyListingForm, city }))
   const [errors, setErrors] = useState<string[]>([])
   const [done, setDone] = useState(false)
   const [step, setStep] = useState<ListingStep>('info')
@@ -56,6 +59,19 @@ export function ListDeviceFlow() {
     const found = validateListing({ category: categoryId, form, slots, hasPhoto: (slotId) => Boolean(photos[photoKey(categoryId, slotId)]) })
     setErrors(found)
     if (!found.length) {
+      if (phone) {
+        addListing({
+          phone,
+          category: categoryId,
+          brand: form.brand,
+          model: form.model.trim(),
+          storage: form.storage,
+          battery: form.battery,
+          color: form.color,
+          city: form.city,
+          notes: form.notes.trim(),
+        })
+      }
       setDone(true)
       window.scrollTo(0, 0)
     }
@@ -65,7 +81,7 @@ export function ListDeviceFlow() {
     setDone(false)
     setStep('info')
     clear()
-    setForm(emptyListingForm)
+    setForm({ ...emptyListingForm, city })
   }
 
   if (done) return <ListingSuccess onAnother={startAnother} />

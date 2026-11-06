@@ -1,0 +1,81 @@
+/* «دستگاه‌های من». */
+@layer pages {
+  .mydev__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .mydev {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mydev__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: #fff;
+  }
+
+  .mydev__main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .mydev__main strong {
+    font-size: 16px;
+  }
+
+  .mydev__main small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .mydev__meta {
+    color: var(--faint);
+  }
+
+  .mydev__side {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: none;
+  }
+
+  .chip--city-soft {
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .chip--pending {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+
+  .mydev__empty {
+    align-items: flex-start;
+  }
+
+  @media (max-width: 560px) {
+    .mydev__item {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .mydev__side {
+      justify-content: flex-start;
+    }
+  }
+}

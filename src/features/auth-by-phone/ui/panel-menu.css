@@ -1,0 +1,76 @@
+/* Panel menu: stacked rows with a chevron. */
+@layer features {
+  .pmenu {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+
+  .pmenu__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 60px;
+    padding: 12px 18px;
+    color: var(--ink);
+  }
+
+  .pmenu__item + .pmenu__item {
+    border-top: 1px solid var(--border);
+  }
+
+  .pmenu__item:hover {
+    background: var(--surface);
+  }
+
+  .pmenu__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pmenu__text b {
+    font-size: 15px;
+  }
+
+  .pmenu__text small {
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  .pmenu__badge {
+    min-width: 26px;
+    height: 26px;
+    padding-inline: 8px;
+    border-radius: 100px;
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-size: 13px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+  }
+
+  .pmenu__chev {
+    color: var(--faint);
+    font-size: 22px;
+    line-height: 1;
+  }
+}
+
+@layer features {
+  .panel + .pmenu,
+  .page__title + .pmenu,
+  .muted + .pmenu {
+    margin-top: 16px;
+  }
+
+  .pmenu + .btn-row {
+    margin-top: 16px;
+  }
+}
