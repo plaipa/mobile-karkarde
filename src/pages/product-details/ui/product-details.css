@@ -37,6 +37,11 @@
     position: relative;
   }
 
+  .pdp__gallery .muted.small {
+    margin-top: 14px;
+    line-height: 1.9;
+  }
+
   .thumbs {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
