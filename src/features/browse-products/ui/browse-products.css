@@ -302,9 +302,14 @@
     min-width: 0;
   }
 
+  /* A link must look like one: a quiet underline always, the brand colour on hover. */
   .plist__name a {
     font-weight: 700;
     color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--faint);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
   }
 
   @media (hover: hover) and (pointer: fine) {

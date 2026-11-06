@@ -7,6 +7,8 @@ export const paths = {
   login: '/login',
   cart: '/cart',
   devices: '/my-devices',
+  terms: '/terms',
+  privacy: '/privacy',
   account: '/account',
   install: '/install',
   product: (code: string) => `/product/${code}`,

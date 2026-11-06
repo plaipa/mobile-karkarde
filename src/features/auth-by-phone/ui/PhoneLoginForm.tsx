@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
@@ -60,6 +60,7 @@ export function PhoneLoginForm() {
           <button type="button" className="btn btn--outline btn--block" onClick={() => setStep('phone')}>ویرایش شماره</button>
         </form>
       )}
+      <p className="muted login__legal">با ورود، <Link to={paths.terms}>شرایط استفاده</Link> و <Link to={paths.privacy}>حریم خصوصی</Link> را می‌پذیرید.</p>
       <p className="notice">نسخهٔ نمایشی: پیامک ارسال نمی‌شود و هر کد ۴ تا ۶ رقمی پذیرفته می‌شود. ورود واقعی بعد از اتصال به سرور فعال خواهد شد.</p>
     </>
   )

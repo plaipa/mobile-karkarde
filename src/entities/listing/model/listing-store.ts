@@ -52,6 +52,12 @@ export function addListing(input: NewListing): MyListing {
   return listing
 }
 
+/** Puts a removed device back exactly as it was (undo). */
+export function restoreListing(listing: MyListing) {
+  const rest = load().filter((l) => l.id !== listing.id)
+  save([...rest, listing].sort((a, b) => b.createdAt - a.createdAt))
+}
+
 export function removeListing(id: string) {
   save(load().filter((l) => l.id !== id))
 }

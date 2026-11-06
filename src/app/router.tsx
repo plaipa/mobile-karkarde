@@ -15,6 +15,8 @@ const InstallPage = lazy(() => import('@/pages/install').then((m) => ({ default:
 const CartPage = lazy(() => import('@/pages/cart').then((m) => ({ default: m.CartPage })))
 const MyDevicesPage = lazy(() => import('@/pages/my-devices').then((m) => ({ default: m.MyDevicesPage })))
 const AccountPage = lazy(() => import('@/pages/account').then((m) => ({ default: m.AccountPage })))
+const TermsPage = lazy(() => import('@/pages/legal').then((m) => ({ default: m.TermsPage })))
+const PrivacyPage = lazy(() => import('@/pages/legal').then((m) => ({ default: m.PrivacyPage })))
 const NotFoundPage = lazy(() => import('@/pages/not-found').then((m) => ({ default: m.NotFoundPage })))
 
 /** Partners who are signed in go straight to the price list; visitors get the introduction page. */
@@ -35,6 +37,8 @@ export function AppRoutes() {
         <Route path={paths.login} element={<LoginPage />} />
         <Route path={paths.devices} element={<MyDevicesPage />} />
         <Route path={paths.account} element={<AccountPage />} />
+        <Route path={paths.terms} element={<TermsPage />} />
+        <Route path={paths.privacy} element={<PrivacyPage />} />
         <Route path={paths.cart} element={<CartPage />} />
         <Route path={paths.install} element={<InstallPage />} />
         <Route path="*" element={<NotFoundPage />} />

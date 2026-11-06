@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { removeListing, useMyListings, type MyListing } from '@/entities/listing'
+import { removeListing, restoreListing, useMyListings, type MyListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
 import './my-devices.css'
 
+const UNDO_MS = 6000
 const dateFormat = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' })
 
 function details(l: MyListing): string {
@@ -17,6 +19,19 @@ function details(l: MyListing): string {
 export function MyDevicesPage() {
   const { phone } = useSession()
   const listings = useMyListings(phone)
+  const [removed, setRemoved] = useState<MyListing | null>(null)
+
+  // The undo offer expires on its own, so the page never keeps a stale prompt.
+  useEffect(() => {
+    if (!removed) return
+    const t = window.setTimeout(() => setRemoved(null), UNDO_MS)
+    return () => window.clearTimeout(t)
+  }, [removed])
+
+  const remove = (l: MyListing) => {
+    removeListing(l.id)
+    setRemoved(l)
+  }
 
   if (!phone) {
     return (
@@ -56,18 +71,20 @@ export function MyDevicesPage() {
               <div className="mydev__side">
                 <span className="chip chip--city-soft">{l.city}</span>
                 <span className="chip chip--pending">در انتظار بازرسی</span>
-                <button
-                  type="button"
-                  className="btn btn--outline btn--sm"
-                  aria-label={`حذف ${l.model}`}
-                  onClick={() => { if (window.confirm('این دستگاه از فهرست شما حذف شود؟')) removeListing(l.id) }}
-                >
+                <button type="button" className="mydev__remove" aria-label={`حذف ${l.model}`} onClick={() => remove(l)}>
                   حذف
                 </button>
               </div>
             </li>
           ))}
         </ul>
+      )}
+
+      {removed && (
+        <div className="mydev__undo" role="status">
+          <span>«{removed.model}» حذف شد.</span>
+          <button type="button" onClick={() => { restoreListing(removed); setRemoved(null) }}>بازگرداندن</button>
+        </div>
       )}
     </div>
   )

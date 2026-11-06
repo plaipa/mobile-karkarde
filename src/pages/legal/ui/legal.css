@@ -1,0 +1,71 @@
+/* Long-form legal pages: reading width, quiet hierarchy, no boxes. */
+@layer pages {
+  .legal {
+    max-width: 720px;
+  }
+
+  .legal__lead {
+    margin-top: 6px;
+    font-size: 16px;
+    line-height: 2;
+    color: var(--muted);
+  }
+
+  .legal__date {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--faint);
+  }
+
+  .legal__section {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .legal__section h2 {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.7;
+  }
+
+  .legal__n {
+    color: var(--primary-text);
+    margin-inline-end: 4px;
+  }
+
+  .legal__section p,
+  .legal__section li {
+    line-height: 2.05;
+    font-size: 15.5px;
+  }
+
+  .legal__section ul {
+    margin: 0;
+    padding-inline-start: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .legal__section li::marker {
+    color: var(--primary);
+  }
+
+  .legal__foot {
+    margin-top: 48px;
+    padding: 22px 24px;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  @media (max-width: 720px) {
+    .legal__section {
+      margin-top: 28px;
+    }
+  }
+}

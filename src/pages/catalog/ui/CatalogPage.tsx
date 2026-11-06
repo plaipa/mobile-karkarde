@@ -60,7 +60,7 @@ export function CatalogPage() {
               products={products}
               renderPrice={(p) => <PriceCell price={p.price} />}
               // Buying needs a partner account, so signed-out visitors get no buy button on every row.
-              renderAction={phone ? (p) => <AddToCartButton code={p.code} className="btn btn--primary btn--sm" /> : undefined}
+              renderAction={phone ? (p) => <AddToCartButton code={p.code} className="btn btn--outline btn--sm" /> : undefined}
             />
           )}
         </div>
