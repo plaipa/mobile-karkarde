@@ -9,7 +9,9 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // Ask before switching versions: the app shows an «update» banner (features/app-update).
+      registerType: 'prompt',
+      injectRegister: false,
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'موبایل کارکرده',
@@ -28,7 +30,8 @@ export default defineConfig({
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: { navigateFallback: '/index.html' },
+      // clientsClaim: the first install controls the open page too, so «update» can swap it.
+      workbox: { navigateFallback: '/index.html', clientsClaim: true },
     }),
   ],
 })

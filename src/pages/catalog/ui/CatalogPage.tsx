@@ -23,24 +23,24 @@ export function CatalogPage() {
   const [filtersOpen, setFiltersOpen] = useState(false)
 
   return (
-    <div className="container page">
-      <Tabs items={tabs} value={category.id} onChange={(id) => { setParams({ cat: id }); reset() }} />
-      <PriceListToolbar category={category} filters={filters} resultCount={products.length} total={total} onChange={update} onOpenFilters={() => setFiltersOpen(true)} />
-      {!phone && <p className="notice">قیمت عمده فقط برای همکاران تأییدشده نمایش داده می‌شود. <Link to={paths.login}>ورود یا ثبت‌نام</Link></p>}
+    <div className="container page catalog">
+      <PriceListToolbar
+        category={category}
+        filters={filters}
+        resultCount={products.length}
+        total={total}
+        leading={<Tabs items={tabs} value={category.id} onChange={(id) => { setParams({ cat: id }); reset() }} />}
+        onChange={update}
+        onOpenFilters={() => setFiltersOpen(true)}
+      />
+      {!phone && (
+        <p className="notice catalog__notice">
+          <span>قیمت عمده فقط برای همکاران تأییدشده نمایش داده می‌شود.</span>
+          <Link to={paths.login} className="btn btn--primary btn--sm">ورود یا ثبت‌نام همکار</Link>
+        </p>
+      )}
       <QuickFilters filters={filters} facets={facets} onChange={update} />
       <div className="layout">
-        <div className="layout__main">
-          {products.length === 0 ? (
-            <p className="empty">دستگاهی با این فیلترها پیدا نشد. <button className="link" onClick={reset}>پاک کردن فیلترها</button></p>
-          ) : (
-            <DeviceList
-              category={category}
-              products={products}
-              renderPrice={(p) => <PriceCell price={p.price} />}
-              renderAction={(p) => <AddToCartButton code={p.code} className="btn btn--primary btn--sm" />}
-            />
-          )}
-        </div>
         <FilterPanel
           category={category}
           filters={filters}
@@ -51,6 +51,19 @@ export function CatalogPage() {
           onReset={reset}
           onClose={() => setFiltersOpen(false)}
         />
+        <div className="layout__main">
+          {products.length === 0 ? (
+            <p className="empty">دستگاهی با این فیلترها پیدا نشد. <button className="link" onClick={reset}>پاک کردن فیلترها</button></p>
+          ) : (
+            <DeviceList
+              category={category}
+              products={products}
+              renderPrice={(p) => <PriceCell price={p.price} />}
+              // Buying needs a partner account, so signed-out visitors get no buy button on every row.
+              renderAction={phone ? (p) => <AddToCartButton code={p.code} className="btn btn--primary btn--sm" /> : undefined}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

@@ -4,6 +4,8 @@ export type SortKey = 'desc' | 'asc' | 'new' | 'battery'
 
 export interface ProductFilters {
   brands: string[]
+  /** Cities (names from `serviceCities`). */
+  cities: string[]
   /** Model names exactly as listed (e.g. "آیفون ۱۷ پرو مکس"). */
   models: string[]
   storages: number[]
@@ -25,6 +27,7 @@ export interface ProductFilters {
 
 export const defaultFilters: ProductFilters = {
   brands: [],
+  cities: [],
   models: [],
   storages: [],
   regions: [],
@@ -57,6 +60,7 @@ export function applyFilters(products: readonly Product[], f: ProductFilters): P
     .filter(
       (p) =>
         (!f.brands.length || f.brands.includes(p.brand)) &&
+        (!f.cities.length || f.cities.includes(p.city)) &&
         (!f.models.length || f.models.includes(p.name)) &&
         (!f.storages.length || (p.storageGb !== undefined && f.storages.includes(p.storageGb))) &&
         (!f.regions.length || (p.region !== undefined && f.regions.includes(p.region))) &&
@@ -78,6 +82,7 @@ export interface Option<T> {
 }
 
 export interface Facets {
+  cities: Option<string>[]
   models: Option<string>[]
   storages: Option<number>[]
   regions: Option<string>[]
@@ -103,7 +108,10 @@ export function buildFacets(products: readonly Product[], selectedBrands: readon
   const regionCounts = tally(products.map((p) => p.region))
   const simCounts = tally(products.map((p) => p.sim))
 
+  const cityCounts = tally(products.map((p) => p.city))
+
   return {
+    cities: [...cityCounts].map(([value, count]) => ({ value, count })),
     models: [...modelCounts].sort((a, b) => bestPrice.get(b[0])! - bestPrice.get(a[0])!).map(([value, count]) => ({ value, count })),
     storages: [...tally(products.map((p) => p.storageGb))].sort((a, b) => a[0] - b[0]).map(([value, count]) => ({ value, count })),
     regions: regions.filter((r) => regionCounts.has(r.code)).map((r) => ({ value: r.code, count: regionCounts.get(r.code)! })),
@@ -114,7 +122,7 @@ export function buildFacets(products: readonly Product[], selectedBrands: readon
 /** How many filter groups are narrowing the list — shown on the mobile "filters" button. */
 export function activeFilterCount(f: ProductFilters): number {
   return [
-    f.brands.length > 0, f.models.length > 0, f.storages.length > 0, f.regions.length > 0, f.sims.length > 0, f.grades.length > 0,
+    f.brands.length > 0, f.cities.length > 0, f.models.length > 0, f.storages.length > 0, f.regions.length > 0, f.sims.length > 0, f.grades.length > 0,
     f.minBattery > 0, f.minPrice !== null, f.maxPrice !== null, f.registered, f.warranty,
   ].filter(Boolean).length
 }

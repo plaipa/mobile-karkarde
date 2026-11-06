@@ -29,4 +29,6 @@ export interface Product {
   color: string
   addedDays: number
   notes: string
+  /** City the device is in (a name from `serviceCities`). The seller picks it when listing. */
+  city: string
 }

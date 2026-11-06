@@ -109,3 +109,11 @@ describe('toggle', () => {
     expect(list).toEqual(['a'])
   })
 })
+
+describe('city filter', () => {
+  it('keeps only devices in the chosen city', () => {
+    const city = phones[0].city
+    expect(applyFilters(phones, { ...defaultFilters, cities: [city] })).toHaveLength(phones.length)
+    expect(applyFilters(phones, { ...defaultFilters, cities: ['شهر دیگر'] })).toHaveLength(0)
+  })
+})

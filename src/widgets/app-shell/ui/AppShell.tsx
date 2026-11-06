@@ -1,5 +1,6 @@
 import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { UpdateBanner } from '@/features/app-update'
 import { darkPaths } from '../model/navigation'
 import { Footer } from './Footer'
 import { Header } from './Header'
@@ -19,6 +20,7 @@ export function AppShell() {
       </main>
       <Footer />
       <TabBar />
+      <UpdateBanner />
     </div>
   )
 }

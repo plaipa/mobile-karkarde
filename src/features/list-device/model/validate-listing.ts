@@ -1,4 +1,5 @@
 import type { CategoryId } from '@/entities/category'
+import { activeCities } from '@/shared/config/cities'
 import { toEn } from '@/shared/lib/format'
 import { containsContact } from '../lib/contact-guard'
 import type { ListingForm, PhotoSlot } from './types'
@@ -16,6 +17,7 @@ export function validateDeviceInfo(category: CategoryId, form: ListingForm): str
   const errors: string[] = []
   const needsBattery = category !== 'speaker'
 
+  if (!activeCities.includes(form.city)) errors.push('شهر دستگاه را انتخاب کنید.')
   if (!form.brand) errors.push('برند را انتخاب کنید.')
   if (!form.model.trim()) errors.push('مدل دستگاه را وارد کنید.')
   if (needsBattery && !/^\d{1,3}$/.test(toEn(form.battery))) errors.push('سلامت باتری را به‌صورت عدد (۰ تا ۱۰۰) وارد کنید.')

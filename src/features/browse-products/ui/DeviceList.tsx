@@ -11,8 +11,8 @@ interface Props {
   products: readonly Product[]
   /** Price content — injected by the page so this feature stays independent of auth. */
   renderPrice: (product: Product) => ReactNode
-  /** Row action (e.g. "request") — injected for the same reason. */
-  renderAction: (product: Product) => ReactNode
+  /** Row action (e.g. "buy") — injected for the same reason. Omit it to drop the action column. */
+  renderAction?: (product: Product) => ReactNode
 }
 
 /** The one-line facts under the model name. */
@@ -23,7 +23,7 @@ function tags(p: Product): string {
 /** A dense price list: one row per device (a stacked two-line row on phones). Order is the caller's. */
 export function DeviceList({ category, products, renderPrice, renderAction }: Props) {
   return (
-    <div className="plist" role="table">
+    <div className={`plist${renderAction ? '' : ' plist--no-action'}`} role="table">
       <div className="plist__head" role="row">
         <span role="columnheader">مدل</span>
         <span role="columnheader">{category.id === 'phone' ? 'حافظه' : 'اندازه'}</span>
@@ -31,7 +31,7 @@ export function DeviceList({ category, products, renderPrice, renderAction }: Pr
         <span role="columnheader">باتری</span>
         <span role="columnheader">گرید</span>
         <span role="columnheader">قیمت همکار</span>
-        <span role="columnheader" />
+        {renderAction && <span role="columnheader" aria-label="عملیات" />}
       </div>
       {products.map((p) => (
         <div className="plist__row" role="row" key={p.code}>
@@ -48,7 +48,7 @@ export function DeviceList({ category, products, renderPrice, renderAction }: Pr
             <span role="cell"><span className={`chip chip--${p.grade}`}>{gradeLabel[p.grade]}</span></span>
           </div>
           <div className="plist__price" role="cell">{renderPrice(p)}</div>
-          <div className="plist__action" role="cell">{renderAction(p)}</div>
+          {renderAction && <div className="plist__action" role="cell">{renderAction(p)}</div>}
         </div>
       ))}
     </div>

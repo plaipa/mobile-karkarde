@@ -17,3 +17,15 @@
     }
   }
 }
+
+@layer features {
+  .price-lock {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--faint);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}

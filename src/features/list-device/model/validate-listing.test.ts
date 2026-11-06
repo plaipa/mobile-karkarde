@@ -54,3 +54,10 @@ describe('validateDeviceInfo (step 1)', () => {
     expect(validateDeviceInfo('speaker', { ...emptyListingForm, brand: 'جی‌بی‌ال', model: 'Flip 6' })).toEqual([])
   })
 })
+
+describe('listing city', () => {
+  it('starts on an active city and rejects one the service does not cover', () => {
+    expect(validateDeviceInfo('phone', validPhone)).toEqual([])
+    expect(validateDeviceInfo('phone', { ...validPhone, city: 'شهر ناشناس' })).toEqual(['شهر دستگاه را انتخاب کنید.'])
+  })
+})

@@ -148,7 +148,8 @@
     background: var(--ink);
   }
 
-  @media (max-width: 1020px) {
+  /* The header menu stays until the bottom tab bar (≤720px) takes over, so no width is left without «دربارهٔ ما». */
+  @media (max-width: 720px) {
     .header__nav {
       display: none;
     }
@@ -156,9 +157,7 @@
     .header__row {
       justify-content: space-between;
     }
-  }
 
-  @media (max-width: 720px) {
     .header__actions .btn--primary,
     .header__cart {
       display: none;

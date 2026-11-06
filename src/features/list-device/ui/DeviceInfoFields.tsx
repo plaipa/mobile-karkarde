@@ -1,4 +1,5 @@
 import type { Category } from '@/entities/category'
+import { serviceCities } from '@/shared/config/cities'
 import type { ListingForm } from '../model/types'
 import { colorsFor, hasOfficialColors, modelsFor, storageOptions } from '../model/device-models'
 import { ChoiceField } from './ChoiceField'
@@ -17,6 +18,11 @@ export function DeviceInfoFields({ category, form, onChange }: Props) {
     <section className="panel">
       <h2>اطلاعات دستگاه</h2>
       <div className="fields">
+        <label>شهر دستگاه
+          <select className="input" value={form.city} onChange={(e) => onChange({ city: e.target.value })}>
+            {serviceCities.map((c) => <option key={c.name} value={c.name} disabled={!c.active}>{c.active ? c.name : `${c.name} (به‌زودی)`}</option>)}
+          </select>
+        </label>
         <label>برند
           <select className="input" value={form.brand} onChange={(e) => onChange({ brand: e.target.value, model: '' })}>
             <option value="">انتخاب کنید</option>

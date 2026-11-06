@@ -28,6 +28,7 @@ export interface TabItem extends NavItem {
 export const mobileTabs: readonly TabItem[] = [
   { to: paths.home, label: 'خانه', icon: '⌂', end: true, alsoActiveOn: [paths.catalog] },
   { to: paths.sell, label: 'ثبت دستگاه', icon: '＋' },
+  { to: paths.about, label: 'دربارهٔ ما', icon: 'ⓘ' },
   { to: paths.cart, label: 'سبد خرید', icon: '🛒', showCartBadge: true },
   { to: paths.login, label: 'پنل', icon: '◉' },
 ]

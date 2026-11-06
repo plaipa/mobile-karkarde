@@ -1,11 +1,35 @@
-/* Catalog page: content column + filters sidebar. */
+/* Catalog page: one vertical rhythm (16px between blocks), filters sidebar on the start (right) side. */
 @layer pages {
+  .catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .catalog .tabs {
+    margin: 0;
+  }
+
+  .catalog__notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 10px 10px 10px;
+    padding-inline-start: 16px;
+    font-size: 14px;
+  }
+
+  .catalog__notice .btn {
+    flex: none;
+    text-decoration: none;
+  }
+
   .layout {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 24px;
+    grid-template-columns: 272px minmax(0, 1fr);
+    gap: 20px;
     align-items: start;
-    margin-top: 16px;
   }
 
   .layout__main {
@@ -14,7 +38,17 @@
 
   @media (max-width: 1020px) {
     .layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .catalog {
+      gap: 12px;
+    }
+
+    .catalog__notice {
+      font-size: 13px;
     }
   }
 }

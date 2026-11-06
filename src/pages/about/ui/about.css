@@ -39,22 +39,36 @@
   }
 
   /* ---------- Kashida ---------- */
-  .kash__line {
-    color: var(--primary);
+  .kash {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
   }
 
-  @supports (background-clip: text) {
-    .kash__line {
-      color: transparent;
-      background: linear-gradient(to left, var(--primary) 50%, transparent 50%) left / 200% 100% no-repeat;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation: kash-draw 1.1s .35s cubic-bezier(.65,0,.35,1) forwards;
+  .kash__base {
+    display: block;
+  }
+
+  /* Same text twice: the top copy is orange and clipped to the stretch (--kash-l / --kash-r are physical insets). */
+  .kash__ink {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: var(--primary);
+    /* Measured for «مطمئـــــــن» in Kufam 800: the stretch starts .63em from the left and ends 3.13em from the right. */
+    --kash-l: .63em;
+    --kash-r: 3.13em;
+    clip-path: inset(-.2em var(--kash-r, 0em) -.2em var(--kash-l, 0em));
+  }
+
+  @supports (clip-path: inset(0)) {
+    .kash__ink {
+      animation: kash-draw 1.1s .35s cubic-bezier(.65,0,.35,1) backwards;
     }
   }
 
   @keyframes kash-draw {
-    to { background-position: right; }
+    from { clip-path: inset(-.2em var(--kash-r, 0em) -.2em calc(100% - var(--kash-r, 0em))); }
   }
 
   /* ---------- Hero ---------- */
@@ -958,17 +972,15 @@
       gap: 14px;
     }
 
+    /* The grade is a word («درحد»…), so it sits above its description instead of beside it. */
     .grade {
       min-height: 0;
-      display: grid;
-      grid-template-columns: 76px 1fr;
-      column-gap: 18px;
-      padding: 24px 22px;
+      gap: 8px;
+      padding: 22px 22px 24px;
     }
 
     .grade__letter {
-      grid-row: span 2;
-      font-size: 72px;
+      font-size: 36px;
       margin: 0;
     }
 
@@ -992,9 +1004,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kash__line {
+    .kash__ink {
       animation: none;
-      background-position: right;
     }
 
     .abh__scan {

@@ -1,3 +1,5 @@
+import { defaultCity } from '@/shared/config/cities'
+
 export type GuideShape = 'tall' | 'wide' | 'edgeH' | 'edgeV' | 'square' | 'watch' | 'speaker' | 'free'
 
 export interface PhotoSlot {
@@ -12,6 +14,8 @@ export interface PhotoSlot {
 }
 
 export interface ListingForm {
+  /** Where the device is; the seller can change it per listing. */
+  city: string
   brand: string
   model: string
   storage: string
@@ -24,6 +28,7 @@ export interface ListingForm {
 }
 
 export const emptyListingForm: ListingForm = {
+  city: defaultCity,
   brand: '',
   model: '',
   storage: '',

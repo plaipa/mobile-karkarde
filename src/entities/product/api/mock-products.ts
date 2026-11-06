@@ -1,5 +1,9 @@
 import { toFa } from '@/shared/lib/format'
+import { defaultCity } from '@/shared/config/cities'
 import type { Grade, Product, Sim } from '../model/types'
+
+/** Demo rows have no city of their own: the service only runs in one city so far. */
+type Row = Omit<Product, 'city'>
 
 /**
  * Demo inventory. Delete this file when the real API is connected — only `product-repository.ts` imports it.
@@ -10,12 +14,12 @@ import type { Grade, Product, Sim } from '../model/types'
 function phone(
   n: number, brand: string, name: string, gb: number, region: string | undefined, sim: Sim, color: string,
   battery: number, grade: Grade, price: number, registered: boolean, warranty: boolean, addedDays: number, notes = 'بدون عیب',
-): Product {
+): Row {
   const storage = gb >= 1024 ? `${gb / 1024} ترابایت` : `${gb} گیگابایت`
   return { code: `MK-${2100 + n}`, category: 'phone', brand, name, storage: storage.replace(/\d+/g, (d) => toFa(d)), storageGb: gb, region, sim, battery, grade, price, registered, warranty, color, addedDays, notes }
 }
 
-export const mockProducts: readonly Product[] = [
+const rows: readonly Row[] = [
   phone(1, 'اپل', 'آیفون ۱۷ پرو مکس', 512, 'AE', 'esim', 'نارنجی کیهانی', 100, 'A', 118500000, true, true, 1),
   phone(2, 'اپل', 'آیفون ۱۷ پرو مکس', 256, 'CH', 'dual', 'آبی عمیق', 98, 'A', 104800000, true, false, 1),
   phone(3, 'اپل', 'آیفون ۱۷ پرو مکس', 256, 'ZA', 'physical-esim', 'نقره‌ای', 97, 'A', 105900000, true, false, 2),
@@ -60,3 +64,5 @@ export const mockProducts: readonly Product[] = [
   { code: 'MK-2071', category: 'speaker', brand: 'سونی', name: 'سونی SRS-XB43', battery: 88, grade: 'B', price: 5400000, registered: false, warranty: false, color: 'آبی', addedDays: 3, notes: 'خط‌وخش جزئی' },
   { code: 'MK-2072', category: 'speaker', brand: 'مارشال', name: 'مارشال Emberton II', battery: 91, grade: 'A', price: 7800000, registered: false, warranty: true, color: 'کرم', addedDays: 5, notes: 'بدون عیب' },
 ]
+
+export const mockProducts: readonly Product[] = rows.map((r) => ({ ...r, city: defaultCity }))

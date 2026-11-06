@@ -35,14 +35,19 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
         <strong>فیلترها</strong>
         <button className="btn btn--outline btn--sm filters__close" onClick={onClose}>بستن</button>
       </div>
+      {facets.cities.length > 1 && (
+        <Group title="شهر">
+          <ChipGroup options={facets.cities} selected={filters.cities} onChange={(cities) => onChange({ cities })} />
+        </Group>
+      )}
       <Group title="برند">
-        <div className="chips">
+        <div className="opts opts--grid">
           {category.brands.map((brand) => (
             <button
               key={brand}
               type="button"
               aria-pressed={filters.brands.includes(brand)}
-              className={`pick${filters.brands.includes(brand) ? ' is-on' : ''}`}
+              className={`opt${filters.brands.includes(brand) ? ' is-on' : ''}`}
               // A model of a brand that is no longer selected would silently keep filtering, so models reset with brands.
               onClick={() => onChange({ brands: toggle(filters.brands, brand), models: [] })}
             >
@@ -53,7 +58,7 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
       </Group>
       {facets.models.length > 0 && (
         <Group title="مدل">
-          <ChipGroup options={facets.models} selected={filters.models} onChange={(models) => onChange({ models })} />
+          <ChipGroup options={facets.models} selected={filters.models} layout="list" limit={6} onChange={(models) => onChange({ models })} />
         </Group>
       )}
       {facets.storages.length > 0 && category.id === 'phone' && (
@@ -67,8 +72,8 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
         </Group>
       )}
       {facets.regions.length > 0 && (
-        <Group title="کد کشور (ZA، CH، LL …)">
-          <ChipGroup options={facets.regions} selected={filters.regions} label={regionCode} onChange={(regions) => onChange({ regions })} />
+        <Group title="کد کشور">
+          <ChipGroup options={facets.regions} selected={filters.regions} label={regionCode} limit={6} onChange={(regions) => onChange({ regions })} />
         </Group>
       )}
       {facets.sims.length > 0 && (
@@ -77,9 +82,9 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
         </Group>
       )}
       <Group title="وضعیت ظاهری">
-        <div className="chips">
+        <div className="opts opts--grid">
           {grades.map((g) => (
-            <button key={g} type="button" aria-pressed={filters.grades.includes(g)} className={`pick${filters.grades.includes(g) ? ' is-on' : ''}`} onClick={() => onChange({ grades: toggle(filters.grades, g) })}>
+            <button key={g} type="button" aria-pressed={filters.grades.includes(g)} className={`opt${filters.grades.includes(g) ? ' is-on' : ''}`} onClick={() => onChange({ grades: toggle(filters.grades, g) })}>
               {gradeLabel[g]}
             </button>
           ))}
