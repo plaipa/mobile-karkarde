@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { DeviceArt } from '@/entities/category'
 import { paths } from '@/shared/config/routes'
 import { count, toFa } from '@/shared/lib/format'
+import heroPhone from '../assets/hero-phone.webp'
+import heroPhoneSm from '../assets/hero-phone-sm.webp'
 import './home.css'
 
 export function Hero() {
@@ -25,13 +26,21 @@ export function Hero() {
             <li><b>{count(1200)}+</b><span>دستگاه موجود</span></li>
           </ul>
         </div>
-        <div className="hero__visual" aria-hidden="true">
-          <i className="glow" />
-          <DeviceArt w={110} h={218} tone="var(--primary)" tilt={-8} className="hv hv--l" />
-          <DeviceArt w={140} h={274} tone="var(--ink-3)" className="hv hv--c" />
-          <DeviceArt w={110} h={218} tone="#FFA37A" tilt={8} className="hv hv--r" />
-          <span className="chip chip--accent hv-chip hv-chip--a">گرید A · باتری {toFa(91)}٪</span>
-          <span className="chip chip--white hv-chip hv-chip--b">بازرسی {toFa(100)} نقطه‌ای ✓</span>
+        <div className="hero__visual">
+          {/* Photo: Rohan Krishnan on Unsplash (Unsplash License). */}
+          <img
+            className="hero__photo"
+            src={heroPhone}
+            srcSet={`${heroPhoneSm} 480w, ${heroPhone} 880w`}
+            sizes="(max-width: 1020px) 100vw, 440px"
+            width={880}
+            height={1000}
+            alt="گوشی آیفون در دست، آمادهٔ تحویل به همکار"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <span className="chip chip--accent hv-chip hv-chip--a" aria-hidden="true">گرید A · باتری {toFa(91)}٪</span>
+          <span className="chip chip--white hv-chip hv-chip--b" aria-hidden="true">بازرسی {toFa(100)} نقطه‌ای ✓</span>
         </div>
       </div>
     </section>
