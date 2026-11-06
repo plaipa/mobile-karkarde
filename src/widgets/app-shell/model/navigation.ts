@@ -1,3 +1,4 @@
+import type { TabIconName } from '../ui/TabIcon'
 import { paths } from '@/shared/config/routes'
 
 export interface NavItem {
@@ -20,16 +21,16 @@ export const mainNav: readonly NavItem[] = [
 ]
 
 export interface TabItem extends NavItem {
-  icon: string
+  icon: TabIconName
   /** Show the cart counter on this tab. */
   showCartBadge?: boolean
 }
 
 export const mobileTabs: readonly TabItem[] = [
-  { to: paths.home, label: 'خانه', icon: '⌂', end: true, alsoActiveOn: [paths.catalog] },
-  { to: paths.sell, label: 'ثبت دستگاه', icon: '＋' },
-  { to: paths.cart, label: 'سبد خرید', icon: '🛒', showCartBadge: true },
-  { to: paths.login, label: 'پنل', icon: '◉', alsoActiveOn: [paths.about, paths.devices, paths.account, paths.install] },
+  { to: paths.home, label: 'خانه', icon: 'home', end: true, alsoActiveOn: [paths.catalog] },
+  { to: paths.sell, label: 'ثبت دستگاه', icon: 'add' },
+  { to: paths.cart, label: 'سبد خرید', icon: 'cart', showCartBadge: true },
+  { to: paths.login, label: 'پنل', icon: 'user', alsoActiveOn: [paths.about, paths.devices, paths.account, paths.install] },
 ]
 
 /** The About page uses the dark theme. */

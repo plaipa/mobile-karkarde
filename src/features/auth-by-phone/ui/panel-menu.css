@@ -22,8 +22,10 @@
     border-top: 1px solid var(--border);
   }
 
-  .pmenu__item:hover {
-    background: var(--surface);
+  @media (hover: hover) and (pointer: fine) {
+    .pmenu__item:hover {
+      background: var(--surface);
+    }
   }
 
   .pmenu__text {

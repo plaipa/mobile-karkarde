@@ -825,8 +825,10 @@
     background: transparent;
   }
 
-  .join__ghost:hover {
-    border-color: var(--ink);
+  @media (hover: hover) and (pointer: fine) {
+    .join__ghost:hover {
+      border-color: var(--ink);
+    }
   }
 
   /* ---------- Responsive ---------- */

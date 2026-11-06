@@ -29,6 +29,8 @@
     --r-md: 12px;
     --r-lg: 20px;
     --r-xl: 28px;
+    /* Strong ease-out for UI feedback; the built-in `ease-out` is too weak to feel intentional. */
+    --ease-out: cubic-bezier(.23, 1, .32, 1);
     --font: 'Vazirmatn Variable', 'Vazirmatn', system-ui, sans-serif;
   }
 }

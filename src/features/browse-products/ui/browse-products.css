@@ -90,11 +90,13 @@
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    transition: background .15s, border-color .15s, color .15s;
+    transition: background .15s, border-color .15s, color .15s, transform 120ms var(--ease-out);
   }
 
-  .quick__chip:hover {
-    border-color: var(--ink-3);
+  @media (hover: hover) and (pointer: fine) {
+    .quick__chip:hover {
+      border-color: var(--ink-3);
+    }
   }
 
   .quick__chip small {
@@ -173,11 +175,13 @@
     font-size: 14px;
     font-weight: 600;
     text-align: center;
-    transition: background .15s, border-color .15s;
+    transition: background .15s, border-color .15s, transform 120ms var(--ease-out);
   }
 
-  .opt:hover {
-    border-color: var(--ink-3);
+  @media (hover: hover) and (pointer: fine) {
+    .opt:hover {
+      border-color: var(--ink-3);
+    }
   }
 
   .opt__label {
@@ -281,8 +285,10 @@
     font-size: 14px;
   }
 
-  .plist__row:hover {
-    background: var(--surface);
+  @media (hover: hover) and (pointer: fine) {
+    .plist__row:hover {
+      background: var(--surface);
+    }
   }
 
   .plist__specs {
@@ -301,8 +307,10 @@
     color: var(--ink);
   }
 
-  .plist__name a:hover {
-    color: var(--primary-text);
+  @media (hover: hover) and (pointer: fine) {
+    .plist__name a:hover {
+      color: var(--primary-text);
+    }
   }
 
   .plist__name small {
@@ -413,5 +421,12 @@
     .toolbar__ctl input[type='search'] {
       flex-basis: 100%;
     }
+  }
+}
+
+@layer features {
+  .quick__chip:active,
+  .opt:active {
+    transform: scale(.97);
   }
 }

@@ -139,9 +139,11 @@
     transition: box-shadow .15s, transform .15s;
   }
 
-  .cat:hover {
-    box-shadow: 0 10px 30px rgba(17,18,20,.08);
-    transform: translateY(-2px);
+  @media (hover: hover) and (pointer: fine) {
+    .cat:hover {
+      box-shadow: 0 10px 30px rgba(17,18,20,.08);
+      transform: translateY(-2px);
+    }
   }
 
   .cat strong {

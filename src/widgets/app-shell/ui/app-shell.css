@@ -86,12 +86,16 @@
     border-bottom: 2px solid transparent;
   }
 
-  .header__nav a:hover {
-    color: var(--text);
+  @media (hover: hover) and (pointer: fine) {
+    .header__nav a:hover {
+      color: var(--text);
+    }
   }
 
-  .header--dark .header__nav a:hover {
-    color: #fff;
+  @media (hover: hover) and (pointer: fine) {
+    .header--dark .header__nav a:hover {
+      color: #fff;
+    }
   }
 
   .header__nav a.is-active {
@@ -210,8 +214,14 @@
 
     .tabbar__icon {
       position: relative;
-      font-size: 18px;
-      line-height: 1.3;
+      display: grid;
+      place-items: center;
+      height: 26px;
+    }
+
+    .tabbar__item:active .tabbar__icon {
+      transform: scale(.9);
+      transition: transform 100ms var(--ease-out);
     }
 
     .tabbar__icon b {

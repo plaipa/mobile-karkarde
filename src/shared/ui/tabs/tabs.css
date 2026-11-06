@@ -15,6 +15,11 @@
     cursor: pointer;
     font-weight: 600;
     color: var(--muted);
+    transition: background .15s, border-color .15s, transform 120ms var(--ease-out);
+  }
+
+  .tab:active {
+    transform: scale(.97);
   }
 
   .tab.is-on {

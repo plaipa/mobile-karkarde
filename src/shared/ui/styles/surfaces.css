@@ -46,8 +46,10 @@
     margin-bottom: 12px;
   }
 
-  .crumbs a:hover {
-    color: var(--primary-text);
+  @media (hover: hover) and (pointer: fine) {
+    .crumbs a:hover {
+      color: var(--primary-text);
+    }
   }
 
   .panel {

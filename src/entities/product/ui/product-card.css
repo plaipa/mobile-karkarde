@@ -10,8 +10,10 @@
     transition: box-shadow .15s;
   }
 
-  .card:hover {
-    box-shadow: 0 10px 30px rgba(17,18,20,.08);
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover {
+      box-shadow: 0 10px 30px rgba(17,18,20,.08);
+    }
   }
 
   .card__img {
