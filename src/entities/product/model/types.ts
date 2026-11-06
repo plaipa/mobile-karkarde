@@ -1,6 +1,7 @@
 import type { CategoryId } from '@/entities/category'
 
-export type Grade = 'A' | 'B' | 'C'
+/** Cosmetic grade code (stored by the backend); show it to people with `gradeLabel`. */
+export type Grade = 'A' | 'B' | 'C' | 'D'
 
 /** `physical-esim` = one nano-SIM + eSIM, `dual` = two nano-SIM trays, `esim` = no tray at all. */
 export type Sim = 'physical-esim' | 'dual' | 'esim'

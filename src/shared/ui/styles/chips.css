@@ -48,11 +48,16 @@
   }
 
   .chip--B {
+    background: var(--primary-soft);
+    color: var(--primary-text);
+  }
+
+  .chip--C {
     background: var(--warning-soft);
     color: var(--warning);
   }
 
-  .chip--C {
+  .chip--D {
     background: var(--danger-soft);
     color: var(--danger);
   }

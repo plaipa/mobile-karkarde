@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Category } from '@/entities/category'
-import { regionCode, regionLabel, simLabels, type Product } from '@/entities/product'
+import { gradeLabel, regionCode, regionLabel, simLabels, type Product } from '@/entities/product'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
 import './browse-products.css'
@@ -45,7 +45,7 @@ export function DeviceList({ category, products, renderPrice, renderAction }: Pr
               {p.region ? <b dir="ltr">{regionCode(p.region)}</b> : '—'}
             </span>
             <span role="cell">{p.battery ? `${toFa(p.battery)}٪` : '—'}</span>
-            <span role="cell"><span className={`chip chip--${p.grade}`}>{p.grade}</span></span>
+            <span role="cell"><span className={`chip chip--${p.grade}`}>{gradeLabel[p.grade]}</span></span>
           </div>
           <div className="plist__price" role="cell">{renderPrice(p)}</div>
           <div className="plist__action" role="cell">{renderAction(p)}</div>

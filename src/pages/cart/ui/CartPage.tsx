@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { formatProductCode } from '@/entities/product'
+import { formatProductCode, gradeLabel } from '@/entities/product'
 import { useSession } from '@/entities/session'
 import { useCart, useCartItems } from '@/features/cart'
 import { paths } from '@/shared/config/routes'
@@ -48,7 +48,7 @@ export function CartPage() {
               <li key={p.code}>
                 <div>
                   <Link to={paths.product(p.code)}><strong>{p.name}</strong></Link>
-                  <small>{[p.storage, p.region && `${p.region}/A`, `گرید ${p.grade}`, `کد ${formatProductCode(p.code)}`].filter(Boolean).join(' · ')}</small>
+                  <small>{[p.storage, p.region && `${p.region}/A`, gradeLabel[p.grade], `کد ${formatProductCode(p.code)}`].filter(Boolean).join(' · ')}</small>
                 </div>
                 <span className="cart__price">{phone ? money(p.price) : '—'}</span>
                 <button className="btn btn--outline btn--sm" onClick={() => cart.remove(p.code)} aria-label={`حذف ${p.name}`}>حذف</button>

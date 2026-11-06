@@ -1,6 +1,6 @@
 import '@fontsource-variable/kufam'
 import { AboutHero } from './AboutHero'
-import { CounterStrip, Grades, Inspection, JoinCta, Journey, Knots, Manifesto, Privacy } from './Sections'
+import { Cities, CounterStrip, Grades, Inspection, JoinCta, Journey, Knots, Manifesto, Privacy } from './Sections'
 
 export function AboutPage() {
   return (
@@ -12,6 +12,7 @@ export function AboutPage() {
       <Inspection />
       <Grades />
       <Privacy />
+      <Cities />
       <Manifesto />
       <JoinCta />
     </div>

@@ -12,6 +12,28 @@
     align-items: center;
   }
 
+  .hero__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip--city {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--success-soft);
+    color: var(--success);
+  }
+
+  .chip--city i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px rgb(22 121 76 / .2);
+  }
+
   .hero__text {
     display: flex;
     flex-direction: column;
@@ -220,6 +242,11 @@
     .hero p {
       color: #a8b0c4;
       font-size: 14px;
+    }
+
+    .hero .chip--city {
+      background: rgb(61 220 132 / .14);
+      color: #3ddc84;
     }
 
     .hero .chip--soft {

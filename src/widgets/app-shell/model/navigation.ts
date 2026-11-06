@@ -5,11 +5,17 @@ export interface NavItem {
   label: string
   /** Match the exact path only (used for "/"). */
   end?: boolean
+  /** Other paths that also highlight this item (the price list lives under «خانه»). */
+  alsoActiveOn?: readonly string[]
+}
+
+/** Whether a nav item should be highlighted for the current path. */
+export function isNavActive(item: NavItem, pathname: string, routerActive: boolean) {
+  return routerActive || (item.alsoActiveOn?.some((p) => pathname.startsWith(p)) ?? false)
 }
 
 export const mainNav: readonly NavItem[] = [
-  { to: paths.home, label: 'خانه', end: true },
-  { to: paths.catalog, label: 'لیست قیمت' },
+  { to: paths.home, label: 'خانه', end: true, alsoActiveOn: [paths.catalog] },
   { to: paths.about, label: 'دربارهٔ ما' },
 ]
 
@@ -20,8 +26,7 @@ export interface TabItem extends NavItem {
 }
 
 export const mobileTabs: readonly TabItem[] = [
-  { to: paths.home, label: 'خانه', icon: '⌂', end: true },
-  { to: paths.catalog, label: 'لیست قیمت', icon: '▦' },
+  { to: paths.home, label: 'خانه', icon: '⌂', end: true, alsoActiveOn: [paths.catalog] },
   { to: paths.sell, label: 'ثبت دستگاه', icon: '＋' },
   { to: paths.cart, label: 'سبد خرید', icon: '🛒', showCartBadge: true },
   { to: paths.login, label: 'پنل', icon: '◉' },

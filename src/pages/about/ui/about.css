@@ -177,8 +177,9 @@
   .abh__tag b {
     display: grid;
     place-items: center;
-    width: 26px;
+    min-width: 26px;
     height: 26px;
+    padding-inline: 10px;
     border-radius: 8px;
     background: var(--primary);
     color: var(--on-primary);
@@ -457,13 +458,14 @@
   .report__grade {
     display: grid;
     place-items: center;
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
+    min-width: 64px;
+    height: 44px;
+    padding-inline: 16px;
+    border-radius: 999px;
     background: var(--ink);
     color: var(--primary);
     font-family: var(--display);
-    font-size: 34px;
+    font-size: 20px;
     font-weight: 800;
   }
 
@@ -540,7 +542,7 @@
   /* ---------- Grades ---------- */
   .grades {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
@@ -559,20 +561,15 @@
 
   .grade__letter {
     font-family: var(--display);
-    font-size: 120px;
+    font-size: clamp(40px, 4.4vw, 60px);
     font-weight: 800;
     line-height: 1;
     margin-bottom: auto;
-    color: rgba(255,255,255,.16);
+    color: #fff;
   }
 
   .grade--A .grade__letter {
     color: var(--primary);
-  }
-
-  .grade h3 {
-    font-size: 22px;
-    font-weight: 800;
   }
 
   .grade p {
@@ -694,6 +691,72 @@
   }
 
   /* ---------- Join ---------- */
+  /* ---------- Cities ---------- */
+  .cities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .city {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 26px 24px;
+    border-radius: var(--r-xl);
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+  }
+
+  .city strong {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 800;
+  }
+
+  .city__state {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.08);
+    color: var(--dim);
+    font-size: 13px;
+  }
+
+  .city--on {
+    border-color: var(--primary);
+  }
+
+  .city--on .city__state {
+    background: rgba(61,220,132,.14);
+    color: #3ddc84;
+  }
+
+  .city--on .city__state::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .city--ask {
+    border-style: dashed;
+  }
+
+  .city--ask strong {
+    color: var(--dim);
+  }
+
+  .city--ask a {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
   .join {
     display: flex;
     justify-content: space-between;
@@ -754,6 +817,10 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1020px) {
+    .grades {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
     .abh__grid,
     .inspect,
     .privacy {

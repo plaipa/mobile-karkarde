@@ -1,9 +1,19 @@
 import type { Grade } from './types'
 
-export const grades: readonly Grade[] = ['A', 'B', 'C']
+/** Best condition first. */
+export const grades: readonly Grade[] = ['A', 'B', 'C', 'D']
+
+/** The name people see. The letters are only internal codes. */
+export const gradeLabel: Record<Grade, string> = {
+  A: 'درحد',
+  B: 'تمیز',
+  C: 'معمولی',
+  D: 'پرکار',
+}
 
 export const gradeInfo: Record<Grade, string> = {
-  A: 'سالم و تمیز، بدون خط‌وخش قابل توجه',
-  B: 'خط‌وخش جزئی یا ضربهٔ کوچک روی بدنه',
-  C: 'علائم استفادهٔ بیشتر، کاملاً سالم از نظر عملکرد',
+  A: 'در حد نو؛ بدون خط‌وخش قابل دید',
+  B: 'خط‌وخش بسیار جزئی، فقط از نزدیک دیده می‌شود',
+  C: 'خط‌وخش و آثار استفادهٔ معمول روی بدنه',
+  D: 'آثار استفادهٔ زیاد یا ضربه روی بدنه؛ عملکرد سالم',
 }

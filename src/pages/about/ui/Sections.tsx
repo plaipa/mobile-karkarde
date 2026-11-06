@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { serviceCities } from '@/shared/config/cities'
 import { paths } from '@/shared/config/routes'
 import { whatsappLink } from '@/shared/config/support'
 import { toFa } from '@/shared/lib/format'
@@ -133,14 +134,13 @@ export function Grades() {
     <section className="container ab-section">
       <SectionHead
         eyebrow="گریدبندی"
-        title="یک حرف، به‌جای ده‌ها سؤال"
+        title="یک کلمه، به‌جای ده‌ها سؤال"
         lead="گرید روی هر دستگاه یعنی لازم نیست برای فهمیدن وضعیتش زنگ بزنید."
       />
       <div className="grades">
         {grades.map((g) => (
           <article key={g.id} className={`grade grade--${g.id}`}>
-            <span className="grade__letter">{g.id}</span>
-            <h3>{g.name}</h3>
+            <span className="grade__letter">{g.name}</span>
             <p>{g.text}</p>
           </article>
         ))}
@@ -176,6 +176,30 @@ export function Privacy() {
           </div>
         </div>
       </div>
+    </section>
+  )
+}
+
+export function Cities() {
+  return (
+    <section className="container ab-section">
+      <SectionHead
+        eyebrow="کجا فعالیم"
+        title="از تبریز شروع کرده‌ایم."
+        lead="دریافت، بازرسی و ارسال فعلاً در تبریز انجام می‌شود. شهرهای بعدی را به ترتیب درخواست همکاران باز می‌کنیم."
+      />
+      <ul className="cities">
+        {serviceCities.map((c) => (
+          <li key={c.name} className={`city${c.active ? ' city--on' : ''}`}>
+            <strong>{c.name}</strong>
+            <span className="city__state">{c.active ? 'فعال' : 'به‌زودی'}</span>
+          </li>
+        ))}
+        <li className="city city--ask">
+          <strong>شهر شما</strong>
+          <a href={whatsappLink()} target="_blank" rel="noreferrer">درخواست فعال‌سازی ←</a>
+        </li>
+      </ul>
     </section>
   )
 }

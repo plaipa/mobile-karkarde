@@ -1,6 +1,6 @@
 export type { Grade, Product, Sim } from './model/types'
 export { regions, regionLabel, regionCode, simLabels, simOrder } from './model/regions'
-export { grades, gradeInfo } from './model/grades'
+export { gradeInfo, gradeLabel, grades } from './model/grades'
 export { galleryAngles } from './model/gallery'
 export { productRepository } from './api/product-repository'
 export { formatProductCode } from './lib/product-code'

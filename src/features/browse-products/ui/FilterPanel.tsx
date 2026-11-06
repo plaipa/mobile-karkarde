@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Category } from '@/entities/category'
-import { grades, regionCode, simLabels } from '@/entities/product'
+import { gradeLabel, grades, regionCode, simLabels } from '@/entities/product'
 import { toFa } from '@/shared/lib/format'
 import { toggle, type Facets, type ProductFilters } from '../model/filters'
 import { ChipGroup } from './ChipGroup'
@@ -76,11 +76,11 @@ export function FilterPanel({ category, filters, facets, resultCount, open, onCh
           <ChipGroup options={facets.sims} selected={filters.sims} label={(s) => simLabels[s]} onChange={(sims) => onChange({ sims })} />
         </Group>
       )}
-      <Group title="گرید ظاهری">
+      <Group title="وضعیت ظاهری">
         <div className="chips">
           {grades.map((g) => (
             <button key={g} type="button" aria-pressed={filters.grades.includes(g)} className={`pick${filters.grades.includes(g) ? ' is-on' : ''}`} onClick={() => onChange({ grades: toggle(filters.grades, g) })}>
-              گرید {g}
+              {gradeLabel[g]}
             </button>
           ))}
         </div>

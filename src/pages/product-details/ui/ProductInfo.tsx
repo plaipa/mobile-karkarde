@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { buildSpecRows, formatProductCode, gradeInfo, type Product } from '@/entities/product'
+import { buildSpecRows, formatProductCode, gradeInfo, gradeLabel, type Product } from '@/entities/product'
 import { AddToCartButton } from '@/features/cart'
 import { PriceTag } from '@/features/price-visibility'
 import { paths } from '@/shared/config/routes'
@@ -10,7 +10,7 @@ export function ProductInfo({ product: p }: { product: Product }) {
     <div className="pdp__info">
       <div className="chips">
         <span className="chip chip--soft">{p.brand}</span>
-        <span className={`chip chip--${p.grade}`}>گرید {p.grade}</span>
+        <span className={`chip chip--${p.grade}`}>{gradeLabel[p.grade]}</span>
         <span className="chip chip--muted">کد: {formatProductCode(p.code)}</span>
       </div>
       <h1>{p.name}</h1>

@@ -18,7 +18,8 @@ export function AboutHero() {
           </h1>
           <p className="abh__lead">
             ما واسطهٔ همکاران بازار موبایل هستیم. هر دستگاه را پیش از فروش تست می‌کنیم، گرید می‌دهیم و با عکس
-            استاندارد عرضه می‌کنیم؛ و هویت فروشنده همیشه پیش ما می‌ماند.
+            استاندارد عرضه می‌کنیم؛ و هویت فروشنده همیشه پیش ما می‌ماند. کار را از تبریز شروع کرده‌ایم و به‌زودی
+            به شهرهای دیگر هم می‌رسیم.
           </p>
           <div className="abh__cta">
             <Link className="btn btn--accent btn--lg" to={paths.login}>ثبت‌نام همکار</Link>
@@ -34,7 +35,7 @@ export function AboutHero() {
           </div>
           <span className="abh__tag abh__tag--1"><i />باتری ۹۱٪</span>
           <span className="abh__tag abh__tag--2"><i />نمایشگر سالم</span>
-          <span className="abh__tag abh__tag--3"><b>A</b>گرید</span>
+          <span className="abh__tag abh__tag--3"><b>درحد</b></span>
         </div>
       </div>
     </section>

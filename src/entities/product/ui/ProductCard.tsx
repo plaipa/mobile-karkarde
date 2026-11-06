@@ -4,6 +4,7 @@ import { findCategory, DeviceArt } from '@/entities/category'
 import { paths } from '@/shared/config/routes'
 import { formatProductCode } from '../lib/product-code'
 import { summarizeSpecs } from '../lib/describe'
+import { gradeLabel } from '../model/grades'
 import type { Product } from '../model/types'
 import './product-card.css'
 
@@ -23,7 +24,7 @@ export function ProductCard({ product: p, price, action }: Props) {
     <article className="card">
       <Link to={href} className="card__img" aria-label={p.name}>
         <span className="chip chip--code">{formatProductCode(p.code)}</span>
-        <span className={`chip chip--grade chip--${p.grade}`}>گرید {p.grade}</span>
+        <span className={`chip chip--grade chip--${p.grade}`}>{gradeLabel[p.grade]}</span>
         <DeviceArt kind={p.category} tone={category.tone} {...size} />
       </Link>
       <div className="card__body">

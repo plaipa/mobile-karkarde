@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { serviceAreaLabel } from '@/shared/config/cities'
 import { paths } from '@/shared/config/routes'
 import { count, toFa } from '@/shared/lib/format'
 import heroPhone from '../assets/hero-phone.webp'
@@ -10,7 +11,10 @@ export function Hero() {
     <section className="hero">
       <div className="container hero__row">
         <div className="hero__text">
-          <span className="chip chip--soft">ویژهٔ همکاران ✓</span>
+          <div className="hero__chips">
+            <span className="chip chip--soft">ویژهٔ همکاران ✓</span>
+            <span className="chip chip--city"><i aria-hidden="true" />{serviceAreaLabel}</span>
+          </div>
           <h1>بازار تخصصی خرید و فروش موبایل کارکرده برای همکاران</h1>
           <p>
             دستگاه‌های تست‌شده با عکس واقعی، گرید مشخص و قیمت عمده. فروشنده و خریدار مستقیم با هم در ارتباط نیستند؛
@@ -39,7 +43,7 @@ export function Hero() {
             fetchPriority="high"
             decoding="async"
           />
-          <span className="chip chip--accent hv-chip hv-chip--a" aria-hidden="true">گرید A · باتری {toFa(91)}٪</span>
+          <span className="chip chip--accent hv-chip hv-chip--a" aria-hidden="true">درحد · باتری {toFa(91)}٪</span>
           <span className="chip chip--white hv-chip hv-chip--b" aria-hidden="true">بازرسی {toFa(100)} نقطه‌ای ✓</span>
         </div>
       </div>
