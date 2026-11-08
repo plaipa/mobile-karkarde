@@ -1,2 +1,2 @@
-export { addInspector, removeInspector, setPartnerBlocked, useInspectors, usePartners } from './model/staff-store'
-export type { Inspector, Partner } from './model/staff-store'
+export { addInspector, addStaffMember, removeInspector, removeStaffMember, setPartnerBlocked, useInspectors, usePartners, useStaff } from './model/staff-store'
+export type { Inspector, Partner, StaffMember, StaffRole } from './model/staff-store'

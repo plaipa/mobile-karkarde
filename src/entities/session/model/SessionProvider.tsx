@@ -3,7 +3,7 @@ import type { Session as AuthSession } from '@supabase/supabase-js'
 import { acceptSession, callAuth, supabase } from '@/shared/api/supabase'
 import { activeCities, defaultCity } from '@/shared/config/cities'
 import { nullableStringCodec, usePersistentState } from '@/shared/lib/storage'
-import { SessionContext, type Role, type Session, type SignInOutcome } from './session-context'
+import { SessionContext, type Role, type Session, type SignInOutcome, type Verification } from './session-context'
 
 const CITY_KEY = 'mk_city'
 
@@ -14,6 +14,7 @@ const CITY_KEY = 'mk_city'
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [phone, setPhone] = useState<string | null>(null)
   const [role, setRole] = useState<Role | null>(null)
+  const [verification, setVerification] = useState<Verification | null>(null)
   const [ready, setReady] = useState(false)
   const [savedCity, setCity] = usePersistentState<string | null>(CITY_KEY, null, nullableStringCodec)
   // A saved city that the service no longer covers falls back to the default.
@@ -24,6 +25,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     if (!p) {
       setPhone(null)
       setRole(null)
+      setVerification(null)
       return
     }
     const { data, error } = await supabase.rpc('my_role')
@@ -32,8 +34,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut()
       setPhone(null)
       setRole(null)
+      setVerification(null)
       return
     }
+    const { data: v } = await supabase.rpc('my_verification')
+    setVerification((v as Verification | null) ?? 'none')
     setRole((data as Role | null) ?? 'partner')
     setPhone(p)
   }, [])
@@ -48,12 +53,23 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const finish = useCallback(async (data: Record<string, unknown>): Promise<SignInOutcome> => {
     if (!(await acceptSession(data))) return { status: 'error', error: 'server' }
-    await apply((await supabase.auth.getSession()).data.session)
-    return { status: 'done' }
+    const { data: s } = await supabase.auth.getSession()
+    await apply(s.session)
+    const { data: v } = await supabase.rpc('my_verification')
+    return { status: 'done', verification: (v as Verification | null) ?? 'none' }
   }, [apply])
 
+  const refresh = useCallback(async () => { await apply((await supabase.auth.getSession()).data.session) }, [apply])
+
+  // A partner waiting for approval gets it without reloading: re-read when the tab regains focus.
+  useEffect(() => {
+    const onFocus = () => void refresh()
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [refresh])
+
   const value = useMemo<Session>(() => ({
-    phone, role, city, setCity,
+    phone, role, verification, verified: verification === 'verified', refresh, city, setCity,
     signInWithPhone: async (p, code) => {
       const r = await callAuth('phone-login', { phone: p, code })
       return r.ok ? finish(r.data) : { status: 'error', error: r.error ?? 'server' }
@@ -69,7 +85,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       return r.ok ? finish(r.data) : { status: 'error', error: r.error ?? 'server' }
     },
     signOut: async () => { await supabase.auth.signOut(); await apply(null) },
-  }), [phone, role, city, setCity, finish, apply])
+  }), [phone, role, verification, refresh, city, setCity, finish, apply])
 
   if (!ready) return null
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>

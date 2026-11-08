@@ -110,3 +110,17 @@
     font-weight: 700;
   }
 }
+
+@layer pages {
+  .adm__switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+  }
+
+  .adm__section h3 {
+    margin: 14px 0 6px;
+    font-size: 15px;
+  }
+}

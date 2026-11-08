@@ -1,0 +1,61 @@
+/* «ثبت‌نام همکار». */
+@layer pages {
+  .apply__form {
+    gap: 14px;
+  }
+
+  .apply__state {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .apply__state--ok {
+    border-color: var(--success);
+  }
+
+  .apply__state--bad {
+    border-color: var(--danger);
+  }
+
+  .apply__photo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .apply__label {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .apply__photo img,
+  .apply__summary img {
+    max-width: 100%;
+    max-height: 260px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    object-fit: cover;
+  }
+
+  .apply__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .apply__summary div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .apply__summary dt {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .apply__summary dd {
+    margin: 0;
+  }
+}

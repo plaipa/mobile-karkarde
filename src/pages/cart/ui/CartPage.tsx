@@ -11,7 +11,7 @@ import './cart.css'
 export function CartPage() {
   const cart = useCart()
   const { items, total } = useCartItems()
-  const { phone } = useSession()
+  const { phone, verified } = useSession()
   const [submitted, setSubmitted] = useState(0)
 
   if (submitted > 0) {
@@ -50,20 +50,20 @@ export function CartPage() {
                   <Link to={paths.product(p.code)}><strong>{p.name}</strong></Link>
                   <small>{[p.storage, p.region && `${p.region}/A`, gradeLabel[p.grade]].filter(Boolean).join(' · ')}</small>
                 </div>
-                <span className="cart__price">{phone ? money(p.price) : '—'}</span>
+                <span className="cart__price">{verified ? money(p.price) : '—'}</span>
                 <button className="btn btn--outline btn--sm" onClick={() => cart.remove(p.code)} aria-label={`حذف ${p.name}`}>حذف</button>
               </li>
             ))}
           </ul>
           <div className="panel cart__sum">
             <p>تعداد: <b>{toFa(items.length)}</b></p>
-            <p className="cart__total">جمع کل: <b>{phone ? money(total) : 'بعد از ورود'}</b></p>
+            <p className="cart__total">جمع کل: <b>{verified ? money(total) : phone ? 'بعد از تأیید ثبت‌نام' : 'بعد از ورود'}</b></p>
             <p className="muted small">بعد از ثبت خرید، کارشناس ما برای هماهنگی نهایی (موجودی، پرداخت و ارسال) با شما تماس می‌گیرد. مشخصات فروشنده نمایش داده نمی‌شود.</p>
-            {phone ? (
+            {verified ? (
               // TODO(backend): send the purchase to the server instead of only clearing the basket.
               <button className="btn btn--primary btn--lg btn--block" onClick={() => { setSubmitted(items.length); cart.clear() }}>ثبت خرید</button>
             ) : (
-              <Link to={paths.login} className="btn btn--primary btn--lg btn--block">ورود برای ثبت خرید</Link>
+              <Link to={phone ? paths.apply : paths.login} className="btn btn--primary btn--lg btn--block">{phone ? 'تکمیل ثبت‌نام برای خرید' : 'ورود برای ثبت خرید'}</Link>
             )}
           </div>
         </div>
