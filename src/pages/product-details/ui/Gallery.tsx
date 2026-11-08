@@ -14,7 +14,7 @@ export function Gallery({ product: p }: { product: Product }) {
     return (
       <div className="pdp__gallery">
         {phone
-          ? <ListingPhotos listingId={p.listingId} />
+          ? <ListingPhotos listingId={p.listingId} audience="buyer" />
           : <p className="muted">عکس‌های این دستگاه فقط برای همکاران واردشده نمایش داده می‌شود.</p>}
         <p className="muted small">عکس‌ها را کارشناس ما بازبینی کرده است.</p>
       </div>

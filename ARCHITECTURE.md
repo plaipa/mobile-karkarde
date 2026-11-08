@@ -48,7 +48,8 @@
 | فهرست کارشناس‌ها (فقط ادمین) | `src/entities/staff/` |
 | وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم کارشناس | `src/entities/listing/` |
 | حالت آزمایشی (نوار بالا، راهنمای تست) — برای انتشار نهایی `enabled` را false کنید | `src/shared/config/beta.ts` و `src/pages/beta/` |
-| ذخیرهٔ عکس‌ها (IndexedDB) | `src/shared/lib/blob-store.ts` و `src/entities/listing/model/photos.ts` |
+| حذف خودکار پس‌زمینهٔ عکس‌ها (کارگر پایتون + اجرای زمان‌بندی‌شده) | `tools/photo-background/` و `.github/workflows/process-photos.yml` |
+| خواندن عکس‌ها (اصلی و پردازش‌شده) در سایت | `src/entities/listing/model/photos.ts` |
 | پنل ادمین (تعیین کارشناس) / پنل کارشناس (تأیید و رد) | `src/pages/admin/` و `src/pages/inspector/` |
 | ردیف‌های جدول مشخصات / گزارش بازرسی | `src/entities/product/lib/describe.ts` |
 

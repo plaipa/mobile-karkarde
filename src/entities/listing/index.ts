@@ -2,7 +2,7 @@ export { removeListing, reopenListing, restoreListing, reviewListing, submitList
 export type { PhotoInput, SubmitResult } from './model/listing-store'
 export { statusLabel, statusOf } from './model/status'
 export { usePhotos } from './model/photos'
-export type { ListingPhoto } from './model/photos'
+export type { ListingPhoto, PhotoState } from './model/photos'
 export { ListingPhotos } from './ui/ListingPhotos'
 export { ListingStatusChip } from './ui/ListingStatusChip'
 export type { ListingStatus, MyListing, NewListing, Publication, Review, ReviewInput } from './model/types'
