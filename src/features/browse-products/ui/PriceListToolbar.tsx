@@ -26,7 +26,7 @@ export function PriceListToolbar({ category, filters, resultCount, total, leadin
       <div className="toolbar__row">
         {leading}
         <div className="toolbar__ctl">
-          <input className="input" type="search" placeholder="جستجوی مدل یا کد…" aria-label="جستجو" value={filters.query} onChange={(e) => onChange({ query: e.target.value })} />
+          <input className="input" type="search" placeholder="جستجوی مدل…" aria-label="جستجو" value={filters.query} onChange={(e) => onChange({ query: e.target.value })} />
           <select className="input" value={filters.sort} onChange={(e) => onChange({ sort: e.target.value as SortKey })} aria-label="مرتب‌سازی">
             <option value="desc">قیمت: زیاد به کم</option>
             <option value="asc">قیمت: کم به زیاد</option>

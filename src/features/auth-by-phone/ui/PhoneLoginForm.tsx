@@ -141,7 +141,7 @@ export function PhoneLoginForm() {
       )}
 
       <p className="muted login__legal">با ورود، <Link to={paths.terms}>شرایط استفاده</Link> و <Link to={paths.privacy}>حریم خصوصی</Link> را می‌پذیرید.</p>
-      <p className="notice">نسخهٔ آزمایشی: پیامک هنوز ارسال نمی‌شود. همکاران کد <b dir="ltr">۱۲۳۴</b> را می‌نویسند؛ کارشناس و مدیر کد ورود مخصوص خودشان را.</p>
+      <p className="notice">نسخهٔ آزمایشی: پیامک هنوز ارسال نمی‌شود. کد ورود را مدیر پروژه به همکاران می‌دهد؛ کارشناس و مدیر هم کد مخصوص خودشان را دارند.</p>
     </>
   )
 }

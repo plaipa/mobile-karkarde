@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory, DeviceArt } from '@/entities/category'
 import { paths } from '@/shared/config/routes'
-import { formatProductCode } from '../lib/product-code'
 import { summarizeSpecs } from '../lib/describe'
 import { gradeLabel } from '../model/grades'
 import type { Product } from '../model/types'
@@ -23,7 +22,6 @@ export function ProductCard({ product: p, price, action }: Props) {
   return (
     <article className="card">
       <Link to={href} className="card__img" aria-label={p.name}>
-        <span className="chip chip--code">{formatProductCode(p.code)}</span>
         <span className={`chip chip--grade chip--${p.grade}`}>{gradeLabel[p.grade]}</span>
         <DeviceArt kind={p.category} tone={category.tone} {...size} />
       </Link>
