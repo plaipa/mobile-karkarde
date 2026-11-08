@@ -64,7 +64,7 @@ export function ListDeviceFlow() {
     setSubmitting(true)
     const shots = slots.flatMap((slot) => {
       const photo = photos[photoKey(categoryId, slot.id)]
-      return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob }] : []
+      return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob, thumb: photo.thumb }] : []
     })
     const result = await submitListing(
       { phone, category: categoryId, brand: form.brand, model: form.model.trim(), storage: form.storage, battery: form.battery, color: form.color, city: form.city, notes: form.notes.trim() },

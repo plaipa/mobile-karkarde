@@ -15,7 +15,7 @@ export function ListingPhotos({ listingId }: { listingId: string }) {
         {photos.map((p, i) => (
           <li key={p.name}>
             <button type="button" onClick={() => setOpen(i)} aria-label={`نمایش بزرگ: ${p.label}`}>
-              <img src={p.url} alt={p.label} loading="lazy" />
+              <img src={p.thumbUrl} alt={p.label} loading="lazy" />
             </button>
           </li>
         ))}

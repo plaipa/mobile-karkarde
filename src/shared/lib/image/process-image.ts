@@ -1,15 +1,19 @@
 export interface Processed {
   blob: Blob
+  /** Small copy (about 360 px) for lists and grids, so screens don't download the full photo. */
+  thumb: Blob
   url: string
   width: number
   height: number
   warnings: string[]
 }
 
-const MAX_SIDE = 1600
+const MAX_SIDE = 1280
+const THUMB_SIDE = 360
 const MIN_SIDE = 900
 const SAMPLE_WIDTH = 200
-const JPEG_QUALITY = 0.88
+const JPEG_QUALITY = 0.78
+const THUMB_QUALITY = 0.7
 
 interface Decoded {
   draw: CanvasImageSource
@@ -78,9 +82,22 @@ function exposureAndSharpnessWarnings(source: HTMLCanvasElement): string[] {
   return warnings
 }
 
+const toJpeg = (canvas: HTMLCanvasElement, quality: number) =>
+  new Promise<Blob>((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('encode failed'))), 'image/jpeg', quality))
+
+/** A smaller copy of a canvas whose longest side is `side` px. */
+function shrink(source: HTMLCanvasElement, side: number): HTMLCanvasElement {
+  const scale = Math.min(1, side / Math.max(source.width, source.height))
+  const { canvas, ctx } = createCanvas(Math.max(1, Math.round(source.width * scale)), Math.max(1, Math.round(source.height * scale)))
+  if (!ctx) throw new Error('canvas unavailable')
+  ctx.imageSmoothingQuality = 'high'
+  ctx.drawImage(source, 0, 0, canvas.width, canvas.height)
+  return canvas
+}
+
 /**
- * Re-encodes the photo through a canvas (which drops EXIF/GPS/device-name metadata)
- * and runs quality checks (resolution, brightness, blur) so bad shots are caught on the spot.
+ * Re-encodes the photo through a canvas (which drops EXIF/GPS/device-name metadata),
+ * keeps the longest side at 1280 px (JPEG 78%) plus a 360 px thumbnail, and runs quality checks (resolution, brightness, blur) so bad shots are caught on the spot.
  */
 export async function processImage(src: Blob): Promise<Processed> {
   const decoded = await decode(src)
@@ -96,10 +113,9 @@ export async function processImage(src: Blob): Promise<Processed> {
     if (Math.max(decoded.width, decoded.height) < MIN_SIDE) warnings.push('وضوح عکس کم است؛ نزدیک‌تر یا با کیفیت بالاتر بگیرید.')
     warnings.push(...exposureAndSharpnessWarnings(canvas))
 
-    const blob = await new Promise<Blob>((resolve, reject) =>
-      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('encode failed'))), 'image/jpeg', JPEG_QUALITY),
-    )
-    return { blob, url: URL.createObjectURL(blob), width, height, warnings }
+    const blob = await toJpeg(canvas, JPEG_QUALITY)
+    const thumb = await toJpeg(shrink(canvas, THUMB_SIDE), THUMB_QUALITY)
+    return { blob, thumb, url: URL.createObjectURL(blob), width, height, warnings }
   } finally {
     decoded.release()
   }

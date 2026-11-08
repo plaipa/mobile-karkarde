@@ -38,6 +38,8 @@ export interface PhotoInput {
   name: string
   label: string
   blob: Blob
+  /** Small copy shown in grids; stored next to the photo as `thumb-<name>.jpg`. */
+  thumb: Blob
 }
 
 export interface SubmitResult {
@@ -60,10 +62,15 @@ export async function submitListing(input: NewListing, photos: readonly PhotoInp
   const listing = toListing(data as Row)
 
   let photosSaved = true
+  const upload = async (path: string, blob: Blob) => {
+    const { error: upErr } = await supabase.storage.from('listing-photos').upload(path, blob, { contentType: 'image/jpeg', upsert: false })
+    return !upErr
+  }
   const uploaded = await Promise.all(photos.map(async (p) => {
     const path = `${listing.id}/${p.name}.jpg`
-    const { error: upErr } = await supabase.storage.from('listing-photos').upload(path, p.blob, { contentType: 'image/jpeg', upsert: false })
-    if (upErr) { photosSaved = false; return null }
+    const [full, thumb] = await Promise.all([upload(path, p.blob), upload(`${listing.id}/thumb-${p.name}.jpg`, p.thumb)])
+    if (!full) { photosSaved = false; return null }
+    if (!thumb) photosSaved = false
     return { listing_id: listing.id, slot: p.name, label: p.label, path }
   }))
   const rows = uploaded.filter((r): r is NonNullable<typeof r> => r !== null)
