@@ -48,7 +48,11 @@ async function sessionFor(phone: string) {
 
 async function sendVerificationEmail(to: string, code: string) {
   const key = Deno.env.get('BIRD_API_KEY')
-  if (!key) return { ok: false, status: 503, error: 'email_not_configured' }
+  if (!key) {
+    // Names only, never values: helps spot a misspelled secret name.
+    console.error('BIRD_API_KEY is not set. Secret names seen:', Object.keys(Deno.env.toObject()).filter((k) => !k.startsWith('SUPABASE_') && !k.startsWith('DENO_') && !k.startsWith('SB_')))
+    return { ok: false, status: 503, error: 'email_not_configured' }
+  }
   const region = /^b[km]_([a-z0-9]+)_/.exec(key)?.[1] ?? 'eu1'
   const from = Deno.env.get('MAIL_FROM') ?? 'موبایل کارکرده <no-reply@mail.mobilekarkarde.ir>'
   const html = `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;line-height:2;color:#111214">
