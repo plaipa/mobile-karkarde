@@ -7,7 +7,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2'
  *  - email-login-code   { challenge, code }
  *  - send-email-code    (signed-in user)     -> mails a 6-digit code to the user's saved email via Bird
  * Codes for phone login are a shared test code (secret PARTNER_CODE, default 1234) until a real SMS service is connected.
- * Secrets: BIRD_API_KEY (workspace key with only emails:write), optional PARTNER_CODE and MAIL_FROM.
+ * Secrets: BIRD_API_KEY (workspace key with only emails:write; the hyphen spelling BIRD-API-KEY also works), optional PARTNER_CODE and MAIL_FROM.
  */
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -47,7 +47,7 @@ async function sessionFor(phone: string) {
 }
 
 async function sendVerificationEmail(to: string, code: string) {
-  const key = Deno.env.get('BIRD_API_KEY')
+  const key = (Deno.env.get('BIRD_API_KEY') ?? Deno.env.get('BIRD-API-KEY'))?.trim()
   if (!key) {
     // Names only, never values: helps spot a misspelled secret name.
     console.error('BIRD_API_KEY is not set. Secret names seen:', Object.keys(Deno.env.toObject()).filter((k) => !k.startsWith('SUPABASE_') && !k.startsWith('DENO_') && !k.startsWith('SB_')))
