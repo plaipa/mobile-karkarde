@@ -349,3 +349,16 @@
     }
   }
 }
+
+@layer features {
+  .listing__legal {
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .listing__legal a {
+    color: var(--primary-text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}

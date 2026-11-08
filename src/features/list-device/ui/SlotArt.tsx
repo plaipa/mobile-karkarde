@@ -36,7 +36,7 @@ function PhoneFront({ on, grad }: { on: boolean; grad: string }) {
       ) : (
         <>
           <path d="M72 40 L128 18 L128 44 L72 70 Z" fill="#fff" opacity=".08" />
-          <path d="M96 100 l10 -14 m-8 2 l6 8" stroke={LINE} strokeWidth="1" opacity=".7" fill="none" />
+          <path d="M72 96 L128 74 L128 90 L72 114 Z" fill="#fff" opacity=".05" />
         </>
       )}
     </>

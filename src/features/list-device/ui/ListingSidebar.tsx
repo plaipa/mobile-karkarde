@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import type { CategoryId } from '@/entities/category'
+import { paths } from '@/shared/config/routes'
 import './list-device.css'
 
 interface Props {
@@ -37,6 +39,7 @@ export function ListingSidebar({ category, unlocked, errors, onUnlockedChange, o
         </label>
       )}
       {errors.length > 0 && <ul className="error-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>}
+      <p className="muted listing__legal">با ثبت نهایی، <Link to={paths.terms}>شرایط استفاده</Link> و <Link to={paths.privacy}>حریم خصوصی</Link> را می‌پذیرید.</p>
       <button className="btn btn--primary btn--lg btn--block">ثبت نهایی دستگاه</button>
       <button type="button" className="btn btn--outline btn--block" onClick={onBack}>برگشت به مشخصات</button>
     </aside>
