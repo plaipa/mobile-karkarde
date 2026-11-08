@@ -7,7 +7,7 @@ import type { Product } from '../model/types'
 interface Row {
   listing_id: string; code: string; category: Product['category']; brand: string; name: string; storage: string
   region: string | null; sim: Product['sim'] | null; battery: string; grade: Product['grade']; price: number | null
-  registered: boolean; warranty: boolean; color: string; notes: string; city: string; published_at: string
+  registered: boolean; warranty: boolean; color: string; notes: string; city: string; published_at: string; battery_cycles: number | null
 }
 
 /** "۲۵۶ گیگابایت" -> 256, "۱ ترابایت" -> 1024. */
@@ -22,7 +22,7 @@ function toProduct(r: Row): Product {
   return {
     code: r.code, category: r.category, brand: r.brand, name: r.name, storage: r.storage || undefined,
     storageGb: r.category === 'phone' ? parseStorageGb(r.storage) : undefined,
-    region: r.region ?? undefined, sim: r.sim ?? undefined, battery: battery > 0 ? battery : undefined,
+    region: r.region ?? undefined, sim: r.sim ?? undefined, battery: battery > 0 ? battery : undefined, batteryCycles: r.battery_cycles ?? undefined,
     grade: r.grade, price: r.price ?? 0, registered: r.registered, warranty: r.warranty, color: r.color,
     addedDays: Math.max(0, Math.floor((Date.now() - Date.parse(r.published_at)) / 86_400_000)),
     notes: r.notes, city: r.city, listingId: r.listing_id,

@@ -20,6 +20,8 @@ export interface ListingForm {
   model: string
   storage: string
   battery: string
+  /** Battery cycle count; asked only for phones at 100% health. */
+  batteryCycles: string
   imei: string
   color: string
   notes: string
@@ -33,6 +35,7 @@ export const emptyListingForm: ListingForm = {
   model: '',
   storage: '',
   battery: '',
+  batteryCycles: '',
   imei: '',
   color: '',
   notes: '',

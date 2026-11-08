@@ -12,6 +12,9 @@ interface Input {
   hasPhoto: (slotId: string) => boolean
 }
 
+/** A phone at 100% battery health is asked for its cycle count too (how worn the battery really is). */
+export const asksBatteryCycles = (category: CategoryId, battery: string) => category === 'phone' && toEn(battery).trim() === '100'
+
 /** Pure: the device-details step only (brand, model, battery, no contact info in the text). */
 export function validateDeviceInfo(category: CategoryId, form: ListingForm): string[] {
   const errors: string[] = []
@@ -21,6 +24,7 @@ export function validateDeviceInfo(category: CategoryId, form: ListingForm): str
   if (!form.brand) errors.push('برند را انتخاب کنید.')
   if (!form.model.trim()) errors.push('مدل دستگاه را وارد کنید.')
   if (needsBattery && !/^\d{1,3}$/.test(toEn(form.battery))) errors.push('سلامت باتری را به‌صورت عدد (۰ تا ۱۰۰) وارد کنید.')
+  if (asksBatteryCycles(category, form.battery) && !/^\d{1,4}$/.test(toEn(form.batteryCycles).trim())) errors.push('سایکل باتری را به‌صورت عدد وارد کنید.')
   if (containsContact(form.notes) || containsContact(form.model)) {
     errors.push('در توضیحات، شماره تلفن یا آیدی شبکه‌های اجتماعی مجاز نیست. ارتباط فقط از طریق موبایل کارکرده انجام می‌شود.')
   }

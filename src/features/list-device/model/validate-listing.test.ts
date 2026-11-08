@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { photoTemplates } from './photo-templates'
 import { emptyListingForm, type ListingForm } from './types'
-import { validateDeviceInfo, validateListing } from './validate-listing'
+import { asksBatteryCycles, validateDeviceInfo, validateListing } from './validate-listing'
 
 const validPhone: ListingForm = { ...emptyListingForm, brand: 'اپل', model: 'آیفون ۱۳', battery: '۹۰', unlocked: true }
 const slots = photoTemplates.phone
@@ -59,5 +59,22 @@ describe('listing city', () => {
   it('starts on an active city and rejects one the service does not cover', () => {
     expect(validateDeviceInfo('phone', validPhone)).toEqual([])
     expect(validateDeviceInfo('phone', { ...validPhone, city: 'شهر ناشناس' })).toEqual(['شهر دستگاه را انتخاب کنید.'])
+  })
+})
+
+describe('battery cycles', () => {
+  const phone100: ListingForm = { ...validPhone, battery: '100' }
+  it('are asked only for a phone at 100% health', () => {
+    expect(asksBatteryCycles('phone', '۱۰۰')).toBe(true)
+    expect(asksBatteryCycles('phone', '99')).toBe(false)
+    expect(asksBatteryCycles('watch', '100')).toBe(false)
+  })
+  it('are required at 100% and must be a number', () => {
+    expect(validateDeviceInfo('phone', phone100)).toContain('سایکل باتری را به‌صورت عدد وارد کنید.')
+    expect(validateDeviceInfo('phone', { ...phone100, batteryCycles: 'abc' })).toContain('سایکل باتری را به‌صورت عدد وارد کنید.')
+    expect(validateDeviceInfo('phone', { ...phone100, batteryCycles: '۴۲' })).toHaveLength(0)
+  })
+  it('are not required below 100%', () => {
+    expect(validateDeviceInfo('phone', { ...validPhone, battery: '95' })).toHaveLength(0)
   })
 })

@@ -19,6 +19,7 @@ export function buildSpecRows(p: Product): SpecRow[] {
   ]
   if (p.storage) rows.push([p.category === 'watch' ? 'اندازه' : 'حافظه', p.storage])
   if (p.battery) rows.push(['سلامت باتری', `${toFa(p.battery)}٪`])
+  if (p.batteryCycles !== undefined) rows.push(['سایکل باتری', toFa(p.batteryCycles)])
   rows.push(['رجیستری', p.category === 'phone' ? (p.registered ? 'انجام شده' : 'انجام نشده') : 'ندارد'])
   rows.push(['گارانتی', p.warranty ? '۳ ماه گارانتی موبایل کارکرده' : 'ندارد'])
   if (p.category !== 'speaker') rows.push(['قفل حساب', 'خاموش (تأیید شده)'])

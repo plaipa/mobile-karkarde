@@ -3,11 +3,11 @@ import { invalidate, useRemote } from '@/shared/lib/remote'
 import type { MyListing, NewListing, Publication, Review, ReviewInput } from './types'
 
 const COLUMNS =
-  'id, code, owner_phone, category, brand, model, storage, battery, color, city, notes, status, review_note, reviewed_by, reviewed_at, grade, price, region, sim, registered, warranty, created_at'
+  'id, code, owner_phone, category, brand, model, storage, battery, battery_cycles, color, city, notes, status, review_note, reviewed_by, reviewed_at, grade, price, region, sim, registered, warranty, created_at'
 
 interface Row {
   id: string; code: string; owner_phone: string; category: MyListing['category']; brand: string; model: string
-  storage: string; battery: string; color: string; city: string; notes: string
+  storage: string; battery: string; battery_cycles: number | null; color: string; city: string; notes: string
   status: 'pending' | 'approved' | 'rejected'; review_note: string; reviewed_by: string | null; reviewed_at: string | null
   grade: Publication['grade'] | null; price: number | null; region: string | null; sim: Publication['sim'] | null
   registered: boolean; warranty: boolean; created_at: string
@@ -22,7 +22,7 @@ function toListing(r: Row): MyListing {
     : undefined
   return {
     id: r.id, code: r.code, phone: r.owner_phone, category: r.category, brand: r.brand, model: r.model, storage: r.storage,
-    battery: r.battery, color: r.color, city: r.city, notes: r.notes, createdAt: Date.parse(r.created_at), review, publication,
+    battery: r.battery, batteryCycles: r.battery_cycles ?? undefined, color: r.color, city: r.city, notes: r.notes, createdAt: Date.parse(r.created_at), review, publication,
   }
 }
 
@@ -54,7 +54,7 @@ export async function submitListing(input: NewListing, photos: readonly PhotoInp
     .from('listings')
     .insert({
       owner_phone: input.phone, category: input.category, brand: input.brand, model: input.model, storage: input.storage,
-      battery: input.battery, color: input.color, city: input.city, notes: input.notes,
+      battery: input.battery, battery_cycles: input.batteryCycles ?? null, color: input.color, city: input.city, notes: input.notes,
     })
     .select(COLUMNS)
     .single()

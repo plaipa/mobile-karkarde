@@ -1,5 +1,7 @@
 import type { Category } from '@/entities/category'
 import { serviceCities } from '@/shared/config/cities'
+import { toEn } from '@/shared/lib/format'
+import { asksBatteryCycles } from '../model/validate-listing'
 import type { ListingForm } from '../model/types'
 import { colorsFor, hasOfficialColors, modelsFor, storageOptions } from '../model/device-models'
 import { ChoiceField } from './ChoiceField'
@@ -14,6 +16,7 @@ interface Props {
 export function DeviceInfoFields({ category, form, onChange }: Props) {
   const isWatch = category.id === 'watch'
   const hasHealth = category.id !== 'speaker'
+  const askCycles = asksBatteryCycles(category.id, form.battery)
   return (
     <section className="panel">
       <h2>اطلاعات دستگاه</h2>
@@ -50,7 +53,13 @@ export function DeviceInfoFields({ category, form, onChange }: Props) {
         )}
         {hasHealth && (
           <label>سلامت باتری (٪)
-            <input className="input" inputMode="numeric" value={form.battery} onChange={(e) => onChange({ battery: e.target.value })} placeholder="۸۹" />
+            <input className="input" inputMode="numeric" value={form.battery} onChange={(e) => onChange({ battery: e.target.value, ...(toEn(e.target.value).trim() === '100' ? {} : { batteryCycles: '' }) })} placeholder="۸۹" />
+          </label>
+        )}
+        {askCycles && (
+          <label>سایکل باتری
+            <input className="input" inputMode="numeric" value={form.batteryCycles} onChange={(e) => onChange({ batteryCycles: e.target.value })} placeholder="۵۰" />
+            <small className="muted">در تنظیمات گوشی: باتری، سلامت باتری. چون سلامت ۱۰۰٪ است، تعداد سایکل را هم می‌پرسیم.</small>
           </label>
         )}
         <ChoiceField

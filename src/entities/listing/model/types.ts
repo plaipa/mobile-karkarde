@@ -35,6 +35,8 @@ export interface MyListing {
   model: string
   storage: string
   battery: string
+  /** Battery cycle count (phones at 100% health only). */
+  batteryCycles?: number
   color: string
   city: string
   notes: string

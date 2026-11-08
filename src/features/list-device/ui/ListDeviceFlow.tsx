@@ -2,11 +2,12 @@ import { useMemo, useState, type FormEvent } from 'react'
 import { categories, findCategory, type CategoryId } from '@/entities/category'
 import { submitListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
+import { toEn } from '@/shared/lib/format'
 import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { photoTemplates } from '../model/photo-templates'
 import { emptyListingForm, type ListingForm, type PhotoSlot } from '../model/types'
 import { photoKey, usePhotoSet } from '../model/usePhotoSet'
-import { validateDeviceInfo, validateListing } from '../model/validate-listing'
+import { asksBatteryCycles, validateDeviceInfo, validateListing } from '../model/validate-listing'
 import { CameraCapture } from './CameraCapture'
 import { DeviceInfoFields } from './DeviceInfoFields'
 import { ListingSidebar } from './ListingSidebar'
@@ -41,7 +42,7 @@ export function ListDeviceFlow() {
   const selectCategory = (id: CategoryId) => {
     setCategoryId(id)
     setErrors([])
-    patchForm({ brand: '', model: '', storage: '', color: '' })
+    patchForm({ brand: '', model: '', storage: '', color: '', batteryCycles: '' })
   }
 
   const goTo = (next: ListingStep) => {
@@ -67,7 +68,7 @@ export function ListDeviceFlow() {
       return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob, thumb: photo.thumb }] : []
     })
     const result = await submitListing(
-      { phone, category: categoryId, brand: form.brand, model: form.model.trim(), storage: form.storage, battery: form.battery, color: form.color, city: form.city, notes: form.notes.trim() },
+      { phone, category: categoryId, brand: form.brand, model: form.model.trim(), storage: form.storage, battery: form.battery, batteryCycles: asksBatteryCycles(categoryId, form.battery) ? Number(toEn(form.batteryCycles)) : undefined, color: form.color, city: form.city, notes: form.notes.trim() },
       shots,
     )
     setSubmitting(false)

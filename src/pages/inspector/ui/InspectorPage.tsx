@@ -19,7 +19,8 @@ const MIN_PRICE = 500_000
 
 function summary(l: MyListing): string {
   const battery = l.category !== 'speaker' && l.battery ? `باتری ${toFa(l.battery)}٪` : ''
-  return [findCategory(l.category).title, l.brand, l.storage, l.color, battery, l.city].filter(Boolean).join(' · ')
+  const cycles = l.batteryCycles !== undefined ? `${toFa(l.batteryCycles)} سایکل` : ''
+  return [findCategory(l.category).title, l.brand, l.storage, l.color, battery, cycles, l.city].filter(Boolean).join(' · ')
 }
 
 const parsePrice = (text: string) => Number(toEn(text).replace(/[^\d]/g, '')) || 0

@@ -21,6 +21,8 @@ export interface Product {
   sim?: Sim
   /** Battery health in percent. */
   battery?: number
+  /** Battery cycle count, shown in the specs (not a filter). Phones listed at 100% health only. */
+  batteryCycles?: number
   grade: Grade
   /** Partner price in toman. */
   price: number

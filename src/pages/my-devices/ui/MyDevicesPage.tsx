@@ -12,7 +12,8 @@ const dateFormat = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' })
 
 function details(l: MyListing): string {
   const hasBattery = l.category !== 'speaker' && l.battery
-  return [l.storage, l.color, hasBattery && `باتری ${toFa(l.battery)}٪`].filter(Boolean).join(' · ')
+  const cycles = l.batteryCycles !== undefined && `${toFa(l.batteryCycles)} سایکل`
+  return [l.storage, l.color, hasBattery && `باتری ${toFa(l.battery)}٪`, cycles].filter(Boolean).join(' · ')
 }
 
 /** «دستگاه‌های من»: what this partner has submitted for sale, newest first. */
