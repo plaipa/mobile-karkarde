@@ -29,6 +29,10 @@
     touch-action: manipulation;
   }
 
+  html {
+    touch-action: pan-x pan-y; /* scrolling yes, pinch-zoom no */
+  }
+
   /* iOS zooms the page into any field under 16px and never zooms back out. */
   @media (pointer: coarse) {
     input,
