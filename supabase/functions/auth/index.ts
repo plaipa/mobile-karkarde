@@ -54,20 +54,23 @@ async function sendVerificationEmail(to: string, code: string) {
     return { ok: false, status: 503, error: 'email_not_configured' }
   }
   const region = /^b[km]_([a-z0-9]+)_/.exec(key)?.[1] ?? 'eu1'
-  const from = Deno.env.get('MAIL_FROM') ?? 'موبایل کارکرده <no-reply@mail.mobilekarkarde.ir>'
-  const html = `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;line-height:2;color:#111214">
-<p>سلام،</p><p>کد تأیید ایمیل شما در «موبایل کارکرده»:</p>
-<p style="font-size:32px;letter-spacing:8px;font-weight:700;direction:ltr;text-align:right">${code}</p>
-<p>این کد ۱۵ دقیقه اعتبار دارد. اگر شما درخواست نداده‌اید، این ایمیل را نادیده بگیرید.</p></div>`
+  const from = Deno.env.get('MAIL_FROM') ?? 'موبایل کارکرده <accounts@mail.mobilekarkarde.ir>'
+  const html = `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;font-size:15px;line-height:2;color:#111214">
+<p>سلام،</p>
+<p>برای تأیید این ایمیل در حساب «موبایل کارکرده» (mobilekarkarde.ir)، کد زیر را در سایت وارد کنید:</p>
+<p style="font-size:28px;font-weight:700;letter-spacing:6px;direction:ltr;text-align:center">${code}</p>
+<p>این کد ۱۵ دقیقه اعتبار دارد و فقط برای شماست؛ آن را به کسی نگویید.</p>
+<p>اگر شما این درخواست را نداده‌اید، این ایمیل را نادیده بگیرید؛ هیچ اتفاقی نمی‌افتد.</p>
+<p style="color:#6b6760;font-size:13px">موبایل کارکرده · mobilekarkarde.ir</p></div>`
   const res = await fetch(`https://${region}.platform.bird.com/v1/email/messages`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       from,
       to: [to],
-      subject: 'کد تأیید ایمیل · موبایل کارکرده',
+      subject: `${code} کد تأیید ایمیل شما در موبایل کارکرده`,
       html,
-      text: `کد تأیید ایمیل شما در موبایل کارکرده: ${code}\nاین کد ۱۵ دقیقه اعتبار دارد.`,
+      text: `سلام،\nبرای تأیید این ایمیل در حساب «موبایل کارکرده» (mobilekarkarde.ir)، این کد را در سایت وارد کنید:\n\n${code}\n\nاین کد ۱۵ دقیقه اعتبار دارد و فقط برای شماست؛ آن را به کسی نگویید.\nاگر شما این درخواست را نداده‌اید، این ایمیل را نادیده بگیرید.`,
       category: 'transactional',
     }),
   })
