@@ -11,6 +11,8 @@ export const paths = {
   privacy: '/privacy',
   account: '/account',
   install: '/install',
+  admin: '/admin',
+  inspector: '/inspector',
   product: (code: string) => `/product/${code}`,
   catalogOf: (category: string) => `/products?cat=${category}`,
 } as const

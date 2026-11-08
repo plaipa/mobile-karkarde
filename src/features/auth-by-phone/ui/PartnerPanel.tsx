@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useMyListings } from '@/entities/listing'
+import { useAllListings, useMyListings, statusOf } from '@/entities/listing'
 import { useSession } from '@/entities/session'
+import { useRole } from '@/entities/staff'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
 import { PanelMenu } from './PanelMenu'
@@ -10,12 +11,17 @@ export function PartnerPanel() {
   const { phone, signOut } = useSession()
   const navigate = useNavigate()
   const devices = useMyListings(phone)
+  const role = useRole(phone)
+  const waiting = useAllListings().filter((l) => statusOf(l) === 'pending').length
   return (
     <>
-      <h1 className="page__title">پنل همکار</h1>
+      <h1 className="page__title">{role === 'admin' ? 'پنل مدیر' : role === 'inspector' ? 'پنل بازرس' : 'پنل همکار'}</h1>
       <p className="muted">وارد شده‌اید با شمارهٔ <b dir="ltr">{toFa(phone ?? '')}</b></p>
+      {role && role !== 'partner' && <p><span className="chip chip--soft">{role === 'admin' ? 'مدیر سایت' : 'بازرس'}</span></p>}
       <PanelMenu
         items={[
+          ...(role === 'admin' ? [{ to: paths.admin, label: 'پنل ادمین', hint: 'تعیین بازرس و نمای کلی دستگاه‌ها' }] : []),
+          ...(role === 'admin' || role === 'inspector' ? [{ to: paths.inspector, label: 'پنل بازرس', hint: 'تأیید یا رد دستگاه‌های ثبت‌شده', badge: waiting || undefined }] : []),
           { to: paths.devices, label: 'دستگاه‌های من', hint: 'دستگاه‌هایی که ثبت کرده‌اید', badge: devices.length || undefined },
           { to: paths.sell, label: 'ثبت دستگاه برای فروش' },
           { to: paths.account, label: 'تنظیمات حساب', hint: 'شهر پیش‌فرض، اندازهٔ نوشته، خروج' },

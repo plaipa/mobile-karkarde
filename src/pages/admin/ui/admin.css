@@ -1,0 +1,84 @@
+/* «پنل ادمین». */
+@layer pages {
+  .adm__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .adm__stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: #fff;
+  }
+
+  .adm__stats b {
+    font-size: 24px;
+  }
+
+  .adm__stats small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .adm__section {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .adm__form .btn {
+    align-self: flex-start;
+  }
+
+  .adm__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .adm__list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    background: #fff;
+  }
+
+  .adm__list span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .adm__list small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .adm__remove {
+    border: 0;
+    background: none;
+    padding: 8px 4px;
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (min-width: 640px) {
+    .adm__stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}

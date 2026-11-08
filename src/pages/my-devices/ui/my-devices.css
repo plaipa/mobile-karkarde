@@ -102,9 +102,8 @@
     color: var(--ink);
   }
 
-  .chip--pending {
-    background: var(--warning-soft);
-    color: var(--warning);
+  .mydev__main small.mydev__reason {
+    color: var(--danger);
   }
 
   .mydev__empty {

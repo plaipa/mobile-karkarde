@@ -1,0 +1,16 @@
+@layer entities {
+  .chip--status-pending {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+
+  .chip--status-approved {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+
+  .chip--status-rejected {
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+}

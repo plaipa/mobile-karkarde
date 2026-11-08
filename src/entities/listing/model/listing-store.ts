@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import type { MyListing, NewListing } from './types'
+import type { MyListing, NewListing, Review } from './types'
 
 /**
  * Prototype only: submitted devices live in this browser's localStorage. When the backend arrives, keep these
@@ -66,4 +66,14 @@ export function removeListing(id: string) {
 export function useMyListings(phone: string | null): MyListing[] {
   const all = useSyncExternalStore(subscribe, load, () => [])
   return phone ? all.filter((l) => l.phone === phone) : []
+}
+
+/** Every partner's devices, newest first — for the inspector and admin panels. */
+export function useAllListings(): MyListing[] {
+  return useSyncExternalStore(subscribe, load, () => [])
+}
+
+/** An inspector approves or rejects a device. Passing no review puts it back in the queue. */
+export function reviewListing(id: string, review: Review | undefined) {
+  save(load().map((l) => (l.id === id ? { ...l, review } : l)))
 }

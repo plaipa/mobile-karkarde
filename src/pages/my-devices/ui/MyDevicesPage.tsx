@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { removeListing, restoreListing, useMyListings, type MyListing } from '@/entities/listing'
+import { ListingStatusChip, removeListing, restoreListing, statusOf, useMyListings, type MyListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
@@ -67,10 +67,11 @@ export function MyDevicesPage() {
                 <strong>{l.model}</strong>
                 <small>{[findCategory(l.category).title, l.brand, details(l)].filter(Boolean).join(' · ')}</small>
                 <small className="mydev__meta">ثبت‌شده در {dateFormat.format(l.createdAt)}</small>
+                {l.review?.status === 'rejected' && <small className="mydev__reason">دلیل رد: {l.review.note}</small>}
               </div>
               <div className="mydev__side">
                 <span className="chip chip--city-soft">{l.city}</span>
-                <span className="chip chip--pending">در انتظار بازرسی</span>
+                <ListingStatusChip status={statusOf(l)} />
                 <button type="button" className="mydev__remove" aria-label={`حذف ${l.model}`} onClick={() => remove(l)}>
                   حذف
                 </button>

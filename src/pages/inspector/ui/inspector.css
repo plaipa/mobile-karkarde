@@ -1,0 +1,63 @@
+/* «پنل بازرس». */
+@layer pages {
+  .insp {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .insp__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: #fff;
+  }
+
+  .insp__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .insp__head strong {
+    font-size: 16px;
+  }
+
+  .insp__item small,
+  .insp__notes {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0;
+  }
+
+  .insp__meta {
+    color: var(--faint);
+  }
+
+  .insp__actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .insp__reject {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .insp__reject label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+}
