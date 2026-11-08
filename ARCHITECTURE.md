@@ -43,11 +43,11 @@
 | رنگ‌ها، گوشه‌ها، فونت | `src/shared/ui/styles/tokens.css` |
 | آدرس صفحات | `src/shared/config/routes.ts` |
 | شمارهٔ مدیر سایت (**نمونه است؛ جایگزین شود**) | `src/shared/config/staff.ts` |
-| نقش‌ها (مدیر، بازرس، همکار) و فهرست بازرس‌ها | `src/entities/staff/` |
-| وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم بازرس | `src/entities/listing/` |
+| نقش‌ها (مدیر، کارشناس، همکار) و فهرست کارشناس‌ها | `src/entities/staff/` |
+| وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم کارشناس | `src/entities/listing/` |
 | حالت آزمایشی (نوار بالا، راهنمای تست) — برای انتشار نهایی `enabled` را false کنید | `src/shared/config/beta.ts` و `src/pages/beta/` |
 | ذخیرهٔ عکس‌ها (IndexedDB) | `src/shared/lib/blob-store.ts` و `src/entities/listing/model/photos.ts` |
-| پنل ادمین (تعیین بازرس) / پنل بازرس (تأیید و رد) | `src/pages/admin/` و `src/pages/inspector/` |
+| پنل ادمین (تعیین کارشناس) / پنل کارشناس (تأیید و رد) | `src/pages/admin/` و `src/pages/inspector/` |
 | ردیف‌های جدول مشخصات / گزارش بازرسی | `src/entities/product/lib/describe.ts` |
 
 ### افزودن یک صفحهٔ جدید
@@ -67,8 +67,8 @@
 | خواندن محصولات | `entities/product/api/product-repository.ts` | بدنهٔ متدها را با `fetch` عوض کنید و متدها را async کنید |
 | ورود با پیامک | `entities/session/model/SessionProvider.tsx` + `features/auth-by-phone` | به‌جای ذخیرهٔ شماره، توکن بگیرید؛ interface (`phone`, `signIn`, `signOut`) ثابت می‌ماند |
 | ثبت سفارش | `pages/cart/ui/CartPage.tsx` (`TODO(backend)`) | درخواست ثبت سفارش |
-| نقش‌ها و بازرس‌ها | `entities/staff/model/staff-store.ts` + `shared/config/staff.ts` | نقش را از `/me` بگیرید؛ توابع `addInspector` / `removeInspector` درخواست شوند |
-| تأیید/رد بازرس | `entities/listing/model/listing-store.ts` (`reviewListing`) | درخواست به سرور؛ دسترسی را سرور هم بررسی کند |
+| نقش‌ها و کارشناس‌ها | `entities/staff/model/staff-store.ts` + `shared/config/staff.ts` | نقش را از `/me` بگیرید؛ توابع `addInspector` / `removeInspector` درخواست شوند |
+| تأیید/رد کارشناس | `entities/listing/model/listing-store.ts` (`reviewListing`) | درخواست به سرور؛ دسترسی را سرور هم بررسی کند |
 | ارسال آگهی و عکس‌ها | `features/list-device/ui/ListDeviceFlow.tsx` (`submit`) | آپلود عکس‌ها + حذف پس‌زمینه در سرور |
 
 ## استایل‌ها

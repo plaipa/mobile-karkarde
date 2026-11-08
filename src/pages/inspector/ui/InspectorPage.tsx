@@ -80,7 +80,7 @@ function ReviewCard({ listing, reviewer }: { listing: MyListing; reviewer: strin
   )
 }
 
-/** «پنل بازرس»: the queue of submitted devices; inspectors (and admins) approve or reject them. */
+/** «پنل کارشناس»: the queue of submitted devices; inspectors (and admins) approve or reject them. */
 export function InspectorPage() {
   const { phone } = useSession()
   const role = useRole(phone)
@@ -91,8 +91,8 @@ export function InspectorPage() {
     return (
       <div className="container page narrow">
         <div className="panel">
-          <h1 className="page__title">پنل بازرس</h1>
-          <p>{phone ? 'این بخش فقط برای بازرس‌هاست. اگر باید بازرس باشید، از مدیر سایت بخواهید شمارهٔ شما را اضافه کند.' : 'برای ورود به این بخش ابتدا وارد شوید.'}</p>
+          <h1 className="page__title">پنل کارشناس</h1>
+          <p>{phone ? 'این بخش فقط برای کارشناس‌هاست. اگر باید کارشناس باشید، از مدیر سایت بخواهید شمارهٔ شما را اضافه کند.' : 'برای ورود به این بخش ابتدا وارد شوید.'}</p>
           <Link to={paths.login} className="btn btn--primary btn--lg">{phone ? 'بازگشت به پنل' : 'ورود'}</Link>
         </div>
       </div>
@@ -105,8 +105,8 @@ export function InspectorPage() {
 
   return (
     <div className="container page narrow">
-      <nav className="crumbs" aria-label="مسیر"><Link to={paths.login}>پنل</Link> / پنل بازرس</nav>
-      <h1 className="page__title">پنل بازرس</h1>
+      <nav className="crumbs" aria-label="مسیر"><Link to={paths.login}>پنل</Link> / پنل کارشناس</nav>
+      <h1 className="page__title">پنل کارشناس</h1>
       <p className="muted">{toFa(queue.length)} دستگاه منتظر بازرسی است. بعد از تأیید، دستگاه برای انتشار آماده می‌شود؛ با رد، دلیل آن برای همکار نمایش داده می‌شود.</p>
       <Tabs items={tabs} value={view} onChange={setView} />
       {shown.length === 0 ? (

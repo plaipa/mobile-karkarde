@@ -37,9 +37,9 @@ export function AdminPage() {
   const submit = (e: FormEvent) => {
     e.preventDefault()
     const normalized = normalizeMobile(mobile)
-    if (!name.trim()) return setError('نام بازرس را بنویسید.')
+    if (!name.trim()) return setError('نام کارشناس را بنویسید.')
     if (!isValidMobile(normalized)) return setError('شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود.')
-    if (!addInspector(normalized, name)) return setError('این شماره مدیر سایت است و خودش به پنل بازرس دسترسی دارد.')
+    if (!addInspector(normalized, name)) return setError('این شماره مدیر سایت است و خودش به پنل کارشناس دسترسی دارد.')
     setError('')
     setName('')
     setMobile('')
@@ -58,17 +58,17 @@ export function AdminPage() {
       </section>
 
       <section className="panel adm__section">
-        <h2>بازرس‌ها</h2>
-        <p className="muted">هر شمارهٔ موبایلی که اینجا اضافه کنید، بعد از ورود با همان شماره «پنل بازرس» را می‌بیند و می‌تواند دستگاه‌ها را تأیید یا رد کند.</p>
+        <h2>کارشناس‌ها</h2>
+        <p className="muted">هر شمارهٔ موبایلی که اینجا اضافه کنید، بعد از ورود با همان شماره «پنل کارشناس» را می‌بیند و می‌تواند دستگاه‌ها را تأیید یا رد کند.</p>
         <form onSubmit={submit} className="form adm__form" noValidate>
-          <label>نام بازرس
+          <label>نام کارشناس
             <input className="input" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" />
           </label>
           <label>شمارهٔ موبایل
             <input className="input" inputMode="numeric" dir="ltr" placeholder="09123456789" value={mobile} onChange={(e) => setMobile(e.target.value)} autoComplete="off" />
           </label>
           {error && <p className="error" role="alert">{error}</p>}
-          <button className="btn btn--primary">افزودن بازرس</button>
+          <button className="btn btn--primary">افزودن کارشناس</button>
         </form>
 
         {inspectors.length === 0 ? (
@@ -90,9 +90,9 @@ export function AdminPage() {
       </section>
 
       <div className="btn-row">
-        <Link to={paths.inspector} className="btn btn--primary">رفتن به پنل بازرس</Link>
+        <Link to={paths.inspector} className="btn btn--primary">رفتن به پنل کارشناس</Link>
       </div>
-      <p className="notice">نسخهٔ نمایشی: فهرست بازرس‌ها فقط در همین مرورگر ذخیره می‌شود و شمارهٔ مدیر در <code>src/shared/config/staff.ts</code> نمونه است. با اتصال به سرور، نقش‌ها از سرور می‌آیند.</p>
+      <p className="notice">نسخهٔ نمایشی: فهرست کارشناس‌ها فقط در همین مرورگر ذخیره می‌شود و شمارهٔ مدیر در <code>src/shared/config/staff.ts</code> نمونه است. با اتصال به سرور، نقش‌ها از سرور می‌آیند.</p>
     </div>
   )
 }

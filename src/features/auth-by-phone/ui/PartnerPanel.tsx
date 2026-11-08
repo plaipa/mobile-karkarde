@@ -15,13 +15,13 @@ export function PartnerPanel() {
   const waiting = useAllListings().filter((l) => statusOf(l) === 'pending').length
   return (
     <>
-      <h1 className="page__title">{role === 'admin' ? 'پنل مدیر' : role === 'inspector' ? 'پنل بازرس' : 'پنل همکار'}</h1>
+      <h1 className="page__title">{role === 'admin' ? 'پنل مدیر' : role === 'inspector' ? 'پنل کارشناس' : 'پنل همکار'}</h1>
       <p className="muted">وارد شده‌اید با شمارهٔ <b dir="ltr">{toFa(phone ?? '')}</b></p>
-      {role && role !== 'partner' && <p><span className="chip chip--soft">{role === 'admin' ? 'مدیر سایت' : 'بازرس'}</span></p>}
+      {role && role !== 'partner' && <p><span className="chip chip--soft">{role === 'admin' ? 'مدیر سایت' : 'کارشناس'}</span></p>}
       <PanelMenu
         items={[
-          ...(role === 'admin' ? [{ to: paths.admin, label: 'پنل ادمین', hint: 'تعیین بازرس و نمای کلی دستگاه‌ها' }] : []),
-          ...(role === 'admin' || role === 'inspector' ? [{ to: paths.inspector, label: 'پنل بازرس', hint: 'تأیید یا رد دستگاه‌های ثبت‌شده', badge: waiting || undefined }] : []),
+          ...(role === 'admin' ? [{ to: paths.admin, label: 'پنل ادمین', hint: 'تعیین کارشناس و نمای کلی دستگاه‌ها' }] : []),
+          ...(role === 'admin' || role === 'inspector' ? [{ to: paths.inspector, label: 'پنل کارشناس', hint: 'تأیید یا رد دستگاه‌های ثبت‌شده', badge: waiting || undefined }] : []),
           { to: paths.devices, label: 'دستگاه‌های من', hint: 'دستگاه‌هایی که ثبت کرده‌اید', badge: devices.length || undefined },
           { to: paths.sell, label: 'ثبت دستگاه برای فروش' },
           { to: paths.account, label: 'تنظیمات حساب', hint: 'شهر پیش‌فرض، اندازهٔ نوشته، خروج' },
