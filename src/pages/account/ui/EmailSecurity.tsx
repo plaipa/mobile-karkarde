@@ -32,7 +32,7 @@ export function EmailSecurity({ phone }: { phone: string }) {
     if (!saved) return
     setEditing(false)
     setPassword('')
-    await wrap(sendEmailCode, 'یک کد ۶ رقمی به ایمیلتان فرستادیم. آن را پایین بنویسید.')
+    await wrap(sendEmailCode, 'یک کد ۶ رقمی به ایمیلتان فرستادیم. آن را پایین بنویسید. اگر در صندوق ورودی نبود، پوشهٔ اسپم (Spam) را هم نگاه کنید.')
   }
 
   const verify = async (e: FormEvent) => {
@@ -77,12 +77,13 @@ export function EmailSecurity({ phone }: { phone: string }) {
 
       {security.email && !security.emailVerified && !formVisible && (
         <form onSubmit={(e) => void verify(e)} className="form" noValidate>
+          <p className="muted">کد ۶ رقمی به <b dir="ltr">{security.email}</b> فرستاده شده است. اگر در صندوق ورودی نیست، پوشهٔ اسپم (Spam) را هم نگاه کنید و اگر آنجا بود، «Not spam» را بزنید.</p>
           <label>کد ۶ رقمی ایمیل
             <input className="input input--code" inputMode="numeric" dir="ltr" maxLength={6} autoComplete="one-time-code" value={code} onChange={(e) => setCode(e.target.value)} />
           </label>
           <div className="btn-row">
             <button className="btn btn--primary" disabled={busy}>تأیید ایمیل</button>
-            <button type="button" className="btn btn--outline" disabled={busy} onClick={() => void wrap(sendEmailCode, 'کد تازه فرستاده شد.')}>ارسال دوبارهٔ کد</button>
+            <button type="button" className="btn btn--outline" disabled={busy} onClick={() => void wrap(sendEmailCode, 'کد تازه فرستاده شد. اگر در صندوق ورودی نبود، پوشهٔ اسپم (Spam) را هم نگاه کنید.')}>ارسال دوبارهٔ کد</button>
           </div>
         </form>
       )}
