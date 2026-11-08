@@ -26,6 +26,7 @@ export function Header({ dark }: { dark: boolean }) {
         <div className="header__actions">
           <SupportButton extras={<TextSizeToggle />} />
           <Link to={paths.cart} className="btn btn--outline header__cart">سبد خرید{cart.codes.length ? ` (${toFa(cart.codes.length)})` : ''}</Link>
+          {phone && <Link to={paths.login} className="btn btn--outline header__panel">پنل من</Link>}
           {phone
             ? <Link to={paths.sell} className="btn btn--primary">ثبت دستگاه</Link>
             : <Link to={paths.login} className="btn btn--primary">ورود همکار</Link>}

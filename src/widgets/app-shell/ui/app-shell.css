@@ -163,6 +163,7 @@
     }
 
     .header__actions .btn--primary,
+    .header__panel,
     .header__cart {
       display: none;
     }
