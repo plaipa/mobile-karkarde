@@ -56,6 +56,9 @@ async function sendVerificationEmail(to: string, code: string) {
   const region = /^b[km]_([a-z0-9]+)_/.exec(key)?.[1] ?? 'eu1'
   const from = Deno.env.get('MAIL_FROM') ?? 'موبایل کارکرده <accounts@mail.mobilekarkarde.ir>'
   const html = `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;font-size:15px;line-height:2;color:#111214">
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:12px"><tr>
+<td><img src="https://mobilekarkarde.ir/icon-192.png" width="44" height="44" alt="" style="display:block;border-radius:10px"></td>
+<td style="padding-right:10px;font-size:18px;font-weight:700">موبایل کارکرده</td></tr></table>
 <p>سلام،</p>
 <p>برای تأیید این ایمیل در حساب «موبایل کارکرده» (mobilekarkarde.ir)، کد زیر را در سایت وارد کنید:</p>
 <p style="font-size:28px;font-weight:700;letter-spacing:6px;direction:ltr;text-align:center">${code}</p>
