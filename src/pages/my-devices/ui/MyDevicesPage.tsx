@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { ListingStatusChip, removeListing, restoreListing, statusOf, useMyListings, type MyListing } from '@/entities/listing'
+import { ListingPhotos, ListingStatusChip, deletePhotos, removeListing, restoreListing, statusOf, useMyListings, type MyListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
@@ -24,7 +24,7 @@ export function MyDevicesPage() {
   // The undo offer expires on its own, so the page never keeps a stale prompt.
   useEffect(() => {
     if (!removed) return
-    const t = window.setTimeout(() => setRemoved(null), UNDO_MS)
+    const t = window.setTimeout(() => { void deletePhotos(removed.id); setRemoved(null) }, UNDO_MS)
     return () => window.clearTimeout(t)
   }, [removed])
 
@@ -67,6 +67,7 @@ export function MyDevicesPage() {
                 <strong>{l.model}</strong>
                 <small>{[findCategory(l.category).title, l.brand, details(l)].filter(Boolean).join(' · ')}</small>
                 <small className="mydev__meta">ثبت‌شده در {dateFormat.format(l.createdAt)}</small>
+                <ListingPhotos listingId={l.id} />
                 {l.review?.status === 'rejected' && <small className="mydev__reason">دلیل رد: {l.review.note}</small>}
               </div>
               <div className="mydev__side">

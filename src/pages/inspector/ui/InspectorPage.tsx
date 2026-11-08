@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { ListingStatusChip, reviewListing, statusOf, useAllListings, type MyListing } from '@/entities/listing'
+import { ListingPhotos, ListingStatusChip, reviewListing, statusOf, useAllListings, type MyListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { useRole } from '@/entities/staff'
 import { paths } from '@/shared/config/routes'
@@ -45,6 +45,7 @@ function ReviewCard({ listing, reviewer }: { listing: MyListing; reviewer: strin
       </div>
       <small>{summary(listing)}</small>
       {listing.notes && <p className="insp__notes">توضیح فروشنده: {listing.notes}</p>}
+      <ListingPhotos listingId={listing.id} />
       <small className="insp__meta">همکار: <b dir="ltr">{toFa(listing.phone)}</b> · ثبت در {dateFormat.format(listing.createdAt)}</small>
 
       {listing.review ? (
@@ -115,7 +116,7 @@ export function InspectorPage() {
           {shown.map((l) => <ReviewCard key={l.id} listing={l} reviewer={phone ?? ''} />)}
         </ul>
       )}
-      <p className="notice">نسخهٔ نمایشی: دستگاه‌ها فقط در همین مرورگر ذخیره می‌شوند و بازرس عکس‌ها را نمی‌بیند. با اتصال به سرور، عکس‌ها و گزارش ۱۰۰ نقطه‌ای هم اینجا قرار می‌گیرد.</p>
+      <p className="notice">نسخهٔ آزمایشی: دستگاه‌ها فقط در همین مرورگر ذخیره می‌شوند و عکس‌ها هم همین‌جا ذخیره می‌شوند و فقط روی دستگاهی دیده می‌شوند که همکار با آن ثبت کرده است.</p>
     </div>
   )
 }

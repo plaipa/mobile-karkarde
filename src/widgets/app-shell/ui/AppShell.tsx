@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { UpdateBanner } from '@/features/app-update'
 import { darkPaths } from '../model/navigation'
+import { BetaStrip } from './BetaStrip'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { TabBar } from './TabBar'
@@ -14,6 +15,7 @@ export function AppShell() {
   const dark = darkPaths.includes(pathname)
   return (
     <div className={`app${dark ? ' app--dark' : ''}`}>
+      <BetaStrip />
       <Header dark={dark} />
       <main>
         <Suspense fallback={null}><Outlet /></Suspense>

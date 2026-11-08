@@ -2,3 +2,6 @@ export { addListing, removeListing, restoreListing, reviewListing, useAllListing
 export { statusOf } from './model/status'
 export { ListingStatusChip } from './ui/ListingStatusChip'
 export type { ListingStatus, MyListing, NewListing, Review } from './model/types'
+export { deletePhotos, savePhotos, usePhotos } from './model/photos'
+export type { PhotoInput } from './model/photos'
+export { ListingPhotos } from './ui/ListingPhotos'

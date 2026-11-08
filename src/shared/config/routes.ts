@@ -11,6 +11,7 @@ export const paths = {
   privacy: '/privacy',
   account: '/account',
   install: '/install',
+  beta: '/beta',
   admin: '/admin',
   inspector: '/inspector',
   product: (code: string) => `/product/${code}`,

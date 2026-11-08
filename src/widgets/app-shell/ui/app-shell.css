@@ -236,3 +236,23 @@
     }
   }
 }
+
+@layer widgets {
+  .betastrip {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    padding: 6px 16px;
+    background: var(--accent);
+    color: var(--ink);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .betastrip a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}

@@ -45,6 +45,8 @@
 | شمارهٔ مدیر سایت (**نمونه است؛ جایگزین شود**) | `src/shared/config/staff.ts` |
 | نقش‌ها (مدیر، بازرس، همکار) و فهرست بازرس‌ها | `src/entities/staff/` |
 | وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم بازرس | `src/entities/listing/` |
+| حالت آزمایشی (نوار بالا، راهنمای تست) — برای انتشار نهایی `enabled` را false کنید | `src/shared/config/beta.ts` و `src/pages/beta/` |
+| ذخیرهٔ عکس‌ها (IndexedDB) | `src/shared/lib/blob-store.ts` و `src/entities/listing/model/photos.ts` |
 | پنل ادمین (تعیین بازرس) / پنل بازرس (تأیید و رد) | `src/pages/admin/` و `src/pages/inspector/` |
 | ردیف‌های جدول مشخصات / گزارش بازرسی | `src/entities/product/lib/describe.ts` |
 

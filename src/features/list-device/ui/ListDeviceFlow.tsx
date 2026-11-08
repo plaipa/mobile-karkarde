@@ -1,6 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { categories, findCategory, type CategoryId } from '@/entities/category'
-import { addListing } from '@/entities/listing'
+import { addListing, savePhotos } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { photoTemplates } from '../model/photo-templates'
@@ -27,6 +27,7 @@ export function ListDeviceFlow() {
   const [form, setForm] = useState<ListingForm>(() => ({ ...emptyListingForm, city }))
   const [errors, setErrors] = useState<string[]>([])
   const [done, setDone] = useState(false)
+  const [photosSaved, setPhotosSaved] = useState<boolean | null>(null)
   const [step, setStep] = useState<ListingStep>('info')
   const [cameraSlot, setCameraSlot] = useState<PhotoSlot | null>(null)
   const { photos, busyKey, attach, remove, clear } = usePhotoSet((message) => setErrors([message]))
@@ -60,7 +61,7 @@ export function ListDeviceFlow() {
     setErrors(found)
     if (!found.length) {
       if (phone) {
-        addListing({
+        const listing = addListing({
           phone,
           category: categoryId,
           brand: form.brand,
@@ -71,6 +72,11 @@ export function ListDeviceFlow() {
           city: form.city,
           notes: form.notes.trim(),
         })
+        const shots = slots.flatMap((slot) => {
+          const photo = photos[photoKey(categoryId, slot.id)]
+          return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob }] : []
+        })
+        void savePhotos(listing.id, shots).then(setPhotosSaved)
       }
       setDone(true)
       window.scrollTo(0, 0)
@@ -80,11 +86,12 @@ export function ListDeviceFlow() {
   const startAnother = () => {
     setDone(false)
     setStep('info')
+    setPhotosSaved(null)
     clear()
     setForm({ ...emptyListingForm, city })
   }
 
-  if (done) return <ListingSuccess onAnother={startAnother} />
+  if (done) return <ListingSuccess photosSaved={photosSaved} onAnother={startAnother} />
 
   return (
     <div className="container page">
