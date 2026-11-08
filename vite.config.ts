@@ -1,9 +1,14 @@
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as { version: string }
+
 export default defineConfig({
+  // The site shows its own version (package.json) so testers can say which build they saw.
+  define: { __APP_VERSION__: JSON.stringify(version) },
   // Mirrors "paths" in tsconfig.app.json.
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   plugins: [
