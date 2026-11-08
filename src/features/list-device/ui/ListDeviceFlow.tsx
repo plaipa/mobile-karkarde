@@ -1,6 +1,6 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { categories, findCategory, type CategoryId } from '@/entities/category'
-import { addListing, savePhotos } from '@/entities/listing'
+import { submitListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { photoTemplates } from '../model/photo-templates'
@@ -28,6 +28,7 @@ export function ListDeviceFlow() {
   const [errors, setErrors] = useState<string[]>([])
   const [done, setDone] = useState(false)
   const [photosSaved, setPhotosSaved] = useState<boolean | null>(null)
+  const [submitting, setSubmitting] = useState(false)
   const [step, setStep] = useState<ListingStep>('info')
   const [cameraSlot, setCameraSlot] = useState<PhotoSlot | null>(null)
   const { photos, busyKey, attach, remove, clear } = usePhotoSet((message) => setErrors([message]))
@@ -55,32 +56,28 @@ export function ListDeviceFlow() {
     else goTo('photos')
   }
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault()
     const found = validateListing({ category: categoryId, form, slots, hasPhoto: (slotId) => Boolean(photos[photoKey(categoryId, slotId)]) })
     setErrors(found)
-    if (!found.length) {
-      if (phone) {
-        const listing = addListing({
-          phone,
-          category: categoryId,
-          brand: form.brand,
-          model: form.model.trim(),
-          storage: form.storage,
-          battery: form.battery,
-          color: form.color,
-          city: form.city,
-          notes: form.notes.trim(),
-        })
-        const shots = slots.flatMap((slot) => {
-          const photo = photos[photoKey(categoryId, slot.id)]
-          return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob }] : []
-        })
-        void savePhotos(listing.id, shots).then(setPhotosSaved)
-      }
-      setDone(true)
-      window.scrollTo(0, 0)
+    if (found.length || !phone || submitting) return
+    setSubmitting(true)
+    const shots = slots.flatMap((slot) => {
+      const photo = photos[photoKey(categoryId, slot.id)]
+      return photo ? [{ name: slot.id, label: slot.label, blob: photo.blob }] : []
+    })
+    const result = await submitListing(
+      { phone, category: categoryId, brand: form.brand, model: form.model.trim(), storage: form.storage, battery: form.battery, color: form.color, city: form.city, notes: form.notes.trim() },
+      shots,
+    )
+    setSubmitting(false)
+    if (!result.listing) {
+      setErrors([result.error ?? 'ثبت دستگاه ممکن نشد. دوباره تلاش کنید.'])
+      return
     }
+    setPhotosSaved(result.photosSaved)
+    setDone(true)
+    window.scrollTo(0, 0)
   }
 
   const startAnother = () => {
@@ -100,7 +97,7 @@ export function ListDeviceFlow() {
 
       <StepBar step={step} />
 
-      <form onSubmit={submit} className={step === 'photos' ? 'upload' : 'upload upload--single'} noValidate>
+      <form onSubmit={(e) => void submit(e)} className={step === 'photos' ? 'upload' : 'upload upload--single'} noValidate>
         {step === 'info' ? (
           <div className="upload__main">
             <DeviceInfoFields key={category.id} category={category} form={form} onChange={patchForm} />
@@ -121,7 +118,7 @@ export function ListDeviceFlow() {
                 onRemove={(slot) => remove(photoKey(categoryId, slot.id))}
               />
             </div>
-            <ListingSidebar category={categoryId} unlocked={form.unlocked} errors={errors} onUnlockedChange={(unlocked) => patchForm({ unlocked })} onBack={() => goTo('info')} />
+            <ListingSidebar category={categoryId} unlocked={form.unlocked} errors={errors} submitting={submitting} onUnlockedChange={(unlocked) => patchForm({ unlocked })} onBack={() => goTo('info')} />
           </>
         )}
       </form>

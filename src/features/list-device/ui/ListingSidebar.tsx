@@ -7,12 +7,13 @@ interface Props {
   category: CategoryId
   unlocked: boolean
   errors: readonly string[]
+  submitting: boolean
   onUnlockedChange: (value: boolean) => void
   /** Back to the device-details step. */
   onBack: () => void
 }
 
-export function ListingSidebar({ category, unlocked, errors, onUnlockedChange, onBack }: Props) {
+export function ListingSidebar({ category, unlocked, errors, submitting, onUnlockedChange, onBack }: Props) {
   return (
     <aside className="upload__side">
       <div className="panel tip">
@@ -40,7 +41,7 @@ export function ListingSidebar({ category, unlocked, errors, onUnlockedChange, o
       )}
       {errors.length > 0 && <ul className="error-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>}
       <p className="muted listing__legal">با ثبت نهایی، <Link to={paths.terms}>شرایط استفاده</Link> و <Link to={paths.privacy}>حریم خصوصی</Link> را می‌پذیرید.</p>
-      <button className="btn btn--primary btn--lg btn--block">ثبت نهایی دستگاه</button>
+      <button className="btn btn--primary btn--lg btn--block" disabled={submitting}>{submitting ? 'در حال ارسال عکس‌ها…' : 'ثبت نهایی دستگاه'}</button>
       <button type="button" className="btn btn--outline btn--block" onClick={onBack}>برگشت به مشخصات</button>
     </aside>
   )

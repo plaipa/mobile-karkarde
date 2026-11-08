@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isValidMobile, isValidOtp, normalizeMobile } from './validation'
+import { isValidEmail, isValidMobile, isValidOtp, normalizeMobile } from './validation'
 
 describe('mobile number', () => {
   it('normalizes Persian digits and whitespace', () => {
@@ -13,7 +13,13 @@ describe('mobile number', () => {
 })
 
 describe('otp', () => {
-  it.each([['1234', true], ['۱۲۳۴۵۶', true], ['123', false], ['1234567', false], ['12a45', false]])('%s -> %s', (value, expected) =>
+  it.each([['1234', true], ['۱۲۳۴۵۶', true], ['abc123def4', true], ['123', false], ['12 45', false], ['12-45', false], ['a'.repeat(33), false]])('%s -> %s', (value, expected) =>
     expect(isValidOtp(value)).toBe(expected),
+  )
+})
+
+describe('email', () => {
+  it.each([['a@b.co', true], [' a@b.co ', true], ['a@b', false], ['a b@c.com', false], ['', false]])('%s -> %s', (value, expected) =>
+    expect(isValidEmail(value)).toBe(expected),
   )
 })

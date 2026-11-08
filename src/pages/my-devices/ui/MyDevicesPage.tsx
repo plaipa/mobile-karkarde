@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { ListingPhotos, ListingStatusChip, deletePhotos, removeListing, restoreListing, statusOf, useMyListings, type MyListing } from '@/entities/listing'
+import { ListingPhotos, ListingStatusChip, removeListing, restoreListing, statusOf, useMyListings, type MyListing } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
@@ -24,12 +24,12 @@ export function MyDevicesPage() {
   // The undo offer expires on its own, so the page never keeps a stale prompt.
   useEffect(() => {
     if (!removed) return
-    const t = window.setTimeout(() => { void deletePhotos(removed.id); setRemoved(null) }, UNDO_MS)
+    const t = window.setTimeout(() => setRemoved(null), UNDO_MS)
     return () => window.clearTimeout(t)
   }, [removed])
 
   const remove = (l: MyListing) => {
-    removeListing(l.id)
+    void removeListing(l.id)
     setRemoved(l)
   }
 
@@ -66,7 +66,8 @@ export function MyDevicesPage() {
               <div className="mydev__main">
                 <strong>{l.model}</strong>
                 <small>{[findCategory(l.category).title, l.brand, details(l)].filter(Boolean).join(' · ')}</small>
-                <small className="mydev__meta">ثبت‌شده در {dateFormat.format(l.createdAt)}</small>
+                <small className="mydev__meta">کد {l.code} · ثبت‌شده در {dateFormat.format(l.createdAt)}</small>
+                {l.publication && <small className="mydev__meta">قیمت منتشرشده: {toFa(l.publication.price.toLocaleString('en'))} تومان · <Link to={paths.product(l.code)}>دیدن در لیست قیمت</Link></small>}
                 <ListingPhotos listingId={l.id} />
                 {l.review?.status === 'rejected' && <small className="mydev__reason">دلیل رد: {l.review.note}</small>}
               </div>
@@ -85,7 +86,7 @@ export function MyDevicesPage() {
       {removed && (
         <div className="mydev__undo" role="status">
           <span>«{removed.model}» حذف شد.</span>
-          <button type="button" onClick={() => { restoreListing(removed); setRemoved(null) }}>بازگرداندن</button>
+          <button type="button" onClick={() => { void restoreListing(removed.id); setRemoved(null) }}>بازگرداندن</button>
         </div>
       )}
     </div>

@@ -6,10 +6,10 @@ export function ListingSuccess({ photosSaved, onAnother }: { photosSaved: boolea
     <div className="container page narrow">
       <div className="panel">
         <h1 className="page__title">درخواست شما آماده است ✓</h1>
-        <p>در نسخهٔ نهایی، آگهی بعد از بازرسی و پردازش عکس‌ها (حذف پس‌زمینه و پاک‌سازی اطلاعات) منتشر می‌شود. این دستگاه در «دستگاه‌های من» ثبت شد.</p>
+        <p>دستگاه ثبت شد و منتظر بازرسی کارشناس ماست. بعد از تأیید، با قیمتی که کارشناس تعیین می‌کند در لیست قیمت می‌آید. وضعیتش را در «دستگاه‌های من» ببینید.</p>
         {photosSaved === false
-          ? <p className="error" role="alert">ذخیرهٔ عکس‌ها در این مرورگر ممکن نشد (حافظه پر است یا مرورگر در حالت خصوصی است). مشخصات دستگاه ثبت شد، ولی کارشناس عکسی نمی‌بیند.</p>
-          : <p className="notice">نسخهٔ آزمایشی: دستگاه و عکس‌ها فقط در همین مرورگر ذخیره شدند و به سرور ارسال نشدند.</p>}
+          ? <p className="error" role="alert">بعضی عکس‌ها ارسال نشد (اتصال ضعیف بود). مشخصات دستگاه ثبت شد، ولی ممکن است کارشناس همهٔ عکس‌ها را نبیند؛ از «دستگاه‌های من» بررسی کنید.</p>
+          : photosSaved === true && <p className="notice">عکس‌ها هم ذخیره شد. حذف پس‌زمینهٔ عکس‌ها هنوز راه‌اندازی نشده و عکس‌ها همان‌طور که گرفته‌اید دیده می‌شوند.</p>}
         <div className="btn-row">
           <button className="btn btn--primary" onClick={onAnother}>ثبت دستگاه دیگر</button>
           <Link to={paths.devices} className="btn btn--outline">دستگاه‌های من</Link>

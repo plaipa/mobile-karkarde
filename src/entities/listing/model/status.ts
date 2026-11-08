@@ -4,6 +4,6 @@ export const statusOf = (l: MyListing): ListingStatus => l.review?.status ?? 'pe
 
 export const statusLabel: Record<ListingStatus, string> = {
   pending: 'در انتظار بازرسی',
-  approved: 'تأیید شده',
+  approved: 'منتشر شده',
   rejected: 'رد شده',
 }

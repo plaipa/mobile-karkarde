@@ -42,8 +42,10 @@
 | منوی هدر و تب‌بار موبایل | `src/widgets/app-shell/model/navigation.ts` |
 | رنگ‌ها، گوشه‌ها، فونت | `src/shared/ui/styles/tokens.css` |
 | آدرس صفحات | `src/shared/config/routes.ts` |
-| شمارهٔ مدیر سایت (**نمونه است؛ جایگزین شود**) | `src/shared/config/staff.ts` |
-| نقش‌ها (مدیر، کارشناس، همکار) و فهرست کارشناس‌ها | `src/entities/staff/` |
+| سرور (ورود، جدول‌ها، عکس‌ها، ایمیل) | `supabase/` و `src/shared/api/supabase.ts` |
+| ایمیل، رمز و تأیید دو مرحله‌ای کاربر | `src/entities/account/` و `src/pages/account/` |
+| نقش از سرور (مدیر، کارشناس، همکار) | `src/entities/session/` |
+| فهرست کارشناس‌ها (فقط ادمین) | `src/entities/staff/` |
 | وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم کارشناس | `src/entities/listing/` |
 | حالت آزمایشی (نوار بالا، راهنمای تست) — برای انتشار نهایی `enabled` را false کنید | `src/shared/config/beta.ts` و `src/pages/beta/` |
 | ذخیرهٔ عکس‌ها (IndexedDB) | `src/shared/lib/blob-store.ts` و `src/entities/listing/model/photos.ts` |

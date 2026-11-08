@@ -3,6 +3,7 @@ export { regions, regionLabel, regionCode, simLabels, simOrder } from './model/r
 export { gradeInfo, gradeLabel, grades } from './model/grades'
 export { galleryAngles } from './model/gallery'
 export { productRepository } from './api/product-repository'
+export { useCatalogVersion } from './api/published-store'
 export { formatProductCode } from './lib/product-code'
 export { buildInspectionReport, buildSpecRows, summarizeSpecs, type ReportRow, type SpecRow } from './lib/describe'
 export { ProductCard } from './ui/ProductCard'

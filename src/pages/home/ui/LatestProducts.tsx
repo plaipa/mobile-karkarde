@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { productRepository } from '@/entities/product'
+import { productRepository, useCatalogVersion } from '@/entities/product'
 import { CatalogCard } from '@/widgets/catalog-card'
 import { paths } from '@/shared/config/routes'
 import './home.css'
 
 export function LatestProducts() {
+  useCatalogVersion()
   const latest = productRepository.listLatest(['phone', 'watch'], 4)
   return (
     <section className="section container">

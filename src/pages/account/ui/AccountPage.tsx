@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useSession } from '@/entities/session'
+import { EmailSecurity } from './EmailSecurity'
+import { StaffCode } from './StaffCode'
 import { TextSizeToggle } from '@/features/text-size'
 import { serviceCities } from '@/shared/config/cities'
 import { paths } from '@/shared/config/routes'
@@ -8,7 +10,7 @@ import './account.css'
 
 /** «تنظیمات حساب»: the partner's number, the city new devices start with, reading comfort, and sign-out. */
 export function AccountPage() {
-  const { phone, city, setCity, signOut } = useSession()
+  const { phone, role, city, setCity, signOut } = useSession()
   const navigate = useNavigate()
 
   if (!phone) {
@@ -45,6 +47,10 @@ export function AccountPage() {
         </label>
       </section>
 
+      {(role === 'admin' || role === 'inspector') && <StaffCode />}
+
+      <EmailSecurity phone={phone} />
+
       <section className="panel acct">
         <h2>نمایش</h2>
         <TextSizeToggle />
@@ -54,7 +60,7 @@ export function AccountPage() {
         <h2>خروج</h2>
         <p className="muted">با خروج، قیمت‌ها دوباره پنهان می‌شوند. دستگاه‌های ثبت‌شده‌تان در همین مرورگر می‌مانند.</p>
         <div className="btn-row">
-          <button className="btn btn--outline" onClick={() => { signOut(); navigate(paths.home) }}>خروج از حساب</button>
+          <button className="btn btn--outline" onClick={() => { void signOut().then(() => navigate(paths.home)) }}>خروج از حساب</button>
         </div>
       </section>
     </div>

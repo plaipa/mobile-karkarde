@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { findCategory } from '@/entities/category'
-import { productRepository } from '@/entities/product'
+import { productRepository, useCatalogVersion } from '@/entities/product'
 import { paths } from '@/shared/config/routes'
 import { CatalogCard } from '@/widgets/catalog-card'
 import { Gallery } from './Gallery'
@@ -9,6 +9,7 @@ import { ProductInfo } from './ProductInfo'
 
 export function ProductDetailsPage() {
   const { code } = useParams()
+  useCatalogVersion()
   const product = productRepository.findByCode(code)
 
   if (!product) {

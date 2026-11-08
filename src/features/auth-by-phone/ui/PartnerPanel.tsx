@@ -1,18 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useAllListings, useMyListings, statusOf } from '@/entities/listing'
+import { statusOf, useAllListings, useMyListings } from '@/entities/listing'
 import { useSession } from '@/entities/session'
-import { useRole } from '@/entities/staff'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
 import { PanelMenu } from './PanelMenu'
 
 /** The panel hub when signed in: who you are, then the places a partner needs. */
 export function PartnerPanel() {
-  const { phone, signOut } = useSession()
+  const { phone, role, signOut } = useSession()
   const navigate = useNavigate()
   const devices = useMyListings(phone)
-  const role = useRole(phone)
-  const waiting = useAllListings().filter((l) => statusOf(l) === 'pending').length
+  const isStaff = role === 'admin' || role === 'inspector'
+  const waiting = useAllListings(isStaff ? phone : null).filter((l) => statusOf(l) === 'pending').length
   return (
     <>
       <h1 className="page__title">{role === 'admin' ? 'پنل مدیر' : role === 'inspector' ? 'پنل کارشناس' : 'پنل همکار'}</h1>
@@ -30,7 +29,7 @@ export function PartnerPanel() {
         ]}
       />
       <div className="btn-row">
-        <button className="btn btn--outline" onClick={() => { signOut(); navigate(paths.home) }}>خروج</button>
+        <button className="btn btn--outline" onClick={() => { void signOut().then(() => navigate(paths.home)) }}>خروج</button>
         <Link to={paths.catalog} className="btn btn--primary">لیست قیمت</Link>
       </div>
     </>

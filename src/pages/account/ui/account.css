@@ -44,4 +44,10 @@
       width: 100%;
     }
   }
+
+  .acct__ok {
+    color: var(--success);
+    font-weight: 600;
+    margin: 0;
+  }
 }

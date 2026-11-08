@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { deleteGroup, getGroup, putGroup } from '@/shared/lib/blob-store'
+import { supabase } from '@/shared/api/supabase'
+import { useRemote } from '@/shared/lib/remote'
 
 export interface ListingPhoto {
   name: string
@@ -7,38 +7,18 @@ export interface ListingPhoto {
   url: string
 }
 
-export interface PhotoInput {
-  name: string
-  label: string
-  blob: Blob
-}
-
-/**
- * Prototype only: a device's photos live in this browser's IndexedDB, keyed by the listing id.
- * With the backend, upload them instead and keep these three names.
- */
-export const savePhotos = (listingId: string, photos: readonly PhotoInput[]) => putGroup(listingId, photos)
-export const deletePhotos = (listingId: string) => deleteGroup(listingId)
-
-/** The device's photos as object URLs (revoked on unmount). `null` while loading. */
+/** A device's photos as short-lived signed links (the bucket is private). `null` while loading. */
 export function usePhotos(listingId: string): ListingPhoto[] | null {
-  const [photos, setPhotos] = useState<ListingPhoto[] | null>(null)
-  useEffect(() => {
-    let cancelled = false
-    const urls: string[] = []
-    void getGroup(listingId).then((rows) => {
-      if (cancelled) return
-      const list = rows.map((r) => {
-        const url = URL.createObjectURL(r.blob)
-        urls.push(url)
-        return { name: r.name, label: r.label, url }
-      })
-      setPhotos(list)
+  const { data, loading } = useRemote<ListingPhoto[]>(`photos:${listingId}`, async () => {
+    const { data: rows, error } = await supabase.from('listing_photos').select('slot, label, path').eq('listing_id', listingId).order('slot')
+    if (error) throw error
+    if (!rows.length) return []
+    const { data: signed, error: signErr } = await supabase.storage.from('listing-photos').createSignedUrls(rows.map((r) => r.path), 3600)
+    if (signErr) throw signErr
+    return rows.flatMap((r, i) => {
+      const url = signed[i]?.signedUrl
+      return url ? [{ name: r.slot as string, label: r.label as string, url }] : []
     })
-    return () => {
-      cancelled = true
-      urls.forEach((u) => URL.revokeObjectURL(u))
-    }
-  }, [listingId])
-  return photos
+  }, [], { poll: false })
+  return loading ? null : data
 }

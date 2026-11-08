@@ -31,4 +31,6 @@ export interface Product {
   notes: string
   /** City the device is in (a name from `serviceCities`). The seller picks it when listing. */
   city: string
+  /** Set for devices published by a partner (their photos are stored under this id); absent for demo rows. */
+  listingId?: string
 }

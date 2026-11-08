@@ -1,12 +1,25 @@
 import { useState } from 'react'
 import { DeviceArt, findCategory } from '@/entities/category'
+import { ListingPhotos } from '@/entities/listing'
+import { useSession } from '@/entities/session'
 import { galleryAngles, type Product } from '@/entities/product'
 import './product-details.css'
 
 export function Gallery({ product: p }: { product: Product }) {
+  const { phone } = useSession()
   const [angle, setAngle] = useState<string>(galleryAngles[0].id)
   const category = findCategory(p.category)
   const isPhone = p.category === 'phone'
+  if (p.listingId) {
+    return (
+      <div className="pdp__gallery">
+        {phone
+          ? <ListingPhotos listingId={p.listingId} />
+          : <p className="muted">عکس‌های این دستگاه فقط برای همکاران واردشده نمایش داده می‌شود.</p>}
+        <p className="muted small">عکس‌ها را کارشناس ما بازبینی کرده است.</p>
+      </div>
+    )
+  }
   return (
     <div className="pdp__gallery">
       <div className="pdp__main">

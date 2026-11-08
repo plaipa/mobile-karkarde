@@ -1,3 +1,2 @@
-export { addInspector, removeInspector, useInspectors, useRole } from './model/staff-store'
-export { roleOf } from './model/roles'
-export type { Inspector, Role } from './model/roles'
+export { addInspector, removeInspector, useInspectors } from './model/staff-store'
+export type { Inspector } from './model/staff-store'

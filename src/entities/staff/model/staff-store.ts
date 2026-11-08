@@ -1,69 +1,37 @@
-import { useSyncExternalStore } from 'react'
-import { adminPhones } from '@/shared/config/staff'
-import { roleOf, type Inspector, type Role } from './roles'
+import { supabase } from '@/shared/api/supabase'
+import { invalidate, useRemote } from '@/shared/lib/remote'
 
-/**
- * Prototype only: the inspector list lives in this browser's localStorage. When the backend arrives, keep these
- * function names and replace the bodies with requests; callers do not change.
- */
-const KEY = 'mk_inspectors'
-const listeners = new Set<() => void>()
-let cache: { raw: string | null; list: Inspector[] } = { raw: null, list: [] }
+export interface Inspector {
+  phone: string
+  name: string
+  addedAt: number
+}
 
-function load(): Inspector[] {
-  let raw: string | null = null
-  try {
-    raw = localStorage.getItem(KEY)
-  } catch {
-    return cache.list
+interface StaffRow { phone: string; role: string; name: string; created_at: string }
+
+/** The «کارشناس» list. Only an admin can read it (the database refuses everyone else). */
+export function useInspectors(enabled: boolean): Inspector[] {
+  const { data } = useRemote<Inspector[]>('staff', async () => {
+    const { data: rows, error } = await supabase.rpc('list_staff')
+    if (error) throw error
+    return (rows as StaffRow[]).filter((r) => r.role === 'inspector').map((r) => ({ phone: r.phone, name: r.name, addedAt: Date.parse(r.created_at) }))
+  }, [], { enabled })
+  return data
+}
+
+/** Appoints a کارشناس with a login code only they know. Returns an error message, or null on success. */
+export async function addInspector(phone: string, name: string, code: string): Promise<string | null> {
+  const { error } = await supabase.rpc('add_staff', { p_phone: phone, p_name: name, p_code: code })
+  if (error) {
+    if (error.message.includes('is admin')) return 'این شماره مدیر سایت است و خودش دسترسی دارد.'
+    if (error.message.includes('bad code')) return 'کد ورود باید ۶ تا ۳۲ حرف انگلیسی یا عدد باشد.'
+    return 'ذخیره نشد. دوباره تلاش کنید.'
   }
-  if (raw === cache.raw) return cache.list
-  let list: Inspector[] = []
-  try {
-    const parsed: unknown = raw ? JSON.parse(raw) : []
-    list = Array.isArray(parsed) ? (parsed as Inspector[]) : []
-  } catch {
-    list = []
-  }
-  cache = { raw, list }
-  return list
+  invalidate('staff')
+  return null
 }
 
-function save(list: Inspector[]) {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(list))
-  } catch {
-    cache = { raw: null, list } // storage unavailable: keep it in memory for this visit
-  }
-  listeners.forEach((l) => l())
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener)
-  window.addEventListener('storage', listener)
-  return () => {
-    listeners.delete(listener)
-    window.removeEventListener('storage', listener)
-  }
-}
-
-/** Appoints (or renames) an inspector. Returns false when the number is an admin's. */
-export function addInspector(phone: string, name: string): boolean {
-  if (adminPhones.includes(phone)) return false
-  const rest = load().filter((i) => i.phone !== phone)
-  save([{ phone, name: name.trim(), addedAt: Date.now() }, ...rest])
-  return true
-}
-
-export function removeInspector(phone: string) {
-  save(load().filter((i) => i.phone !== phone))
-}
-
-export function useInspectors(): Inspector[] {
-  return useSyncExternalStore(subscribe, load, () => [])
-}
-
-/** The signed-in user's role; null when signed out. */
-export function useRole(phone: string | null): Role | null {
-  return roleOf(phone, adminPhones, useInspectors())
+export async function removeInspector(phone: string) {
+  await supabase.rpc('remove_staff', { p_phone: phone })
+  invalidate('staff')
 }
