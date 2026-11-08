@@ -17,7 +17,7 @@ const tabs = categories.map((c) => ({ id: c.id, label: c.title }))
  */
 export function CatalogPage() {
   const [params, setParams] = useSearchParams()
-  const { phone } = useSession()
+  const { phone, verified, verification } = useSession()
   const category = findCategory(params.get('cat'))
   const { filters, products, total, facets, update, reset } = useProductFilters(category.id)
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -33,6 +33,12 @@ export function CatalogPage() {
         onChange={update}
         onOpenFilters={() => setFiltersOpen(true)}
       />
+      {phone && !verified && (
+        <p className="notice catalog__notice">
+          <span>{verification === 'pending' ? 'درخواست ثبت‌نام شما در انتظار تأیید است؛ بعد از تأیید قیمت‌ها را می‌بینید.' : 'برای دیدن قیمت‌ها باید مشخصات مغازه‌تان را ثبت کنید و ادمین تأیید کند.'}</span>
+          <Link to={paths.apply} className="btn btn--primary btn--sm">{verification === 'pending' ? 'وضعیت درخواست' : 'تکمیل ثبت‌نام'}</Link>
+        </p>
+      )}
       {!phone && (
         <p className="notice catalog__notice">
           <span>قیمت عمده فقط برای همکاران تأییدشده نمایش داده می‌شود.</span>
@@ -60,7 +66,7 @@ export function CatalogPage() {
               products={products}
               renderPrice={(p) => <PriceCell price={p.price} />}
               // Buying needs a partner account, so signed-out visitors get no buy button on every row.
-              renderAction={phone ? (p) => <AddToCartButton code={p.code} className="btn btn--outline btn--sm" /> : undefined}
+              renderAction={verified ? (p) => <AddToCartButton code={p.code} className="btn btn--outline btn--sm" /> : undefined}
             />
           )}
         </div>

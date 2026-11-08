@@ -12,6 +12,9 @@ export const paths = {
   account: '/account',
   install: '/install',
   beta: '/beta',
+  /** Partner registration (shop details, photo of the shop front) and its review by an admin. */
+  apply: '/apply',
+  applications: '/applications',
   admin: '/admin',
   inspector: '/inspector',
   /** The sell form pre-filled from one of the partner's own devices (after a rejection). */

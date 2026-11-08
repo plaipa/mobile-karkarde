@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { isValidMobile, normalizeMobile } from '@/features/auth-by-phone'
 import { statusOf, useAllListings } from '@/entities/listing'
 import { useSession } from '@/entities/session'
-import { addInspector, removeInspector, setPartnerBlocked, useInspectors, usePartners, type Inspector } from '@/entities/staff'
+import { setVerificationRequired, useApplications, useVerificationRequired } from '@/entities/application'
+import { addStaffMember, removeStaffMember, setPartnerBlocked, usePartners, useStaff, type StaffMember, type StaffRole } from '@/entities/staff'
 import { paths } from '@/shared/config/routes'
 import { toEn, toFa } from '@/shared/lib/format'
 import './admin.css'
@@ -19,24 +20,35 @@ function randomCode(): string {
 
 interface Issued { name: string; phone: string; code: string; reset: boolean }
 
-/** One کارشناس: a new login code can be issued at any time (for a forgotten code), or the person is removed. */
-function InspectorRow({ i, onIssued }: { i: Inspector; onIssued: (x: Issued) => void }) {
+const roleName: Record<StaffRole, string> = { admin: 'ادمین', inspector: 'کارشناس' }
+
+/** One admin or کارشناس: a new login code can be issued at any time, or the person is removed (never yourself). */
+function StaffRow({ m, self, onIssued, onError }: { m: StaffMember; self: boolean; onIssued: (x: Issued) => void; onError: (e: string) => void }) {
   const reset = async () => {
-    if (!window.confirm(`کد ورود «${i.name}» عوض شود؟ کد قبلی از کار می‌افتد.`)) return
+    if (!window.confirm(`کد ورود «${m.name}» عوض شود؟ کد قبلی از کار می‌افتد.`)) return
     const code = randomCode()
-    if (await addInspector(i.phone, i.name, code) === null) onIssued({ name: i.name, phone: i.phone, code, reset: true })
+    const err = await addStaffMember(m.phone, m.name, code, m.role)
+    if (err) onError(err)
+    else onIssued({ name: m.name, phone: m.phone, code, reset: true })
+  }
+  const remove = async () => {
+    if (!window.confirm(`«${m.name}» از ${roleName[m.role]}ی برداشته شود؟`)) return
+    const err = await removeStaffMember(m.phone)
+    if (err) onError(err)
   }
   return (
     <li>
       <span>
-        <strong>{i.name}</strong>
-        <small dir="ltr">{toFa(i.phone)}</small>
-        <small>از {dateFormat.format(i.addedAt)}</small>
+        <strong>{m.name}{self ? ' (شما)' : ''}</strong>
+        <small dir="ltr">{toFa(m.phone)}</small>
+        <small>از {dateFormat.format(m.addedAt)}</small>
       </span>
-      <span className="adm__row-actions">
-        <button type="button" className="adm__link" onClick={() => void reset()}>کد جدید</button>
-        <button type="button" className="adm__remove" aria-label={`برداشتن ${i.name} از کارشناسی`} onClick={() => { if (window.confirm(`«${i.name}» از کارشناسی برداشته شود؟`)) void removeInspector(i.phone) }}>برداشتن</button>
-      </span>
+      {!self && (
+        <span className="adm__row-actions">
+          <button type="button" className="adm__link" onClick={() => void reset()}>کد جدید</button>
+          <button type="button" className="adm__remove" aria-label={`برداشتن ${m.name}`} onClick={() => void remove()}>برداشتن</button>
+        </span>
+      )}
     </li>
   )
 }
@@ -45,11 +57,17 @@ function InspectorRow({ i, onIssued }: { i: Inspector; onIssued: (x: Issued) => 
 export function AdminPage() {
   const { phone, role } = useSession()
   const isAdmin = role === 'admin'
-  const inspectors = useInspectors(isAdmin)
+  const staff = useStaff(isAdmin)
+  const admins = staff.filter((m) => m.role === 'admin')
+  const inspectors = staff.filter((m) => m.role === 'inspector')
+  const applications = useApplications(isAdmin)
+  const pendingApps = applications.filter((a) => a.status === 'pending').length
+  const verificationOn = useVerificationRequired(isAdmin)
   const partners = usePartners(isAdmin)
   const listings = useAllListings(isAdmin ? phone : null)
   const [name, setName] = useState('')
   const [mobile, setMobile] = useState('')
+  const [newRole, setNewRole] = useState<StaffRole>('inspector')
   const [code, setCode] = useState(randomCode)
   const [error, setError] = useState('')
   const [issued, setIssued] = useState<Issued | null>(null)
@@ -77,10 +95,10 @@ export function AdminPage() {
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     const normalized = normalizeMobile(mobile)
-    if (!name.trim()) return setError('نام کارشناس را بنویسید.')
+    if (!name.trim()) return setError('نام را بنویسید.')
     if (!isValidMobile(normalized)) return setError('شمارهٔ موبایل باید ۱۱ رقم و با ۰۹ شروع شود.')
     if (!/^[A-Za-z0-9]{6,32}$/.test(code)) return setError('کد ورود باید ۶ تا ۳۲ حرف انگلیسی یا عدد باشد.')
-    const err = await addInspector(normalized, name.trim(), code)
+    const err = await addStaffMember(normalized, name.trim(), code, newRole)
     if (err) return setError(err)
     setError('')
     setIssued({ name: name.trim(), phone: normalized, code, reset: false })
@@ -106,19 +124,37 @@ export function AdminPage() {
         <div><b>{toFa(count('approved'))}</b><small>منتشر شده</small></div>
         <div><b>{toFa(count('rejected'))}</b><small>رد شده</small></div>
         <div><b>{toFa(partners.length)}</b><small>همکار</small></div>
+        <div><b>{toFa(admins.length)}</b><small>ادمین</small></div>
         <div><b>{toFa(inspectors.length)}</b><small>کارشناس</small></div>
       </section>
 
       <div className="btn-row">
         <Link to={paths.inspector} className="btn btn--primary">پنل کارشناس (همهٔ دستگاه‌ها)</Link>
+        <Link to={paths.applications} className="btn btn--primary">درخواست‌های ثبت‌نام{pendingApps > 0 ? ` (${toFa(pendingApps)} جدید)` : ''}</Link>
         <Link to={paths.account} className="btn btn--outline">تنظیمات حساب (کد ورود، ایمیل)</Link>
       </div>
 
       <section className="panel adm__section">
-        <h2>کارشناس‌ها</h2>
-        <p className="muted">کارشناس بعد از ورود «پنل کارشناس» را می‌بیند و دستگاه‌ها را تأیید یا رد می‌کند. هر کارشناس کد ورود مخصوص خودش را دارد؛ آن را فقط خودش و شما می‌دانید.</p>
+        <h2>تأیید ثبت‌نام همکاران</h2>
+        <p className="muted">اگر روشن باشد، همکار تازه تا وقتی ادمین مشخصاتش را تأیید نکرده، قیمت‌ها را نمی‌بیند و دستگاه ثبت نمی‌کند. ادمین‌ها و کارشناس‌ها همیشه دسترسی دارند.</p>
+        <label className="adm__switch">
+          <input type="checkbox" checked={verificationOn === true} disabled={verificationOn === null}
+            onChange={(e) => { if (window.confirm(e.target.checked ? 'تأیید ثبت‌نام الزامی شود؟ همکارانی که هنوز تأیید نشده‌اند قیمت‌ها را نمی‌بینند.' : 'تأیید ثبت‌نام برداشته شود؟ همه همکاران قیمت‌ها را می‌بینند.')) void setVerificationRequired(e.target.checked) }} />
+          تأیید ثبت‌نام الزامی باشد
+        </label>
+      </section>
+
+      <section className="panel adm__section">
+        <h2>ادمین‌ها و کارشناس‌ها</h2>
+        <p className="muted">ادمین همه‌کاره است: همکاران را تأیید می‌کند و ادمین یا کارشناس تازه تعیین می‌کند. کارشناس فقط دستگاه‌ها را تأیید یا رد می‌کند. هر کس کد ورود مخصوص خودش را دارد؛ آن را فقط خودش و شما می‌دانید.</p>
         <form onSubmit={(e) => void submit(e)} className="form" noValidate>
-          <label>نام کارشناس
+          <label>نقش
+            <select className="input" value={newRole} onChange={(e) => setNewRole(e.target.value as StaffRole)}>
+              <option value="inspector">کارشناس</option>
+              <option value="admin">ادمین</option>
+            </select>
+          </label>
+          <label>نام
             <input className="input" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" />
           </label>
           <label>شمارهٔ موبایل
@@ -129,7 +165,7 @@ export function AdminPage() {
             <small className="muted">خودکار ساخته شده؛ می‌توانید عوضش کنید.</small>
           </label>
           {error && <p className="error" role="alert">{error}</p>}
-          <button className="btn btn--primary adm__add">افزودن کارشناس</button>
+          <button className="btn btn--primary adm__add">افزودن {roleName[newRole]}</button>
         </form>
 
         {issued && (
@@ -139,11 +175,16 @@ export function AdminPage() {
           </div>
         )}
 
+        <h3>ادمین‌ها ({toFa(admins.length)})</h3>
+        <ul className="adm__list">
+          {admins.map((m) => <StaffRow key={m.phone} m={m} self={m.phone === phone} onIssued={setIssued} onError={setError} />)}
+        </ul>
+        <h3>کارشناس‌ها ({toFa(inspectors.length)})</h3>
         {inspectors.length === 0 ? (
           <p className="muted">هنوز کارشناسی تعیین نشده است.</p>
         ) : (
           <ul className="adm__list">
-            {inspectors.map((i) => <InspectorRow key={i.phone} i={i} onIssued={setIssued} />)}
+            {inspectors.map((m) => <StaffRow key={m.phone} m={m} self={false} onIssued={setIssued} onError={setError} />)}
           </ul>
         )}
       </section>

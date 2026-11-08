@@ -6,16 +6,16 @@ import { galleryAngles, type Product } from '@/entities/product'
 import './product-details.css'
 
 export function Gallery({ product: p }: { product: Product }) {
-  const { phone } = useSession()
+  const { verified } = useSession()
   const [angle, setAngle] = useState<string>(galleryAngles[0].id)
   const category = findCategory(p.category)
   const isPhone = p.category === 'phone'
   if (p.listingId) {
     return (
       <div className="pdp__gallery">
-        {phone
+        {verified
           ? <ListingPhotos listingId={p.listingId} audience="buyer" />
-          : <p className="muted">عکس‌های این دستگاه فقط برای همکاران واردشده نمایش داده می‌شود.</p>}
+          : <p className="muted">عکس‌های این دستگاه فقط برای همکاران تأییدشده نمایش داده می‌شود.</p>}
         <p className="muted small">عکس‌ها را کارشناس ما بازبینی کرده است.</p>
       </div>
     )

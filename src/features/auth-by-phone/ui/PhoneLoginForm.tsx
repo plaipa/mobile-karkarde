@@ -40,7 +40,7 @@ export function PhoneLoginForm() {
 
   const handle = (outcome: SignInOutcome) => {
     if (outcome.status === 'done') {
-      navigate(paths.catalog)
+      navigate(outcome.verification === 'verified' ? paths.catalog : paths.apply)
     } else if (outcome.status === 'code') {
       setChallenge(outcome.challenge)
       setPhoneHint(outcome.phoneHint)

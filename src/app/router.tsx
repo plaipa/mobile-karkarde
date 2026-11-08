@@ -20,6 +20,8 @@ const PrivacyPage = lazy(() => import('@/pages/legal').then((m) => ({ default: m
 const AdminPage = lazy(() => import('@/pages/admin').then((m) => ({ default: m.AdminPage })))
 const InspectorPage = lazy(() => import('@/pages/inspector').then((m) => ({ default: m.InspectorPage })))
 const BetaPage = lazy(() => import('@/pages/beta').then((m) => ({ default: m.BetaPage })))
+const ApplyPage = lazy(() => import('@/pages/apply').then((m) => ({ default: m.ApplyPage })))
+const ApplicationsPage = lazy(() => import('@/pages/applications').then((m) => ({ default: m.ApplicationsPage })))
 const NotFoundPage = lazy(() => import('@/pages/not-found').then((m) => ({ default: m.NotFoundPage })))
 
 /** Partners who are signed in go straight to the price list; visitors get the introduction page. */
@@ -47,6 +49,8 @@ export function AppRoutes() {
         <Route path={paths.admin} element={<AdminPage />} />
         <Route path={paths.inspector} element={<InspectorPage />} />
         <Route path={paths.beta} element={<BetaPage />} />
+        <Route path={paths.apply} element={<ApplyPage />} />
+        <Route path={paths.applications} element={<ApplicationsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

@@ -53,7 +53,7 @@ async function upload(phone: string, kind: 'front' | 'inside', file: Blob): Prom
   // The photo is re-encoded first (this drops location and device metadata) and uploaded under a fresh name.
   const clean = (await processImage(file)).blob
   const path = `${phone}/${kind}-${Date.now()}.jpg`
-  const { error } = await supabase.storage.from('partner-docs').upload(path, clean, { contentType: 'image/jpeg', upsert: false })
+  const { error } = await supabase.storage.from('partner-shops').upload(path, clean, { contentType: 'image/jpeg', upsert: false })
   return error ? null : path
 }
 
@@ -89,7 +89,7 @@ export function useApplicationPhotos(app: Application | null) {
   const { data } = useRemote<ApplicationPhotos>(`appdocs:${app?.phone}:${app?.submittedAt}`, async () => {
     if (!app) return { front: null, inside: null }
     const paths = [app.photoFront, ...(app.photoInside ? [app.photoInside] : [])]
-    const { data: signed, error } = await supabase.storage.from('partner-docs').createSignedUrls(paths, 3600)
+    const { data: signed, error } = await supabase.storage.from('partner-shops').createSignedUrls(paths, 3600)
     if (error) throw error
     const urlOf = (path: string | null) => (path ? signed.find((s) => s.path === path)?.signedUrl ?? null : null)
     return { front: urlOf(app.photoFront), inside: urlOf(app.photoInside) }
