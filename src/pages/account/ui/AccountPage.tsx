@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useSession } from '@/entities/session'
 import { EmailSecurity } from './EmailSecurity'
+import { ProfileName } from './ProfileName'
 import { StaffCode } from './StaffCode'
 import { TextSizeToggle } from '@/features/text-size'
 import { serviceCities } from '@/shared/config/cities'
@@ -36,6 +37,11 @@ export function AccountPage() {
           <span>شمارهٔ موبایل</span>
           <b dir="ltr">{toFa(phone)}</b>
         </div>
+        <div className="acct__row">
+          <span>نقش</span>
+          <span className="chip chip--soft">{role === 'admin' ? 'مدیر سایت' : role === 'inspector' ? 'کارشناس' : 'همکار'}</span>
+        </div>
+        <ProfileName phone={phone} />
         <label className="acct__row acct__row--field">
           <span>
             شهر پیش‌فرض آگهی‌ها

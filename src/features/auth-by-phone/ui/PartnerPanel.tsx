@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { statusOf, useAllListings, useMyListings } from '@/entities/listing'
+import { useProfileName } from '@/entities/account'
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
@@ -10,20 +11,29 @@ export function PartnerPanel() {
   const { phone, role, signOut } = useSession()
   const navigate = useNavigate()
   const devices = useMyListings(phone)
+  const name = useProfileName(phone)
+  const count = (s: 'pending' | 'approved' | 'rejected') => devices.filter((d) => statusOf(d) === s).length
   const isStaff = role === 'admin' || role === 'inspector'
   const waiting = useAllListings(isStaff ? phone : null).filter((l) => statusOf(l) === 'pending').length
   return (
     <>
       <h1 className="page__title">{role === 'admin' ? 'پنل مدیر' : role === 'inspector' ? 'پنل کارشناس' : 'پنل همکار'}</h1>
-      <p className="muted">وارد شده‌اید با شمارهٔ <b dir="ltr">{toFa(phone ?? '')}</b></p>
+      <p className="muted">{name ? <>{name}، </> : null}وارد شده‌اید با شمارهٔ <b dir="ltr">{toFa(phone ?? '')}</b></p>
       {role && role !== 'partner' && <p><span className="chip chip--soft">{role === 'admin' ? 'مدیر سایت' : 'کارشناس'}</span></p>}
+      {devices.length > 0 && (
+        <p className="panel__summary" aria-label="وضعیت دستگاه‌های من">
+          <span className="chip chip--status-pending">{toFa(count('pending'))} در انتظار بازرسی</span>
+          <span className="chip chip--status-approved">{toFa(count('approved'))} منتشر شده</span>
+          {count('rejected') > 0 && <span className="chip chip--status-rejected">{toFa(count('rejected'))} رد شده</span>}
+        </p>
+      )}
       <PanelMenu
         items={[
-          ...(role === 'admin' ? [{ to: paths.admin, label: 'پنل ادمین', hint: 'تعیین کارشناس و نمای کلی دستگاه‌ها' }] : []),
-          ...(role === 'admin' || role === 'inspector' ? [{ to: paths.inspector, label: 'پنل کارشناس', hint: 'تأیید یا رد دستگاه‌های ثبت‌شده', badge: waiting || undefined }] : []),
-          { to: paths.devices, label: 'دستگاه‌های من', hint: 'دستگاه‌هایی که ثبت کرده‌اید', badge: devices.length || undefined },
+          ...(role === 'admin' ? [{ to: paths.admin, label: 'پنل ادمین', hint: 'آمار، کارشناس‌ها و همکاران' }] : []),
+          ...(role === 'admin' || role === 'inspector' ? [{ to: paths.inspector, label: 'پنل کارشناس', hint: 'بازرسی، قیمت‌گذاری و انتشار دستگاه‌ها', badge: waiting || undefined }] : []),
+          { to: paths.devices, label: 'دستگاه‌های من', hint: 'وضعیت، قیمت منتشرشده و دلیل رد', badge: devices.length || undefined },
           { to: paths.sell, label: 'ثبت دستگاه برای فروش' },
-          { to: paths.account, label: 'تنظیمات حساب', hint: 'شهر پیش‌فرض، اندازهٔ نوشته، خروج' },
+          { to: paths.account, label: 'تنظیمات حساب', hint: 'نام، شهر، ایمیل و رمز، تأیید دو مرحله‌ای، خروج' },
           { to: paths.about, label: 'دربارهٔ ما' },
           { to: paths.install, label: 'نصب برنامه روی گوشی' },
         ]}

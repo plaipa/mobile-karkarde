@@ -78,7 +78,35 @@
 
   @media (min-width: 640px) {
     .adm__stats {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  .adm__row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+  }
+
+  .adm__link {
+    border: 0;
+    background: none;
+    padding: 8px 4px;
+    color: var(--primary-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .adm__list li.is-blocked {
+    background: var(--danger-soft);
+  }
+
+  .adm__blocked {
+    color: var(--danger);
+    font-weight: 700;
   }
 }

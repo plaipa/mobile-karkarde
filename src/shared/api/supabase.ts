@@ -8,7 +8,7 @@ export const supabase = createClient(SUPABASE_URL, PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
 })
 
-export type AuthError = 'bad_code' | 'bad_credentials' | 'locked' | 'expired' | 'too_soon' | 'no_email' | 'email_not_configured' | 'email_send_failed' | 'network' | 'server'
+export type AuthError = 'blocked' | 'bad_code' | 'bad_credentials' | 'locked' | 'expired' | 'too_soon' | 'no_email' | 'email_not_configured' | 'email_send_failed' | 'network' | 'server'
 
 export interface AuthReply {
   ok: boolean

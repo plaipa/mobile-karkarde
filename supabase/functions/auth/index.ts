@@ -99,6 +99,7 @@ Deno.serve(async (req) => {
       const { data, error } = await admin.rpc('login_check', { p_phone: phone, p_code: code, p_partner_code: partnerCode })
       if (error) throw error
       if (data === 'locked') return json({ error: 'locked' }, 429)
+      if (data === 'blocked') return json({ error: 'blocked' }, 403)
       if (data !== 'ok') return json({ error: 'bad_code' }, 401)
       const session = await sessionFor(phone)
       return session ? json({ session }) : json({ error: 'server' }, 500)
@@ -112,6 +113,7 @@ Deno.serve(async (req) => {
       if (error) throw error
       const row = Array.isArray(data) ? data[0] : data
       if (row?.result === 'locked') return json({ error: 'locked' }, 429)
+      if (row?.result === 'blocked') return json({ error: 'blocked' }, 403)
       if (row?.result !== 'ok') return json({ error: 'bad_credentials' }, 401)
       if (row.two_factor) {
         const { data: challenge, error: cErr } = await admin.rpc('create_challenge', { p_phone: row.phone })
@@ -129,6 +131,7 @@ Deno.serve(async (req) => {
       const { data, error } = await admin.rpc('finish_challenge', { p_id: challenge, p_code: code, p_partner_code: partnerCode })
       if (error) throw error
       if (data === 'locked') return json({ error: 'locked' }, 429)
+      if (data === 'blocked') return json({ error: 'blocked' }, 403)
       if (data === 'expired') return json({ error: 'expired' }, 410)
       if (!PHONE.test(String(data))) return json({ error: 'bad_code' }, 401)
       const session = await sessionFor(String(data))

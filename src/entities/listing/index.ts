@@ -1,4 +1,4 @@
-export { removeListing, reopenListing, restoreListing, reviewListing, submitListing, useAllListings, useMyListings } from './model/listing-store'
+export { adminRemoveListing, removeListing, reopenListing, restoreListing, reviewListing, submitListing, useAllListings, useMyListings } from './model/listing-store'
 export type { PhotoInput, SubmitResult } from './model/listing-store'
 export { statusLabel, statusOf } from './model/status'
 export { usePhotos } from './model/photos'

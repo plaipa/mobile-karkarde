@@ -45,7 +45,8 @@
 | سرور (ورود، جدول‌ها، عکس‌ها، ایمیل) | `supabase/` و `src/shared/api/supabase.ts` |
 | ایمیل، رمز و تأیید دو مرحله‌ای کاربر | `src/entities/account/` و `src/pages/account/` |
 | نقش از سرور (مدیر، کارشناس، همکار) | `src/entities/session/` |
-| فهرست کارشناس‌ها (فقط ادمین) | `src/entities/staff/` |
+| فهرست کارشناس‌ها و همکاران، مسدودکردن (فقط ادمین) | `src/entities/staff/` |
+| نام نمایشی، ایمیل و رمز، دو مرحله‌ای | `src/entities/account/` |
 | وضعیت دستگاه (در انتظار، تأیید، رد) و تصمیم کارشناس | `src/entities/listing/` |
 | حالت آزمایشی (نوار بالا، راهنمای تست) — برای انتشار نهایی `enabled` را false کنید | `src/shared/config/beta.ts` و `src/pages/beta/` |
 | حذف خودکار پس‌زمینهٔ عکس‌ها (کارگر پایتون + اجرای زمان‌بندی‌شده) | `tools/photo-background/` و `.github/workflows/process-photos.yml` |

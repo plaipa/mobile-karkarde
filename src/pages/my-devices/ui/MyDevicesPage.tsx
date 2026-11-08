@@ -5,8 +5,10 @@ import { ListingPhotos, ListingStatusChip, removeListing, restoreListing, status
 import { useSession } from '@/entities/session'
 import { paths } from '@/shared/config/routes'
 import { toFa } from '@/shared/lib/format'
+import { Tabs } from '@/shared/ui/tabs/Tabs'
 import './my-devices.css'
 
+type Filter = 'all' | 'pending' | 'approved' | 'rejected'
 const UNDO_MS = 6000
 const dateFormat = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' })
 
@@ -21,6 +23,14 @@ export function MyDevicesPage() {
   const { phone } = useSession()
   const listings = useMyListings(phone)
   const [removed, setRemoved] = useState<MyListing | null>(null)
+  const [filter, setFilter] = useState<Filter>('all')
+
+  const counts = {
+    pending: listings.filter((l) => statusOf(l) === 'pending').length,
+    approved: listings.filter((l) => statusOf(l) === 'approved').length,
+    rejected: listings.filter((l) => statusOf(l) === 'rejected').length,
+  }
+  const shown = filter === 'all' ? listings : listings.filter((l) => statusOf(l) === filter)
 
   // The undo offer expires on its own, so the page never keeps a stale prompt.
   useEffect(() => {
@@ -54,6 +64,19 @@ export function MyDevicesPage() {
         <Link to={paths.sell} className="btn btn--primary">ثبت دستگاه</Link>
       </div>
 
+      {listings.length > 0 && (
+        <Tabs
+          items={[
+            { id: 'all' as const, label: `همه (${toFa(listings.length)})` },
+            { id: 'pending' as const, label: `در انتظار (${toFa(counts.pending)})` },
+            { id: 'approved' as const, label: `منتشر شده (${toFa(counts.approved)})` },
+            { id: 'rejected' as const, label: `رد شده (${toFa(counts.rejected)})` },
+          ]}
+          value={filter}
+          onChange={setFilter}
+        />
+      )}
+
       {listings.length === 0 ? (
         <div className="panel mydev__empty">
           <p>هنوز دستگاهی ثبت نکرده‌اید.</p>
@@ -61,8 +84,11 @@ export function MyDevicesPage() {
           <Link to={paths.sell} className="btn btn--primary btn--lg">ثبت اولین دستگاه</Link>
         </div>
       ) : (
+        shown.length === 0 ? (
+          <div className="panel"><p>دستگاهی با این وضعیت ندارید.</p></div>
+        ) : (
         <ul className="mydev">
-          {listings.map((l) => (
+          {shown.map((l) => (
             <li key={l.id} className="mydev__item">
               <div className="mydev__main">
                 <strong>{l.model}</strong>
@@ -71,6 +97,10 @@ export function MyDevicesPage() {
                 {l.publication && <small className="mydev__meta">قیمت منتشرشده: {toFa(l.publication.price.toLocaleString('en'))} تومان · <Link to={paths.product(l.code)}>دیدن در لیست قیمت</Link></small>}
                 <ListingPhotos listingId={l.id} />
                 {l.review?.status === 'rejected' && <small className="mydev__reason">دلیل رد: {l.review.note}</small>}
+                {l.review?.status === 'approved' && l.review.note && <small className="mydev__meta">یادداشت کارشناس: {l.review.note}</small>}
+                {l.review?.status === 'rejected' && (
+                  <Link to={paths.sellFrom(l.id)} className="btn btn--outline btn--sm mydev__again">اصلاح و ثبت دوباره</Link>
+                )}
               </div>
               <div className="mydev__side">
                 <span className="chip chip--city-soft">{l.city}</span>
@@ -82,6 +112,7 @@ export function MyDevicesPage() {
             </li>
           ))}
         </ul>
+        )
       )}
 
       {removed && (

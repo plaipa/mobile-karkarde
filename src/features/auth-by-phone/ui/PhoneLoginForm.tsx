@@ -9,6 +9,7 @@ import { isValidEmail, isValidMobile, isValidOtp, normalizeMobile } from '../mod
 type Step = 'phone' | 'code' | 'email' | 'email-code'
 
 const errorText: Record<AuthError, string> = {
+  blocked: 'این حساب مسدود شده است. برای پیگیری با پشتیبانی تماس بگیرید.',
   bad_code: 'کد درست نیست.',
   bad_credentials: 'ایمیل یا رمز درست نیست، یا هنوز این ایمیل تأیید نشده است.',
   locked: 'چند بار اشتباه وارد کردید. ۱۰ دقیقه بعد دوباره تلاش کنید.',

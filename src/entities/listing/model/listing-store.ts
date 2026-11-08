@@ -136,3 +136,11 @@ export async function reopenListing(id: string) {
   invalidate('all:')
   invalidate('catalog')
 }
+
+/** Admin only: takes any device off the site (also off the price list). */
+export async function adminRemoveListing(id: string) {
+  await supabase.rpc('admin_remove_listing', { p_id: id })
+  invalidate('mine:')
+  invalidate('all:')
+  invalidate('catalog')
+}

@@ -26,7 +26,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setRole(null)
       return
     }
-    const { data } = await supabase.rpc('my_role')
+    const { data, error } = await supabase.rpc('my_role')
+    // The server answers "no role" for a blocked number: sign it out right away.
+    if (!error && !data) {
+      await supabase.auth.signOut()
+      setPhone(null)
+      setRole(null)
+      return
+    }
     setRole((data as Role | null) ?? 'partner')
     setPhone(p)
   }, [])

@@ -1,6 +1,7 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { categories, findCategory, type CategoryId } from '@/entities/category'
-import { submitListing } from '@/entities/listing'
+import { submitListing, useMyListings } from '@/entities/listing'
 import { useSession } from '@/entities/session'
 import { toEn } from '@/shared/lib/format'
 import { Tabs } from '@/shared/ui/tabs/Tabs'
@@ -33,6 +34,22 @@ export function ListDeviceFlow() {
   const [step, setStep] = useState<ListingStep>('info')
   const [cameraSlot, setCameraSlot] = useState<PhotoSlot | null>(null)
   const { photos, busyKey, attach, remove, clear } = usePhotoSet((message) => setErrors([message]))
+
+  // «اصلاح و ثبت دوباره»: open the form with a rejected device's details already filled in (photos must be taken again).
+  const [params] = useSearchParams()
+  const fromId = params.get('from')
+  const mine = useMyListings(fromId ? phone : null)
+  const prefilled = useRef(false)
+  useEffect(() => {
+    const source = fromId ? mine.find((l) => l.id === fromId) : undefined
+    if (!source || prefilled.current) return
+    prefilled.current = true
+    setCategoryId(source.category)
+    setForm((f) => ({
+      ...f, city: source.city, brand: source.brand, model: source.model, storage: source.storage, battery: source.battery,
+      batteryCycles: source.batteryCycles !== undefined ? String(source.batteryCycles) : '', color: source.color, notes: source.notes,
+    }))
+  }, [fromId, mine])
 
   const category = findCategory(categoryId)
   const slots = photoTemplates[categoryId]
@@ -94,6 +111,7 @@ export function ListDeviceFlow() {
   return (
     <div className="container page">
       <h1 className="page__title">ثبت دستگاه برای فروش</h1>
+      {fromId && <p className="notice">این فرم با مشخصات دستگاه ردشدهٔ شما پر شده است. اشکال را اصلاح کنید، عکس‌ها را دوباره بگیرید و قفل حساب را دوباره تأیید کنید.</p>}
       <Tabs items={tabs} value={categoryId} onChange={selectCategory} />
 
       <StepBar step={step} />

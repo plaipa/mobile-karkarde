@@ -71,3 +71,20 @@ export async function setMyStaffCode(code: string): Promise<ActionResult> {
   const { error } = await supabase.rpc('set_my_code', { p_code: code })
   return error ? fail('کد باید ۶ تا ۳۲ حرف انگلیسی یا عدد باشد.') : { ok: true }
 }
+
+/** The name shown in the panel greeting (a کارشناس/admin falls back to the name the admin gave). */
+export function useProfileName(phone: string | null) {
+  const { data } = useRemote<string>(`profile:${phone}`, async () => {
+    const { data: rows, error } = await supabase.rpc('my_profile')
+    if (error) throw error
+    return ((rows as { display_name: string }[])[0]?.display_name ?? '').trim()
+  }, '', { enabled: phone !== null, poll: false })
+  return data
+}
+
+export async function saveDisplayName(name: string): Promise<ActionResult> {
+  const { error } = await supabase.rpc('set_my_name', { p_name: name })
+  if (error) return fail('نام نباید بیشتر از ۶۰ حرف باشد.')
+  invalidate('profile:')
+  return { ok: true }
+}

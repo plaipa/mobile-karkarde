@@ -14,6 +14,8 @@ export const paths = {
   beta: '/beta',
   admin: '/admin',
   inspector: '/inspector',
+  /** The sell form pre-filled from one of the partner's own devices (after a rejection). */
+  sellFrom: (listingId: string) => `/upload?from=${listingId}`,
   product: (code: string) => `/product/${code}`,
   catalogOf: (category: string) => `/products?cat=${category}`,
 } as const

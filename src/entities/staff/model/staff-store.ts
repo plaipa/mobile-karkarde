@@ -35,3 +35,31 @@ export async function removeInspector(phone: string) {
   await supabase.rpc('remove_staff', { p_phone: phone })
   invalidate('staff')
 }
+
+export interface Partner {
+  phone: string
+  name: string
+  joinedAt: number
+  devices: number
+  published: number
+  blocked: boolean
+}
+
+interface PartnerRow { phone: string; name: string; joined_at: string; devices: number; published: number; blocked: boolean }
+
+/** Every partner who has signed in (admin only). */
+export function usePartners(enabled: boolean): Partner[] {
+  const { data } = useRemote<Partner[]>('partners', async () => {
+    const { data: rows, error } = await supabase.rpc('list_partners')
+    if (error) throw error
+    return (rows as PartnerRow[]).map((r) => ({ phone: r.phone, name: r.name, joinedAt: Date.parse(r.joined_at), devices: Number(r.devices), published: Number(r.published), blocked: r.blocked }))
+  }, [], { enabled })
+  return data
+}
+
+/** Blocks or unblocks a partner. A blocked number is signed out and cannot sign in again. */
+export async function setPartnerBlocked(phone: string, blocked: boolean, reason = ''): Promise<boolean> {
+  const { error } = await supabase.rpc('set_partner_blocked', { p_phone: phone, p_blocked: blocked, p_reason: reason })
+  invalidate('partners')
+  return !error
+}
