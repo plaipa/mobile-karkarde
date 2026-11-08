@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { beta } from '@/shared/config/beta'
 import { paths } from '@/shared/config/routes'
-import { adminPhones } from '@/shared/config/staff'
 import { telegramLink, whatsappLink } from '@/shared/config/support'
 import { toFa } from '@/shared/lib/format'
 import { resetTestData } from '@/shared/lib/reset-test-data'
@@ -31,8 +30,7 @@ export function BetaPage() {
         <h2>حساب‌های آزمایشی</h2>
         <ul className="beta__accounts">
           <li><b>همکار</b><span>هر شمارهٔ ۱۱ رقمی با ۰۹ <small>مثلاً <bdi dir="ltr">{toFa('09121234567')}</bdi></small></span></li>
-          <li><b>ادمین</b><span><bdi dir="ltr">{toFa(adminPhones[0] ?? '')}</bdi></span></li>
-          <li><b>بازرس</b><span>هر شماره‌ای که ادمین اضافه کند</span></li>
+          <li><b>ادمین و بازرس</b><span>شمارهٔ ادمین را مدیر پروژه می‌دهد؛ بازرس هر شماره‌ای است که ادمین اضافه کند</span></li>
           <li><b>کد پیامک</b><span>هر عدد ۴ تا ۶ رقمی <small>مثلاً {toFa('1234')}</small></span></li>
         </ul>
         <p className="muted">همهٔ نقش‌ها باید در یک مرورگر و روی یک دستگاه تست شوند، چون داده‌ها فقط همان‌جا ذخیره می‌شود. برای عوض‌کردن نقش «خروج» بزنید و با شمارهٔ دیگر وارد شوید.</p>
